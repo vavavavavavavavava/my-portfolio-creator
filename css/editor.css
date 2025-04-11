@@ -1,0 +1,265 @@
+/* 全体のスタイル */
+body {
+    font-family: 'Segoe UI', 'Meiryo', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+    color: #2c3e50;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: #3498db;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+  }
+  
+  /* フォームスタイル */
+  .form-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input[type="text"], textarea, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  .dynamic-list {
+    margin-top: 10px;
+  }
+  
+  .dynamic-item {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+  
+  .dynamic-item input {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  /* 技術スキルスタイル */
+  .skill-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .skill-item input[type="text"] {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .skill-level {
+    display: flex;
+    align-items: center;
+  }
+  
+  .skill-level label {
+    margin: 0 5px 0 0;
+  }
+  
+  /* タブスタイル */
+  .tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    margin-right: 5px;
+  }
+  
+  .tab.active {
+    background-color: #3498db;
+    color: white;
+    border-color: #3498db;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  /* ボタンスタイル */
+  .button-group {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  button.remove-btn {
+    background-color: #e74c3c;
+    padding: 5px 10px;
+  }
+  
+  button.add-btn {
+    background-color: #2ecc71;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+  
+  button.remove-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  button.add-btn:hover {
+    background-color: #27ae60;
+  }
+  
+  /* テクニカルキャリア項目スタイル */
+  .project-container {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  /* ファイル入力スタイル */
+  .file-input-container {
+    margin-bottom: 20px;
+  }
+  
+  input[type="file"] {
+    display: none;
+  }
+  
+  .file-input-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #9b59b6;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .file-input-label:hover {
+    background-color: #8e44ad;
+  }
+  
+  /* スキルレベル選択用のラジオボタンスタイル */
+  .level-select {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .level-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .level-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .level-dot.beginner {
+    background-color: #3498db;
+  }
+  
+  .level-dot.intermediate {
+    background-color: #1abc9c;
+  }
+  
+  .level-dot.advanced {
+    background-color: #e74c3c;
+  }
+  
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1000;
+  }
+  
+  .notification.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .json-preview {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: monospace;
+    white-space: pre-wrap;
+    margin-top: 10px;
+  }

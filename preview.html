@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイポートフォリオプレビュー</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/title.css">
+  <link rel="stylesheet" href="css/career.css">
+  <link rel="stylesheet" href="css/skills.css">
+  <link rel="stylesheet" href="css/strengths.css">
+  <link rel="stylesheet" href="css/technicalcareer.css">
+  <!-- 印刷用のスタイル -->
+  <link rel="stylesheet" href="css/print.css" media="print">
+  <!-- Handlebarsライブラリ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+</head>
+
+<body>
+  <!-- コントロールパネル（印刷時には非表示） -->
+  <div id="control-panel">
+    <input type="file" id="json-file-input" accept=".json" style="display: none;">
+    <button id="paste-json-btn">JSONを読み込み</button>
+    <button id="save-pdf-btn">PDFで保存</button>
+  </div>
+
+
+  <!-- 通知表示用の要素 -->
+  <div class="notification" id="notification" style="display: none;">
+    保存しました！
+  </div>
+
+  <!-- レンダリングされたテンプレートを挿入するコンテナ -->
+  <div id="slides-container"></div>
+
+  <!-- 共有するファイルを先に読み込む -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+  <script src="js/defaultData.js"></script>
+  <!-- インラインテンプレートローダー（新設） -->
+  <script src="js/inline-templates-loader.js"></script>
+  <script src="js/integration.js"></script>
+  <script src="js/dialog.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

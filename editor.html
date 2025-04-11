@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイポートフォリオエディタ</title>
+  <link rel="stylesheet" href="css/editor.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>マイポートフォリオエディタ</h1>
+
+    <div class="button-group">
+      <div class="file-input-container" style="display: none;">
+        <input type="file" id="load-json" accept=".json">
+      </div>
+      <button id="paste-json">JSONを貼り付け</button>
+      <button id="save-json">現在のデータを保存</button>
+      <button id="preview-json">JSONプレビュー</button>
+      <button id="preview-page">プレビュー</button>
+    </div>
+
+    <div id="json-preview" class="json-preview" style="display: none;"></div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="title">タイトル</div>
+      <div class="tab" data-tab="career">キャリア年表</div>
+      <div class="tab" data-tab="technical">テクニカルキャリア</div>
+      <div class="tab" data-tab="skills">テクニカルスキル</div>
+      <div class="tab" data-tab="strengths">強み・展望</div>
+    </div>
+
+    <!-- タイトルスライド入力セクション -->
+    <div id="title-section" class="tab-content active">
+      <div class="form-section">
+        <h2>タイトルスライド</h2>
+        <div class="form-group">
+          <label for="title-name">名前</label>
+          <input type="text" id="title-name" placeholder="山田 太郎">
+        </div>
+        <div class="form-group">
+          <label for="title-name-reading">ふりがな</label>
+          <input type="text" id="title-name-reading" placeholder="やまだ たろう">
+        </div>
+        <div class="form-group">
+          <label for="title-company">会社名</label>
+          <input type="text" id="title-company" placeholder="株式会社サンプル">
+        </div>
+      </div>
+    </div>
+
+    <!-- キャリア年表入力セクション -->
+    <div id="career-section" class="tab-content">
+      <div class="form-section">
+        <h2>キャリア年表</h2>
+        <div id="career-items">
+          <!-- ここに動的に職歴項目が追加される -->
+        </div>
+        <button class="add-btn" id="add-career">職歴項目を追加</button>
+      </div>
+    </div>
+
+    <!-- テクニカルキャリア入力セクション -->
+    <div id="technical-section" class="tab-content">
+      <div class="form-section">
+        <h2>テクニカルキャリア</h2>
+        <div id="project-list">
+          <!-- ここに動的にプロジェクト項目が追加される -->
+        </div>
+        <button class="add-btn" id="add-project">プロジェクトを追加</button>
+      </div>
+    </div>
+
+    <!-- テクニカルスキル入力セクション -->
+    <div id="skills-section" class="tab-content">
+      <div class="form-section">
+        <h2>テクニカルスキル</h2>
+
+        <!-- スキルレベルラベル -->
+        <div class="form-group">
+          <label>スキルレベルラベル</label>
+          <div id="skill-level-labels">
+            <div class="dynamic-item">
+              <input type="text" value="初級" class="skill-level-label">
+              <div class="level-dot beginner"></div>
+            </div>
+            <div class="dynamic-item">
+              <input type="text" value="中級" class="skill-level-label">
+              <div class="level-dot intermediate"></div>
+            </div>
+            <div class="dynamic-item">
+              <input type="text" value="上級" class="skill-level-label">
+              <div class="level-dot advanced"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="skill-categories">
+          <!-- ここに動的にスキルカテゴリが追加される -->
+        </div>
+        <button class="add-btn" id="add-category">スキルカテゴリを追加</button>
+      </div>
+    </div>
+
+    <!-- 強み・展望入力セクション -->
+    <div id="strengths-section" class="tab-content">
+      <div class="form-section">
+        <h2>技術的強み・ソフトスキル</h2>
+        <div id="strengths-items">
+          <!-- ここに動的に強み項目が追加される -->
+        </div>
+        <button class="add-btn" id="add-strength">強み項目を追加</button>
+
+        <h2>今後の注力分野</h2>
+        <div id="future-focus-items" class="dynamic-list">
+          <!-- ここに動的に注力分野項目が追加される -->
+        </div>
+        <button class="add-btn" id="add-focus">注力分野を追加</button>
+
+        <h2>保有資格</h2>
+        <div id="certification-items" class="dynamic-list">
+          <!-- ここに動的に資格項目が追加される -->
+        </div>
+        <button class="add-btn" id="add-certification">資格を追加</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="notification" id="notification">
+    保存しました！
+  </div>
+
+  <!-- スクリプトの読み込み -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+  <script src="js/defaultData.js"></script>
+  <!-- インラインテンプレートローダー（新設） -->
+  <script src="js/inline-templates-loader.js"></script>
+  <script src="js/tabs.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/json.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/integration.js"></script>
+  <script src="js/dialog.js"></script>
+  <script src="js/init.js"></script>
+</body>
+
+</html>
+</body>
+
+</html>

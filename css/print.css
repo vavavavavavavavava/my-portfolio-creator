@@ -1,4 +1,3 @@
-/* print.cssの最小限の修正版 */
 @media print {
   /* 全体の設定 */
   * {
@@ -6,12 +5,11 @@
     print-color-adjust: exact !important;
   }
   
-  /* 重要: ボディとコンテナのサイズ・余白を調整 */
+  /* ボディとコンテナの設定 */
   body {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
-    height: auto !important;
     background-color: white !important;
     display: block !important;
   }
@@ -26,70 +24,15 @@
   /* スライドのサイズを印刷ページに合わせる */
   .slide {
     width: 100% !important;
-    /* 以下の2行を修正: 固定高さ100vhではなく内容に合わせた高さに */
-    height: auto !important;
-    min-height: 90% !important;
-    
+    height: auto !important; /* 固定高さではなく内容に合わせる */
+    min-height: 0 !important; /* min-heightを0にして内容に合わせる */
+    box-sizing: border-box !important;
     margin: 0 !important;
     padding: 20px !important;
-    box-sizing: border-box !important;
     box-shadow: none !important;
     overflow: visible !important;
     
-    /* 改ページ設定 */
-    page-break-after: always !important;
-    break-after: page !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  /* 最後のスライドの後には改ページしない */
-  .slide:last-child {
-    page-break-after: avoid !important;
-    break-after: avoid !important;
-  }
-  
-  /* ページの設定 */
-  @page {
-    size: A4 landscape;
-    margin: 0;
-  }
-}/* styles.cssに追加する印刷用スタイル（既存のものを置き換え） */
-@media print {
-  /* 全体の設定 */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-  
-  /* 重要: ボディとコンテナのサイズ・余白を調整 */
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    height: auto !important;
-    background-color: white !important;
-    display: block !important;
-  }
-  
-  .slide-container {
-    margin: 0 !important;
-    padding: 0 !important;
-    gap: 0 !important;
-    display: block !important;
-  }
-  
-  /* スライドのサイズを印刷ページに合わせる */
-  .slide {
-    width: 100% !important;
-    height: 100vh !important;
-    margin: 0 !important;
-    padding: 20px !important;
-    box-sizing: border-box !important;
-    box-shadow: none !important;
-    overflow: visible !important;
-    
-    /* 重要: 自動改ページを制御 */
+    /* 改ページ設定 - 確実に各スライド後に改ページ */
     page-break-after: always !important;
     break-after: page !important;
     page-break-inside: avoid !important;

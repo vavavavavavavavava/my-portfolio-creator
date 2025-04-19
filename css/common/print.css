@@ -26,7 +26,6 @@
   /* スライドのサイズを印刷ページに合わせる */
   .slide {
     width: 100% !important;
-    height: auto !important; /* 固定高さではなく内容に合わせる */
     min-height: 0 !important; /* min-heightを0にして内容に合わせる */
     box-sizing: border-box !important;
     margin: 0 !important;

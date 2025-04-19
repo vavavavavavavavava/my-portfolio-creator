@@ -9,16 +9,37 @@ const UiController = (function() {
   function initTabs() {
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        // アクティブなタブの切り替え
+        // クリックされたタブの情報を取得
+        const tabId = tab.getAttribute('data-tab');
+        const newContentElement = document.getElementById(`${tabId}-section`);
+        if (!newContentElement) return;
+        
+        // 現在アクティブなタブとコンテンツを取得
+        const currentTab = document.querySelector('.tab.active');
+        const currentContent = document.querySelector('.tab-content.active');
+        
+        // 同じタブが既にアクティブならば何もしない
+        if (currentTab === tab) return;
+        
+        // まずタブの見た目を更新
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         
-        // 対応するコンテンツの切り替え
-        const tabId = tab.getAttribute('data-tab');
-        document.querySelectorAll('.tab-content').forEach(content => {
-          content.classList.remove('active');
-        });
-        document.getElementById(`${tabId}-section`).classList.add('active');
+        // 次に、新しいコンテンツを表示する前に位置情報を設定
+        newContentElement.style.opacity = '0';
+        newContentElement.classList.add('active');
+        
+        // レイアウト計算を強制してからフェードイン
+        void newContentElement.offsetWidth; // リフロー強制
+        newContentElement.style.opacity = '1';
+        
+        // 元のコンテンツはフェードアウト後に非表示に
+        if (currentContent) {
+          // 少し遅延させて見た目の衝突を避ける
+          setTimeout(() => {
+            currentContent.classList.remove('active');
+          }, 50);
+        }
       });
     });
   }

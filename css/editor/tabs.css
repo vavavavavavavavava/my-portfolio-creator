@@ -34,12 +34,15 @@
 /* タブコンテンツ */
 .tab-content {
   display: none;
+  opacity: 0;
+  position: relative;
 }
 
 /* アクティブなタブコンテンツ */
 .tab-content.active {
   display: block;
-  animation: fadeIn 0.3s;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 @keyframes fadeIn {

@@ -253,40 +253,6 @@ const UiController = (function() {
    * プレビューページのイベントリスナーを設定
    */
   function setupPreviewEventListeners() {
-    // JSONファイル読み込みボタンのイベントリスナー
-    const loadJsonBtn = document.getElementById('load-json-btn');
-    const jsonFileInput = document.getElementById('json-file-input');
-    
-    if (loadJsonBtn && jsonFileInput) {
-      loadJsonBtn.addEventListener('click', () => {
-        jsonFileInput.click();
-      });
-      
-      jsonFileInput.addEventListener('change', async (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          try {
-            const jsonString = await Utils.readFileAsync(file);
-            const data = Utils.parseJson(jsonString);
-            
-            if (!data) {
-              throw new Error('JSONの解析に失敗しました');
-            }
-            
-            if (typeof Renderer !== 'undefined' && typeof Renderer.renderSlides === 'function') {
-              await Renderer.renderSlides(data);
-              // ファイル入力をリセット
-              event.target.value = '';
-              Notification.success('JSONファイルを読み込みました');
-            }
-          } catch (error) {
-            console.error('JSONファイルの読み込みに失敗しました:', error);
-            Notification.error('JSONファイルの読み込みに失敗しました: ' + error.message);
-          }
-        }
-      });
-    }
-    
     // JSONを貼り付けボタンのイベントリスナー
     const pasteJsonBtn = document.getElementById('paste-json-btn');
     if (pasteJsonBtn) {

@@ -1,0 +1,250 @@
+/* css/preview/technicalcareer.css - テクニカルキャリアテンプレート固有のスタイル */
+.technical-career-slide {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-areas:
+    "title title"
+    "flow tech-stack"
+    "main-content illustration";
+  gap: 15px;
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 100%;
+}
+
+.technical-career-slide .title {
+  grid-area: title;
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.technical-career-slide .flow {
+  grid-area: flow;
+  background-color: #ecf0f1;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow: hidden;
+}
+
+.technical-career-slide .flow .flow-title {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 3px;
+  font-size: 14px;
+}
+
+/* タイムラインコンテナ */
+.technical-career-slide .timeline-container {
+  position: relative;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+/* タイムラインの線 */
+.technical-career-slide .timeline {
+  position: relative;
+  display: flex;
+  margin: 20px 0;
+  min-width: 100%;
+}
+
+.technical-career-slide .timeline::before {
+  content: '';
+  position: absolute;
+  top: 55px; /* 円の中心を通るように調整 */
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #3498db;
+  z-index: 1;
+}
+
+/* 役割マイルストーン */
+.technical-career-slide .role-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-width: 100px;
+  padding: 0 10px;
+  z-index: 2;
+}
+
+/* 日付表示 */
+.technical-career-slide .role-date {
+  font-size: 12px;
+  color: #7f8c8d;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background-color: #ecf0f1;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid #bdc3c7;
+}
+
+/* 役割アイコン */
+.technical-career-slide .role-icon {
+  background-color: #e74c3c;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  font-size: 14px;
+}
+
+/* 役割情報コンテナ */
+.technical-career-slide .role-info {
+  text-align: center;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* 役割タイトル */
+.technical-career-slide .role-info .role-title {
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+/* 役割説明 */
+.technical-career-slide .role-info .role-description {
+  font-size: 11px;
+  color: #34495e;
+  line-height: 1.4;
+}
+
+.technical-career-slide .tech-stack {
+  grid-area: tech-stack;
+  background-color: #ecf0f1;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.technical-career-slide .tech-stack h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+}
+
+.technical-career-slide .tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.technical-career-slide .tech-badge {
+  background-color: #3498db;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.technical-career-slide .main-content {
+  grid-area: main-content;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.technical-career-slide .overview {
+  background-color: #ecf0f1;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.technical-career-slide .overview h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 3px;
+  font-size: 14px;
+}
+
+.technical-career-slide .overview p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.technical-career-slide .achievements {
+  background-color: #ecf0f1;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.technical-career-slide .achievements h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 3px;
+  font-size: 14px;
+}
+
+.technical-career-slide .achievements ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 13px;
+}
+
+.technical-career-slide .achievements li {
+  margin-bottom: 3px;
+}
+
+.technical-career-slide .illustration {
+  grid-area: illustration;
+  background-color: #ecf0f1;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.technical-career-slide .illustration img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.technical-career-slide .illustration-placeholder {
+  width: 90%;
+  height: 80%;
+  background-color: #bdc3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: #7f8c8d;
+  font-size: 13px;
+}

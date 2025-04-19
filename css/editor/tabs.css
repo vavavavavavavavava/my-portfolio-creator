@@ -1,0 +1,61 @@
+/* css/editor/tabs.css - タブUIスタイル */
+
+/* タブコンテナ */
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* タブ */
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  margin-right: 5px;
+  transition: background-color 0.2s;
+}
+
+/* アクティブなタブ */
+.tab.active {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+/* ホバー状態のタブ */
+.tab:hover:not(.active) {
+  background-color: #e9ecef;
+}
+
+/* タブコンテンツ */
+.tab-content {
+  display: none;
+}
+
+/* アクティブなタブコンテンツ */
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ボタングループ (タブコントロール用) */
+.button-group {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+}

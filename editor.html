@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>マイポートフォリオエディタ</title>
-  <link rel="stylesheet" href="css/editor.css">
+  
+  <!-- スタイルシート -->
+  <link rel="stylesheet" href="css/common/base.css">
+  <link rel="stylesheet" href="css/editor/dialog.css">
+  <link rel="stylesheet" href="css/editor/form.css">
+  <link rel="stylesheet" href="css/editor/tabs.css">
+  
+  <!-- Handlebarsライブラリ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
 </head>
 
 <body>
@@ -128,25 +135,30 @@
     </div>
   </div>
 
+  <!-- 通知表示用の要素 -->
   <div class="notification" id="notification">
     保存しました！
   </div>
 
-  <!-- スクリプトの読み込み -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-  <script src="js/defaultData.js"></script>
-  <!-- インラインテンプレートローダー（新設） -->
-  <script src="js/inline-templates-loader.js"></script>
-  <script src="js/tabs.js"></script>
-  <script src="js/templates.js"></script>
-  <script src="js/json.js"></script>
-  <script src="js/events.js"></script>
-  <script src="js/integration.js"></script>
-  <script src="js/dialog.js"></script>
-  <script src="js/init.js"></script>
+  <!-- スクリプトの読み込み：共通モジュール -->
+  <script src="js/common/config.js"></script>
+  <script src="js/common/utils.js"></script>
+  <script src="js/common/notification.js"></script>
+  <script src="js/common/templates.js"></script>
+  
+  <!-- スクリプトの読み込み：テンプレート -->
+  <script src="templates/editor/common.js"></script>
+  <script src="templates/editor/title.js"></script>
+  <script src="templates/editor/career.js"></script>
+  <script src="templates/editor/skills.js"></script>
+  <script src="templates/editor/strengths.js"></script>
+  <script src="templates/editor/technicalcareer.js"></script>
+  
+  <!-- スクリプトの読み込み：エディタモジュール -->
+  <script src="js/editor/image-uploader.js"></script>
+  <script src="js/editor/form-manager.js"></script>
+  <script src="js/editor/json-handler.js"></script>
+  <script src="js/editor/ui-controller.js"></script>
+  <script src="js/editor/main.js"></script>
 </body>
-
-</html>
-</body>
-
 </html>

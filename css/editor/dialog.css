@@ -1,0 +1,95 @@
+/* css/editor/dialog.css - ダイアログスタイル */
+
+/* ダイアログオーバーレイ */
+#dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* ダイアログコンテナ */
+#json-input-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 80%;
+  max-width: 600px;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ダイアログ内テキストエリア */
+#json-input {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  font-family: monospace;
+  resize: vertical;
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+/* ダイアログ内ボタン */
+#json-input-dialog button {
+  padding: 8px 15px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#json-input-cancel {
+  background-color: #e74c3c;
+}
+
+#json-input-cancel:hover {
+  background-color: #c0392b;
+}
+
+#json-input-load {
+  background-color: #3498db;
+}
+
+#json-input-load:hover {
+  background-color: #2980b9;
+}
+
+#load-from-file-btn {
+  background-color: #9b59b6;
+}
+
+#load-from-file-btn:hover {
+  background-color: #8e44ad;
+}
+
+/* ダイアログ内ボタンコンテナ */
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ファイル選択 */
+#dialog-file-input {
+  display: none;
+}

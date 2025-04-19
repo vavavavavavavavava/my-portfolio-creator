@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>マイポートフォリオプレビュー</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/title.css">
-  <link rel="stylesheet" href="css/career.css">
-  <link rel="stylesheet" href="css/skills.css">
-  <link rel="stylesheet" href="css/strengths.css">
-  <link rel="stylesheet" href="css/technicalcareer.css">
-  <!-- 印刷用のスタイル -->
-  <link rel="stylesheet" href="css/print.css" media="print">
+  
+  <!-- スタイルシート：共通 -->
+  <link rel="stylesheet" href="css/common/base.css">
+  <link rel="stylesheet" href="css/common/print.css" media="print">
+  
+  <!-- スタイルシート：プレビュー -->
+  <link rel="stylesheet" href="css/preview/layout.css">
+  <link rel="stylesheet" href="css/preview/title.css">
+  <link rel="stylesheet" href="css/preview/career.css">
+  <link rel="stylesheet" href="css/preview/skills.css">
+  <link rel="stylesheet" href="css/preview/strengths.css">
+  <link rel="stylesheet" href="css/preview/technicalcareer.css">
+  
   <!-- Handlebarsライブラリ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
 </head>
@@ -21,10 +25,10 @@
   <!-- コントロールパネル（印刷時には非表示） -->
   <div id="control-panel">
     <input type="file" id="json-file-input" accept=".json" style="display: none;">
-    <button id="paste-json-btn">JSONを読み込み</button>
+    <button id="load-json-btn">JSONを読み込み</button>
+    <button id="paste-json-btn">JSONを貼り付け</button>
     <button id="save-pdf-btn">PDFで保存</button>
   </div>
-
 
   <!-- 通知表示用の要素 -->
   <div class="notification" id="notification" style="display: none;">
@@ -32,16 +36,24 @@
   </div>
 
   <!-- レンダリングされたテンプレートを挿入するコンテナ -->
-  <div id="slides-container"></div>
+  <div id="slides-container" class="slide-container"></div>
 
-  <!-- 共有するファイルを先に読み込む -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-  <script src="js/defaultData.js"></script>
-  <!-- インラインテンプレートローダー（新設） -->
-  <script src="js/inline-templates-loader.js"></script>
-  <script src="js/integration.js"></script>
-  <script src="js/dialog.js"></script>
-  <script src="js/main.js"></script>
+  <!-- スクリプトの読み込み：共通モジュール -->
+  <script src="js/common/config.js"></script>
+  <script src="js/common/utils.js"></script>
+  <script src="js/common/notification.js"></script>
+  <script src="js/common/templates.js"></script>
+  
+  <!-- スクリプトの読み込み：テンプレート -->
+  <script src="templates/preview/title.js"></script>
+  <script src="templates/preview/career.js"></script>
+  <script src="templates/preview/skills.js"></script>
+  <script src="templates/preview/strengths.js"></script>
+  <script src="templates/preview/technicalcareer.js"></script>
+  
+  <!-- スクリプトの読み込み：プレビューモジュール -->
+  <script src="js/editor/ui-controller.js"></script>
+  <script src="js/preview/renderer.js"></script>
+  <script src="js/preview/main.js"></script>
 </body>
-
 </html>

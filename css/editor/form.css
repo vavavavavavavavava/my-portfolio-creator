@@ -1,0 +1,231 @@
+/* css/editor/form.css - フォーム要素スタイル */
+
+/* フォームセクション */
+.form-section {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+}
+
+/* フォームグループ */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* ラベル */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* 入力フィールド */
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/* テキストエリア */
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* 動的リスト */
+.dynamic-list {
+  margin-top: 10px;
+}
+
+/* 動的アイテム */
+.dynamic-item {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.dynamic-item input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* プロジェクトコンテナ */
+.project-container {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* ファイル入力 */
+.file-input-container {
+  margin-bottom: 20px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #9b59b6;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.file-input-label:hover {
+  background-color: #8e44ad;
+}
+
+/* ボタン */
+button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+button.remove-btn {
+  background-color: #e74c3c;
+  padding: 5px 10px;
+}
+
+button.add-btn {
+  background-color: #2ecc71;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+
+button.remove-btn:hover {
+  background-color: #c0392b;
+}
+
+button.add-btn:hover {
+  background-color: #27ae60;
+}
+
+/* スキルレベル選択 */
+.level-select {
+  display: flex;
+  gap: 15px;
+}
+
+.level-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.level-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.level-dot.beginner {
+  background-color: #3498db;
+}
+
+.level-dot.intermediate {
+  background-color: #1abc9c;
+}
+
+.level-dot.advanced {
+  background-color: #e74c3c;
+}
+
+/* 画像アップローダー */
+.illustration-preview {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.illustration-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.image-input-tab {
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+}
+
+.image-input-tab.active {
+  background-color: #3498db;
+  color: white;
+}
+
+.url-input {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.load-url-btn {
+  padding: 8px 15px;
+  background-color: #9b59b6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.clear-image-btn {
+  padding: 8px 15px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.uploader-note {
+  font-size: 12px;
+  color: #7f8c8d;
+  margin-top: 5px;
+}
+
+/* JSONプレビュー */
+.json-preview {
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  margin-top: 10px;
+}

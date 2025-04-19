@@ -114,7 +114,63 @@ const Utils = (function() {
     
     return `${date}_${time}`;
   }
-  
+
+  /**
+     * 画像をリサイズ・圧縮する
+     * @param {string} dataUrl - 画像のData URL
+     * @param {number} maxWidth - 最大幅（デフォルト800px）
+     * @param {number} maxHeight - 最大高さ（デフォルト600px）
+     * @param {number} quality - JPEG品質（0-1、デフォルト0.7）
+     * @return {Promise<string>} 圧縮された画像のData URL
+     */
+  function compressImage(dataUrl, maxWidth = 800, maxHeight = 600, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+      try {
+        const img = new Image();
+        img.onload = function() {
+          // 元の画像サイズを取得
+          let width = img.width;
+          let height = img.height;
+          
+          // 最大サイズに合わせてリサイズ
+          if (width > maxWidth || height > maxHeight) {
+            const ratio = Math.min(maxWidth / width, maxHeight / height);
+            width = Math.floor(width * ratio);
+            height = Math.floor(height * ratio);
+          }
+          
+          // 描画用のキャンバスを作成
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          
+          // 画像をキャンバスに描画
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // データURIに変換して返す（JPEG形式、指定された品質）
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          
+          // 圧縮率をログ出力
+          const originalSize = dataUrl.length;
+          const compressedSize = compressedDataUrl.length;
+          const compressionRatio = (compressedSize / originalSize * 100).toFixed(2);
+          console.log(`画像圧縮: ${(originalSize / 1024).toFixed(2)}KB → ${(compressedSize / 1024).toFixed(2)}KB (${compressionRatio}%)`);
+          
+          resolve(compressedDataUrl);
+        };
+        
+        img.onerror = function() {
+          reject(new Error('画像の読み込みに失敗しました'));
+        };
+        
+        img.src = dataUrl;
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   /**
    * オブジェクトのディープコピーを作成
    * @param {object} obj - コピーするオブジェクト
@@ -133,7 +189,8 @@ const Utils = (function() {
     readFileAsync,
     parseJson,
     getTimestamp,
-    deepCopy
+    deepCopy,
+    compressImage
   };
 })();
 

@@ -2,18 +2,18 @@
  * templates/editor/technicalcareer.js
  * エディタ用テクニカルキャリアテンプレート
  */
-(function() {
+(function () {
   // テンプレートマネージャーのチェック
   if (typeof TemplateManager === 'undefined') {
     console.error('TemplateManager が見つかりません。technicalcareer.js の読み込みに失敗しました。');
     return;
   }
-  
+
   // プロジェクト項目フォーム用テンプレート
   TemplateManager.registerTemplate('technicalProjectItem', `
 <div class="project-header">
   <h3>プロジェクト詳細</h3>
-  <button class="remove-btn remove-project">このプロジェクトを削除</button>
+  <button class="remove-btn" data-action="remove-container">このプロジェクトを削除</button>
 </div>
 <div class="form-group">
   <label>プロジェクトタイトル</label>

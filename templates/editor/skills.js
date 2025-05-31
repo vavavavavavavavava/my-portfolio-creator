@@ -2,13 +2,13 @@
  * templates/editor/skills.js
  * エディタ用テクニカルスキルテンプレート
  */
-(function() {
+(function () {
   // テンプレートマネージャーのチェック
   if (typeof TemplateManager === 'undefined') {
     console.error('TemplateManager が見つかりません。skills.js の読み込みに失敗しました。');
     return;
   }
-  
+
   // スキルカテゴリフォーム用テンプレート
   TemplateManager.registerTemplate('skillCategory', `
 <div class="form-group">
@@ -41,7 +41,7 @@
   </div>
   <button class="add-btn add-skill">スキルを追加</button>
 </div>
-<button class="remove-btn remove-category">このカテゴリを削除</button>
+<button class="remove-btn" data-action="remove-container">このカテゴリを削除</button>
 <hr style="margin: 20px 0;">`, 'editor');
 
   // 個別スキル項目追加用テンプレート
@@ -62,7 +62,7 @@
       <div class="level-dot advanced"></div>
     </div>
   </div>
-  <button class="remove-btn remove-skill">削除</button>
+  <button class="remove-btn" data-action="remove-item">削除</button>
 </div>`, 'editor');
 
   console.log('エディタ用テクニカルスキルテンプレートを登録しました');

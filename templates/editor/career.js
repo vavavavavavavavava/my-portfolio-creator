@@ -2,13 +2,13 @@
  * templates/editor/career.js
  * エディタ用キャリア年表テンプレート
  */
-(function() {
+(function () {
   // テンプレートマネージャーのチェック
   if (typeof TemplateManager === 'undefined') {
     console.error('TemplateManager が見つかりません。career.js の読み込みに失敗しました。');
     return;
   }
-  
+
   // キャリア項目フォーム用テンプレート
   TemplateManager.registerTemplate('careerItem', `
 <div class="form-group">
@@ -43,7 +43,7 @@
   </div>
   <button class="add-btn add-project">プロジェクトを追加</button>
 </div>
-<button class="remove-btn remove-career">この職歴を削除</button>
+<button class="remove-btn" data-action="remove-container">この職歴を削除</button>
 <hr style="margin: 20px 0;">`, 'editor');
 
   console.log('エディタ用キャリア年表テンプレートを登録しました');

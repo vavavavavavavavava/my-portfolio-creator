@@ -80,22 +80,42 @@ const FormManager = (function () {
     // テクニカルキャリア用プロジェクトテンプレートを使用
     container.innerHTML = TemplateManager.getTemplate('technicalProjectItem', 'editor');
 
-    // データがあれば入力欄に設定
+    // ▼ レイアウトモードセレクタ
+    const selector = container.querySelector('.layout-mode-selector');
+    selector.value = data.layoutMode || 'detail';
+
+    // ▼ 表示切り替え関数
+    function updateFieldsByMode() {
+      const mode = selector.value;
+      container.querySelectorAll('.project-fields').forEach(group => {
+        if (group.classList.contains('mode-' + mode)) {
+          group.style.display = '';
+        } else {
+          group.style.display = 'none';
+        }
+      });
+    }
+    selector.addEventListener('change', updateFieldsByMode);
+    updateFieldsByMode();
+
+    // ▼ データがあれば各入力欄に値をセット
     if (data) {
-      // 基本情報の設定
-      if (data.projectTitle) container.querySelector('.project-title').value = data.projectTitle;
-      if (data.flowTitle) container.querySelector('.flow-title').value = data.flowTitle;
-      if (data.overviewTitle) container.querySelector('.overview-title').value = data.overviewTitle;
-      if (data.overviewText) container.querySelector('.overview-text').value = data.overviewText;
-      if (data.illustrationImage) container.querySelector('.illustration-image').value = data.illustrationImage;
+      // ==== 共通フィールド ====
+      if (data.projectTitle) container.querySelectorAll('.project-title').forEach(e => e.value = data.projectTitle);
+      if (data.flowTitle) container.querySelectorAll('.flow-title').forEach(e => e.value = data.flowTitle);
 
-      // 役割マイルストーンの設定
-      if (data.roleMilestones && Array.isArray(data.roleMilestones)) {
-        const milestonesContainer = container.querySelector('.role-milestones');
-        milestonesContainer.innerHTML = '';
+      // ===== detail/dense/balance 共通 =====
+      if (['detail', 'dense', 'balance'].includes(selector.value)) {
+        if (data.overviewTitle) container.querySelector('.overview-title').value = data.overviewTitle;
+        if (data.overviewText) container.querySelector('.overview-text').value = data.overviewText;
+        if (data.illustrationImage) container.querySelector('.illustration-image').value = data.illustrationImage;
 
-        data.roleMilestones.forEach(milestone => {
-          const html = `
+        // 役割マイルストーン
+        if (Array.isArray(data.roleMilestones)) {
+          const milestonesContainer = container.querySelector('.mode-' + selector.value + ' .role-milestones');
+          milestonesContainer.innerHTML = '';
+          data.roleMilestones.forEach(milestone => {
+            const html = `
           <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
             <input type="text" value="${milestone.label || ''}" class="role-label" style="width: 50px;" placeholder="PG">
             <input type="text" value="${milestone.role || ''}" class="role-title" style="flex: 1;" placeholder="プログラマー">
@@ -103,101 +123,299 @@ const FormManager = (function () {
             <input type="text" value="${milestone.description || ''}" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">
             <button class="remove-btn" data-action="remove-item">削除</button>
           </div>`;
-
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          milestonesContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-
-      // 技術スタックの設定
-      if (data.techStack && Array.isArray(data.techStack)) {
-        const techContainer = container.querySelector('.tech-stack');
-        techContainer.innerHTML = '';
-
-        data.techStack.forEach(tech => {
-          const html = `
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            milestonesContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // 技術スタック
+        if (Array.isArray(data.techStack)) {
+          const techContainer = container.querySelector('.mode-' + selector.value + ' .tech-stack');
+          techContainer.innerHTML = '';
+          data.techStack.forEach(tech => {
+            const html = `
           <div class="dynamic-item">
             <input type="text" value="${tech || ''}" class="tech-item" placeholder="技術名">
             <button class="remove-btn" data-action="remove-item">削除</button>
           </div>`;
-
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          techContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-
-      // 実績の設定
-      if (data.achievements && Array.isArray(data.achievements)) {
-        const achievementsContainer = container.querySelector('.achievements');
-        achievementsContainer.innerHTML = '';
-
-        data.achievements.forEach(achievement => {
-          const html = `
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            techContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // 実績
+        if (Array.isArray(data.achievements)) {
+          const achievementsContainer = container.querySelector('.mode-' + selector.value + ' .achievements');
+          achievementsContainer.innerHTML = '';
+          data.achievements.forEach(achievement => {
+            const html = `
           <div class="dynamic-item">
             <input type="text" value="${achievement || ''}" class="achievement-item" placeholder="実績内容">
             <button class="remove-btn" data-action="remove-item">削除</button>
           </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            achievementsContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // balanceのみ
+        if (selector.value === 'balance' && Array.isArray(data.teamInfo)) {
+          const teamInfoList = container.querySelector('.team-info-list');
+          teamInfoList.innerHTML = '';
+          data.teamInfo.forEach(item => {
+            const html = `
+              <div class="dynamic-item" style="display:flex; gap:10px;">
+                <input type="text" value="${item.label || ''}" class="team-label" style="width: 120px;" placeholder="例: フロントエンド">
+                <input type="number" value="${item.count || ''}" class="team-count" style="width:70px;" min="0" placeholder="人数">
+                <button class="remove-btn" data-action="remove-item">削除</button>
+              </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            teamInfoList.appendChild(tempDiv.firstElementChild);
+          });
+        }
+      }
 
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          achievementsContainer.appendChild(tempDiv.firstElementChild);
-        });
+      // ===== visual モード =====
+      if (selector.value === 'visual') {
+        if (data.overviewTitle) container.querySelector('.overview-title').value = data.overviewTitle;
+        if (data.overviewText) container.querySelector('.overview-text').value = data.overviewText;
+        if (data.illustrationImage) container.querySelector('.mode-visual .illustration-image').value = data.illustrationImage;
+        // 役割マイルストーン
+        if (Array.isArray(data.roleMilestones)) {
+          const milestonesContainer = container.querySelector('.mode-visual .role-milestones');
+          milestonesContainer.innerHTML = '';
+          data.roleMilestones.forEach(milestone => {
+            const html = `
+          <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <input type="text" value="${milestone.label || ''}" class="role-label" style="width: 50px;" placeholder="PG">
+            <input type="text" value="${milestone.role || ''}" class="role-title" style="flex: 1;" placeholder="プログラマー">
+            <input type="text" value="${milestone.date || ''}" class="role-date" style="width: 120px;" placeholder="2021年4月">
+            <input type="text" value="${milestone.description || ''}" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            milestonesContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // 技術スタック
+        if (Array.isArray(data.techStack)) {
+          const techContainer = container.querySelector('.mode-visual .tech-stack');
+          techContainer.innerHTML = '';
+          data.techStack.forEach(tech => {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="${tech || ''}" class="tech-item" placeholder="技術名">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            techContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // 成果
+        if (Array.isArray(data.achievements)) {
+          const achievementsContainer = container.querySelector('.mode-visual .achievements');
+          achievementsContainer.innerHTML = '';
+          data.achievements.forEach(achievement => {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="${achievement || ''}" class="achievement-item" placeholder="成果内容">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            achievementsContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // 追加ダイアグラム
+        if (Array.isArray(data.additionalDiagrams)) {
+          const diagramContainer = container.querySelector('.mode-visual .additional-diagrams');
+          diagramContainer.innerHTML = '';
+          data.additionalDiagrams.forEach(diagram => {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="${diagram.title || ''}" class="diagram-title" placeholder="図タイトル">
+            <input type="text" value="${diagram.image || ''}" class="diagram-image" placeholder="画像URLまたはbase64">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            diagramContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+      }
+
+      // ===== text モード =====
+      if (selector.value === 'text') {
+        if (data.overviewTitle) container.querySelector('.overview-title').value = data.overviewTitle;
+        if (data.projectBackground) container.querySelector('.project-background').value = data.projectBackground;
+        if (data.technicalApproach) container.querySelector('.technical-approach').value = data.technicalApproach;
+        if (data.implementationDetails) container.querySelector('.implementation-details').value = data.implementationDetails;
+        if (data.businessImpact) container.querySelector('.business-impact').value = data.businessImpact;
+        // 役割マイルストーン
+        if (Array.isArray(data.roleMilestones)) {
+          const milestonesContainer = container.querySelector('.mode-text .role-milestones');
+          milestonesContainer.innerHTML = '';
+          data.roleMilestones.forEach(milestone => {
+            const html = `
+          <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <input type="text" value="${milestone.label || ''}" class="role-label" style="width: 50px;" placeholder="PG">
+            <input type="text" value="${milestone.role || ''}" class="role-title" style="flex: 1;" placeholder="プログラマー">
+            <input type="text" value="${milestone.date || ''}" class="role-date" style="width: 120px;" placeholder="2021年4月">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            milestonesContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // 技術スタック
+        if (Array.isArray(data.techStack)) {
+          const techContainer = container.querySelector('.mode-text .tech-stack');
+          techContainer.innerHTML = '';
+          data.techStack.forEach(tech => {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="${tech || ''}" class="tech-item" placeholder="技術名">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            techContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // 実績
+        if (Array.isArray(data.achievements)) {
+          const achievementsContainer = container.querySelector('.mode-text .achievements');
+          achievementsContainer.innerHTML = '';
+          data.achievements.forEach(achievement => {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="${achievement || ''}" class="achievement-item" placeholder="実績内容">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            achievementsContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
+        // 課題
+        if (Array.isArray(data.challenges)) {
+          const challengesContainer = container.querySelector('.mode-text .challenges');
+          challengesContainer.innerHTML = '';
+          data.challenges.forEach(challenge => {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="${challenge || ''}" class="challenge-item" placeholder="課題・学び">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            challengesContainer.appendChild(tempDiv.firstElementChild);
+          });
+        }
       }
     }
 
-    // 追加ボタンのイベントリスナー設定
-    container.querySelector('.add-role-milestone')?.addEventListener('click', function () {
-      const milestones = container.querySelector('.role-milestones');
+    // ==== 各mode共通: 動的入力欄追加 ====
 
-      const html = `
+    // 役割マイルストーン
+    container.querySelectorAll('.add-role-milestone').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const milestones = btn.closest('.form-group').querySelector('.role-milestones');
+        const html = `
       <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
         <input type="text" value="" class="role-label" style="width: 50px;" placeholder="PG">
         <input type="text" value="" class="role-title" style="flex: 1;" placeholder="プログラマー">
         <input type="text" value="" class="role-date" style="width: 120px;" placeholder="2021年4月">
-        <input type="text" value="" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">
+        ${btn.closest('.project-fields').classList.contains('mode-text') ? '' : '<input type="text" value="" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">'}
         <button class="remove-btn" data-action="remove-item">削除</button>
       </div>`;
-
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      milestones.appendChild(tempDiv.firstElementChild);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        milestones.appendChild(tempDiv.firstElementChild);
+      });
     });
 
-    container.querySelector('.add-tech')?.addEventListener('click', function () {
-      const techContainer = container.querySelector('.tech-stack');
-
-      const html = `
+    // 技術スタック
+    container.querySelectorAll('.add-tech').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const techContainer = btn.closest('.form-group').querySelector('.tech-stack');
+        const html = `
       <div class="dynamic-item">
         <input type="text" value="" class="tech-item" placeholder="技術名">
         <button class="remove-btn" data-action="remove-item">削除</button>
       </div>`;
-
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      techContainer.appendChild(tempDiv.firstElementChild);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        techContainer.appendChild(tempDiv.firstElementChild);
+      });
     });
 
-    container.querySelector('.add-achievement')?.addEventListener('click', function () {
-      const achievementsContainer = container.querySelector('.achievements');
-
-      const html = `
+    // 実績
+    container.querySelectorAll('.add-achievement').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const achievementsContainer = btn.closest('.form-group').querySelector('.achievements');
+        const html = `
       <div class="dynamic-item">
         <input type="text" value="" class="achievement-item" placeholder="実績内容">
         <button class="remove-btn" data-action="remove-item">削除</button>
       </div>`;
-
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      achievementsContainer.appendChild(tempDiv.firstElementChild);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        achievementsContainer.appendChild(tempDiv.firstElementChild);
+      });
     });
 
-    // 画像アップロード機能の追加
+    // チーム
+    container.querySelector('.add-team-info')?.addEventListener('click', function () {
+      const teamInfoList = container.querySelector('.team-info-list');
+      const html = `
+      <div class="dynamic-item" style="display:flex; gap:10px;">
+        <input type="text" value="" class="team-label" style="width: 120px;" placeholder="例: フロントエンド">
+        <input type="number" value="" class="team-count" style="width:70px;" min="0" placeholder="人数">
+        <button class="remove-btn" data-action="remove-item">削除</button>
+      </div>`;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      teamInfoList.appendChild(tempDiv.firstElementChild);
+    });
+
+    // 課題
+    container.querySelector('.add-challenge')?.addEventListener('click', function () {
+      const challengesContainer = container.querySelector('.mode-text .challenges');
+      const html = `
+    <div class="dynamic-item">
+      <input type="text" value="" class="challenge-item" placeholder="課題・学び">
+      <button class="remove-btn" data-action="remove-item">削除</button>
+    </div>`;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      challengesContainer.appendChild(tempDiv.firstElementChild);
+    });
+
+    // ダイアグラム（visual専用）
+    container.querySelector('.add-diagram')?.addEventListener('click', function () {
+      const diagramContainer = container.querySelector('.mode-visual .additional-diagrams');
+      const html = `
+    <div class="dynamic-item">
+      <input type="text" value="" class="diagram-title" placeholder="図タイトル">
+      <input type="text" value="" class="diagram-image" placeholder="画像URLまたはbase64">
+      <button class="remove-btn" data-action="remove-item">削除</button>
+    </div>`;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      diagramContainer.appendChild(tempDiv.firstElementChild);
+    });
+
+    // 画像アップロード
     ImageUploader.setup(container);
 
     return container;
   }
+
 
   /**
    * スキルカテゴリの作成

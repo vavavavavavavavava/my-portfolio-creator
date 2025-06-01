@@ -1,3 +1,5 @@
+/* css/preview/technicalcareer/visual.css - 視覚重視型レイアウト */
+
 .visual-mode {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
@@ -6,18 +8,21 @@
         "tc-visual tc-main";
 }
 
-.tc-flow,
-.tc-tech,
-.tc-main,
 .tc-visual {
+    grid-area: tc-visual;
     background: #fff;
     border-radius: 8px;
     padding: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.tc-visual {
-    grid-area: tc-visual;
-    text-align: center;
+.tc-visual img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
 }
 
 .tc-diagrams {
@@ -25,6 +30,7 @@
     gap: 12px;
     margin-top: 8px;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .tc-diagram-item {
@@ -39,4 +45,9 @@
     margin-bottom: 2px;
     border: 1px solid #eee;
     border-radius: 4px;
+}
+
+.tc-diagram-item div {
+    text-align: center;
+    color: #34495e;
 }

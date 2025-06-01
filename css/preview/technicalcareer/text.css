@@ -1,3 +1,5 @@
+/* css/preview/technicalcareer/text.css - テキスト重視型レイアウト */
+
 .text-mode {
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -6,34 +8,6 @@
         "tc-main";
 }
 
-.tc-flow,
-.tc-main {
-    background: #fff;
-    border-radius: 8px;
+.text-mode .tc-main {
     padding: 16px;
-}
-
-.tc-details {
-    display: flex;
-    gap: 18px;
-}
-
-.tc-detail-block {
-    flex: 1;
-    background: #f5f6fa;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
-}
-
-.tc-challenges,
-.tc-achievements {
-    margin-top: 10px;
-}
-
-.tc-impact {
-    background: #ecf0f1;
-    border-radius: 4px;
-    padding: 8px;
-    margin-top: 10px;
 }

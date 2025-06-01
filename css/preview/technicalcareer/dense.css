@@ -1,3 +1,5 @@
+/* css/preview/technicalcareer/dense.css - 密度重視型レイアウト */
+
 .dense-mode {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas:
@@ -6,28 +8,29 @@
         "tc-flow tc-illustration tc-main";
 }
 
-.tc-flow,
-.tc-tech,
-.tc-main,
-.tc-illustration {
-    background: #fff;
-    border-radius: 8px;
+.dense-mode .tc-flow,
+.dense-mode .tc-tech,
+.dense-mode .tc-main,
+.dense-mode .tc-illustration {
     padding: 10px;
 }
 
-.tc-flow {
-    grid-area: tc-flow;
+.dense-mode .tc-role-badge {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
 }
 
-.tc-tech {
-    grid-area: tc-tech;
+.dense-mode .tc-role-name,
+.dense-mode .tc-role-desc {
+    font-size: 11px;
 }
 
-.tc-main {
-    grid-area: tc-main;
+.dense-mode .tc-tech-badge {
+    font-size: 11px;
+    padding: 2px 6px;
 }
 
-.tc-illustration {
-    grid-area: tc-illustration;
-    text-align: center;
+.dense-mode .tc-achievements li {
+    font-size: 11px;
 }

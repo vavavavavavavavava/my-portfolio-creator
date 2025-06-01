@@ -1,3 +1,5 @@
+/* css/preview/technicalcareer/detail.css - 詳細重視型レイアウト */
+
 .detail-mode {
     grid-template-columns: 2fr 1fr;
     grid-template-areas:
@@ -6,28 +8,16 @@
         "tc-main tc-sidebar";
 }
 
-.tc-flow,
-.tc-main,
-.tc-sidebar {
+.detail-mode .tc-sidebar {
     background: #fff;
     border-radius: 8px;
     padding: 12px;
-}
-
-.tc-flow {
-    grid-area: tc-flow;
-}
-
-.tc-main {
-    grid-area: tc-main;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.tc-sidebar {
-    grid-area: tc-sidebar;
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.detail-mode .tc-illustration {
+    flex: 1;
+    min-height: 200px;
 }

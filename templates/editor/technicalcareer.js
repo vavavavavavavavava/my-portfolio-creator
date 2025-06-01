@@ -170,5 +170,53 @@
     <textarea class="business-impact" placeholder="売上貢献・効率化など"></textarea>
   </div>
 </div>
-`);
+`, 'editor');
+
+  // 役割マイルストーン部品（通常版）
+  TemplateManager.registerTemplate('roleMilestoneItem', `
+  <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <input type="text" value="{{label}}" class="role-label" style="width: 50px;" placeholder="PG">
+    <input type="text" value="{{role}}" class="role-title" style="flex: 1;" placeholder="プログラマー">
+    <input type="text" value="{{date}}" class="role-date" style="width: 120px;" placeholder="2021年4月">
+    <input type="text" value="{{description}}" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">
+    <button class="remove-btn" data-action="remove-item">削除</button>
+  </div>
+`, 'editor');
+
+  // 役割マイルストーン部品（textモード用: descriptionなし）
+  TemplateManager.registerTemplate('roleMilestoneItemText', `
+  <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <input type="text" value="{{label}}" class="role-label" style="width: 50px;" placeholder="PG">
+    <input type="text" value="{{role}}" class="role-title" style="flex: 1;" placeholder="プログラマー">
+    <input type="text" value="{{date}}" class="role-date" style="width: 120px;" placeholder="2021年4月">
+    <button class="remove-btn" data-action="remove-item">削除</button>
+  </div>
+`, 'editor');
+
+  // チーム構成部品
+  TemplateManager.registerTemplate('teamInfoItem', `
+  <div class="dynamic-item" style="display:flex; gap:10px;">
+    <input type="text" value="{{label}}" class="team-label" style="width: 120px;" placeholder="例: フロントエンド">
+    <input type="number" value="{{count}}" class="team-count" style="width:70px;" min="0" placeholder="人数">
+    <button class="remove-btn" data-action="remove-item">削除</button>
+  </div>
+`, 'editor');
+
+  // 課題部品
+  TemplateManager.registerTemplate('challengeItem', `
+  <div class="dynamic-item">
+    <input type="text" value="{{value}}" class="challenge-item" placeholder="課題・学び">
+    <button class="remove-btn" data-action="remove-item">削除</button>
+  </div>
+`, 'editor');
+
+  // ダイアグラム部品
+  TemplateManager.registerTemplate('diagramItem', `
+  <div class="dynamic-item">
+    <input type="text" value="{{title}}" class="diagram-title" placeholder="図タイトル">
+    <input type="text" value="{{image}}" class="diagram-image" placeholder="画像URLまたはbase64">
+    <button class="remove-btn" data-action="remove-item">削除</button>
+  </div>
+`, 'editor');
+
 })();

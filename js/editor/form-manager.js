@@ -5,6 +5,21 @@
 const FormManager = (function () {
 
   /**
+   * 指定コンテナ内のリストが空なら、1つテンプレートで追加する
+   * @param {HTMLElement} container - 追加先
+   * @param {string} templateName - テンプレート名
+   * @param {Object} templateData - テンプレートデータ
+   */
+  async function ensureListHasAtLeastOne(container, templateName, templateData = {}) {
+    await TemplateManager.loadAllTemplates();
+    if (container && container.children.length === 0) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = TemplateManager.renderTemplate(templateName, templateData, 'editor');
+      container.appendChild(tempDiv.firstElementChild);
+    }
+  }
+
+  /**
    * 統一削除処理の設定
    */
   function setupUnifiedRemoveHandlers() {
@@ -47,13 +62,9 @@ const FormManager = (function () {
 
     container.innerHTML = TemplateManager.renderTemplate('careerItem', normalizedData, 'editor');
 
-    // ★サブリスト：プロジェクトが空なら1つ追加
+    // サブリスト：プロジェクトが空なら1つ追加（共通化）
     const projectsContainer = container.querySelector('.career-projects');
-    if (projectsContainer && !normalizedData.projects.length) {
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = TemplateManager.renderTemplate('careerProjectItem', { value: '' }, 'editor');
-      projectsContainer.appendChild(tempDiv.firstElementChild);
-    }
+    await ensureListHasAtLeastOne(projectsContainer, 'careerProjectItem', { value: '' });
 
     // プロジェクト追加ボタン
     container.querySelector('.add-project')?.addEventListener('click', function () {
@@ -87,98 +98,111 @@ const FormManager = (function () {
     selector.value = data.layoutMode || 'detail';
 
     // ▼ 表示切り替え関数
-    function updateFieldsByMode() {
+    async function updateFieldsByMode() {
       const mode = selector.value;
-      container.querySelectorAll('.project-fields').forEach(group => {
+      container.querySelectorAll('.project-fields').forEach(async group => {
         if (group.classList.contains('mode-' + mode)) {
           group.style.display = '';
 
-          // ▼【共通処理】全サブリストで「空なら1件追加」！
+          // ▼ 全サブリストで「空なら1件追加」：共通テンプレート利用
 
           // 役割マイルストーン
           const milestonesContainer = group.querySelector('.role-milestones');
-          if (milestonesContainer && milestonesContainer.children.length === 0) {
-            const html = `
-          <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <input type="text" value="" class="role-label" style="width: 50px;" placeholder="PG">
-            <input type="text" value="" class="role-title" style="flex: 1;" placeholder="プログラマー">
-            <input type="text" value="" class="role-date" style="width: 120px;" placeholder="2021年4月">
-            ${group.classList.contains('mode-text') ? '' : '<input type="text" value="" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">'}
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            milestonesContainer.appendChild(tempDiv.firstElementChild);
+          if (milestonesContainer) {
+            if (Array.isArray(data.roleMilestones) && data.roleMilestones.length > 0) {
+              milestonesContainer.innerHTML = '';
+              for (const milestone of data.roleMilestones) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = TemplateManager.renderTemplate(
+                  mode === 'text' ? 'roleMilestoneItemText' : 'roleMilestoneItem',
+                  milestone, 'editor'
+                );
+                milestonesContainer.appendChild(tempDiv.firstElementChild);
+              }
+            } else {
+              await ensureListHasAtLeastOne(
+                milestonesContainer,
+                mode === 'text' ? 'roleMilestoneItemText' : 'roleMilestoneItem',
+                {}
+              );
+            }
           }
 
           // 技術スタック
           const techContainer = group.querySelector('.tech-stack');
-          if (techContainer && techContainer.children.length === 0) {
-            const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="tech-item" placeholder="技術名">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            techContainer.appendChild(tempDiv.firstElementChild);
+          if (techContainer) {
+            if (Array.isArray(data.techStack) && data.techStack.length > 0) {
+              techContainer.innerHTML = '';
+              for (const tech of data.techStack) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = TemplateManager.renderTemplate('techItem', { value: tech }, 'editor');
+                techContainer.appendChild(tempDiv.firstElementChild);
+              }
+            } else {
+              await ensureListHasAtLeastOne(techContainer, 'techItem', { value: '' });
+            }
           }
 
           // 実績
           const achievementsContainer = group.querySelector('.achievements');
-          if (achievementsContainer && achievementsContainer.children.length === 0) {
-            const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="achievement-item" placeholder="実績内容">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            achievementsContainer.appendChild(tempDiv.firstElementChild);
+          if (achievementsContainer) {
+            if (Array.isArray(data.achievements) && data.achievements.length > 0) {
+              achievementsContainer.innerHTML = '';
+              for (const achievement of data.achievements) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = TemplateManager.renderTemplate('achievementItem', { value: achievement }, 'editor');
+                achievementsContainer.appendChild(tempDiv.firstElementChild);
+              }
+            } else {
+              await ensureListHasAtLeastOne(achievementsContainer, 'achievementItem', { value: '' });
+            }
           }
 
           // チーム（balanceモードのみ）
           const teamInfoList = group.querySelector('.team-info-list');
-          if (teamInfoList && teamInfoList.children.length === 0) {
-            const html = `
-          <div class="dynamic-item" style="display:flex; gap:10px;">
-            <input type="text" value="" class="team-label" style="width: 120px;" placeholder="例: フロントエンド">
-            <input type="number" value="" class="team-count" style="width:70px;" min="0" placeholder="人数">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            teamInfoList.appendChild(tempDiv.firstElementChild);
+          if (teamInfoList && mode === 'balance') {
+            if (Array.isArray(data.teamInfo) && data.teamInfo.length > 0) {
+              teamInfoList.innerHTML = '';
+              for (const team of data.teamInfo) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = TemplateManager.renderTemplate('teamInfoItem', team, 'editor');
+                teamInfoList.appendChild(tempDiv.firstElementChild);
+              }
+            } else {
+              await ensureListHasAtLeastOne(teamInfoList, 'teamInfoItem', {});
+            }
           }
 
           // 課題（textモードのみ）
           const challengesContainer = group.querySelector('.challenges');
-          if (challengesContainer && challengesContainer.children.length === 0) {
-            const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="challenge-item" placeholder="課題・学び">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            challengesContainer.appendChild(tempDiv.firstElementChild);
+          if (challengesContainer && mode === 'text') {
+            if (Array.isArray(data.challenges) && data.challenges.length > 0) {
+              challengesContainer.innerHTML = '';
+              for (const challenge of data.challenges) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = TemplateManager.renderTemplate('challengeItem', { value: challenge }, 'editor');
+                challengesContainer.appendChild(tempDiv.firstElementChild);
+              }
+            } else {
+              await ensureListHasAtLeastOne(challengesContainer, 'challengeItem', { value: '' });
+            }
           }
 
           // ダイアグラム（visualモードのみ）
           const diagramContainer = group.querySelector('.additional-diagrams');
-          if (diagramContainer && diagramContainer.children.length === 0) {
-            const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="diagram-title" placeholder="図タイトル">
-            <input type="text" value="" class="diagram-image" placeholder="画像URLまたはbase64">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            diagramContainer.appendChild(tempDiv.firstElementChild);
+          if (diagramContainer && mode === 'visual') {
+            if (Array.isArray(data.additionalDiagrams) && data.additionalDiagrams.length > 0) {
+              diagramContainer.innerHTML = '';
+              for (const diagram of data.additionalDiagrams) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = TemplateManager.renderTemplate('diagramItem', diagram, 'editor');
+                diagramContainer.appendChild(tempDiv.firstElementChild);
+              }
+            } else {
+              await ensureListHasAtLeastOne(diagramContainer, 'diagramItem', {});
+            }
           }
 
-          // ▲ここまで一括
         } else {
           group.style.display = 'none';
         }
@@ -186,371 +210,17 @@ const FormManager = (function () {
     }
 
     selector.addEventListener('change', updateFieldsByMode);
-    updateFieldsByMode();
+    await updateFieldsByMode();
 
-    // ▼ データがあれば各入力欄に値をセット（省略。以下のサブリスト部分に注目）
-
-    // ===== detail/dense/balance 共通 =====
-    if (['detail', 'dense', 'balance'].includes(selector.value)) {
-      // 役割マイルストーン
-      const milestonesContainer = container.querySelector('.mode-' + selector.value + ' .role-milestones');
-      if (milestonesContainer) {
-        const roleMilestones = Array.isArray(data.roleMilestones) ? data.roleMilestones : [];
-        milestonesContainer.innerHTML = '';
-        if (roleMilestones.length === 0) {
-          // ★空なら1つ追加
-          const html = `
-            <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <input type="text" value="" class="role-label" style="width: 50px;" placeholder="PG">
-              <input type="text" value="" class="role-title" style="flex: 1;" placeholder="プログラマー">
-              <input type="text" value="" class="role-date" style="width: 120px;" placeholder="2021年4月">
-              <input type="text" value="" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          milestonesContainer.appendChild(tempDiv.firstElementChild);
-        } else {
-          roleMilestones.forEach(milestone => {
-            const html = `
-              <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                <input type="text" value="${milestone.label || ''}" class="role-label" style="width: 50px;" placeholder="PG">
-                <input type="text" value="${milestone.role || ''}" class="role-title" style="flex: 1;" placeholder="プログラマー">
-                <input type="text" value="${milestone.date || ''}" class="role-date" style="width: 120px;" placeholder="2021年4月">
-                <input type="text" value="${milestone.description || ''}" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">
-                <button class="remove-btn" data-action="remove-item">削除</button>
-              </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            milestonesContainer.appendChild(tempDiv.firstElementChild);
-          });
-        }
-      }
-
-      // 技術スタック
-      const techContainer = container.querySelector('.mode-' + selector.value + ' .tech-stack');
-      if (techContainer) {
-        const techStack = Array.isArray(data.techStack) ? data.techStack : [];
-        techContainer.innerHTML = '';
-        if (techStack.length === 0) {
-          // ★空なら1つ追加
-          const html = `
-            <div class="dynamic-item">
-              <input type="text" value="" class="tech-item" placeholder="技術名">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          techContainer.appendChild(tempDiv.firstElementChild);
-        } else {
-          techStack.forEach(tech => {
-            const html = `
-              <div class="dynamic-item">
-                <input type="text" value="${tech || ''}" class="tech-item" placeholder="技術名">
-                <button class="remove-btn" data-action="remove-item">削除</button>
-              </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            techContainer.appendChild(tempDiv.firstElementChild);
-          });
-        }
-      }
-
-      // 実績
-      const achievementsContainer = container.querySelector('.mode-' + selector.value + ' .achievements');
-      if (achievementsContainer) {
-        const achievements = Array.isArray(data.achievements) ? data.achievements : [];
-        achievementsContainer.innerHTML = '';
-        if (achievements.length === 0) {
-          // ★空なら1つ追加
-          const html = `
-            <div class="dynamic-item">
-              <input type="text" value="" class="achievement-item" placeholder="実績内容">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          achievementsContainer.appendChild(tempDiv.firstElementChild);
-        } else {
-          achievements.forEach(achievement => {
-            const html = `
-              <div class="dynamic-item">
-                <input type="text" value="${achievement || ''}" class="achievement-item" placeholder="実績内容">
-                <button class="remove-btn" data-action="remove-item">削除</button>
-              </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            achievementsContainer.appendChild(tempDiv.firstElementChild);
-          });
-        }
-      }
-
-      // balanceのみ: チーム情報
-      if (selector.value === 'balance') {
-        const teamInfoList = container.querySelector('.team-info-list');
-        const teamInfo = Array.isArray(data.teamInfo) ? data.teamInfo : [];
-        teamInfoList.innerHTML = '';
-        if (teamInfoList && teamInfo.length === 0) {
-          const html = `
-            <div class="dynamic-item" style="display:flex; gap:10px;">
-              <input type="text" value="" class="team-label" style="width: 120px;" placeholder="例: フロントエンド">
-              <input type="number" value="" class="team-count" style="width:70px;" min="0" placeholder="人数">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          teamInfoList.appendChild(tempDiv.firstElementChild);
-        } else {
-          teamInfo.forEach(item => {
-            const html = `
-              <div class="dynamic-item" style="display:flex; gap:10px;">
-                <input type="text" value="${item.label || ''}" class="team-label" style="width: 120px;" placeholder="例: フロントエンド">
-                <input type="number" value="${item.count || ''}" class="team-count" style="width:70px;" min="0" placeholder="人数">
-                <button class="remove-btn" data-action="remove-item">削除</button>
-              </div>`;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            teamInfoList.appendChild(tempDiv.firstElementChild);
-          });
-        }
-      }
-    }
-
-    // ===== visual モード =====
-    if (selector.value === 'visual') {
-      // 役割マイルストーン
-      const milestonesContainer = container.querySelector('.mode-visual .role-milestones');
-      const roleMilestones = Array.isArray(data.roleMilestones) ? data.roleMilestones : [];
-      milestonesContainer.innerHTML = '';
-      if (roleMilestones.length === 0) {
-        const html = `
-          <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <input type="text" value="" class="role-label" style="width: 50px;" placeholder="PG">
-            <input type="text" value="" class="role-title" style="flex: 1;" placeholder="プログラマー">
-            <input type="text" value="" class="role-date" style="width: 120px;" placeholder="2021年4月">
-            <input type="text" value="" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        milestonesContainer.appendChild(tempDiv.firstElementChild);
-      } else {
-        roleMilestones.forEach(milestone => {
-          const html = `
-            <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <input type="text" value="${milestone.label || ''}" class="role-label" style="width: 50px;" placeholder="PG">
-              <input type="text" value="${milestone.role || ''}" class="role-title" style="flex: 1;" placeholder="プログラマー">
-              <input type="text" value="${milestone.date || ''}" class="role-date" style="width: 120px;" placeholder="2021年4月">
-              <input type="text" value="${milestone.description || ''}" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          milestonesContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-      // 技術スタック
-      const techContainer = container.querySelector('.mode-visual .tech-stack');
-      const techStack = Array.isArray(data.techStack) ? data.techStack : [];
-      techContainer.innerHTML = '';
-      if (techStack.length === 0) {
-        const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="tech-item" placeholder="技術名">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        techContainer.appendChild(tempDiv.firstElementChild);
-      } else {
-        techStack.forEach(tech => {
-          const html = `
-            <div class="dynamic-item">
-              <input type="text" value="${tech || ''}" class="tech-item" placeholder="技術名">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          techContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-      // 成果
-      const achievementsContainer = container.querySelector('.mode-visual .achievements');
-      const achievements = Array.isArray(data.achievements) ? data.achievements : [];
-      achievementsContainer.innerHTML = '';
-      if (achievements.length === 0) {
-        const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="achievement-item" placeholder="成果内容">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        achievementsContainer.appendChild(tempDiv.firstElementChild);
-      } else {
-        achievements.forEach(achievement => {
-          const html = `
-            <div class="dynamic-item">
-              <input type="text" value="${achievement || ''}" class="achievement-item" placeholder="成果内容">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          achievementsContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-      // 追加ダイアグラム
-      const diagramContainer = container.querySelector('.mode-visual .additional-diagrams');
-      const additionalDiagrams = Array.isArray(data.additionalDiagrams) ? data.additionalDiagrams : [];
-      diagramContainer.innerHTML = '';
-      if (additionalDiagrams.length === 0) {
-        const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="diagram-title" placeholder="図タイトル">
-            <input type="text" value="" class="diagram-image" placeholder="画像URLまたはbase64">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        diagramContainer.appendChild(tempDiv.firstElementChild);
-      } else {
-        additionalDiagrams.forEach(diagram => {
-          const html = `
-            <div class="dynamic-item">
-              <input type="text" value="${diagram.title || ''}" class="diagram-title" placeholder="図タイトル">
-              <input type="text" value="${diagram.image || ''}" class="diagram-image" placeholder="画像URLまたはbase64">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          diagramContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-    }
-
-    // ===== text モード =====
-    if (selector.value === 'text') {
-      // 役割マイルストーン
-      const milestonesContainer = container.querySelector('.mode-text .role-milestones');
-      const roleMilestones = Array.isArray(data.roleMilestones) ? data.roleMilestones : [];
-      milestonesContainer.innerHTML = '';
-      if (roleMilestones.length === 0) {
-        const html = `
-          <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <input type="text" value="" class="role-label" style="width: 50px;" placeholder="PG">
-            <input type="text" value="" class="role-title" style="flex: 1;" placeholder="プログラマー">
-            <input type="text" value="" class="role-date" style="width: 120px;" placeholder="2021年4月">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        milestonesContainer.appendChild(tempDiv.firstElementChild);
-      } else {
-        roleMilestones.forEach(milestone => {
-          const html = `
-            <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <input type="text" value="${milestone.label || ''}" class="role-label" style="width: 50px;" placeholder="PG">
-              <input type="text" value="${milestone.role || ''}" class="role-title" style="flex: 1;" placeholder="プログラマー">
-              <input type="text" value="${milestone.date || ''}" class="role-date" style="width: 120px;" placeholder="2021年4月">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          milestonesContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-      // 技術スタック
-      const techContainer = container.querySelector('.mode-text .tech-stack');
-      const techStack = Array.isArray(data.techStack) ? data.techStack : [];
-      techContainer.innerHTML = '';
-      if (techStack.length === 0) {
-        const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="tech-item" placeholder="技術名">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        techContainer.appendChild(tempDiv.firstElementChild);
-      } else {
-        techStack.forEach(tech => {
-          const html = `
-            <div class="dynamic-item">
-              <input type="text" value="${tech || ''}" class="tech-item" placeholder="技術名">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          techContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-      // 実績
-      const achievementsContainer = container.querySelector('.mode-text .achievements');
-      const achievements = Array.isArray(data.achievements) ? data.achievements : [];
-      achievementsContainer.innerHTML = '';
-      if (achievements.length === 0) {
-        const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="achievement-item" placeholder="実績内容">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        achievementsContainer.appendChild(tempDiv.firstElementChild);
-      } else {
-        achievements.forEach(achievement => {
-          const html = `
-            <div class="dynamic-item">
-              <input type="text" value="${achievement || ''}" class="achievement-item" placeholder="実績内容">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          achievementsContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-      // 課題
-      const challengesContainer = container.querySelector('.mode-text .challenges');
-      const challenges = Array.isArray(data.challenges) ? data.challenges : [];
-      challengesContainer.innerHTML = '';
-      if (challenges.length === 0) {
-        const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="challenge-item" placeholder="課題・学び">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        challengesContainer.appendChild(tempDiv.firstElementChild);
-      } else {
-        challenges.forEach(challenge => {
-          const html = `
-            <div class="dynamic-item">
-              <input type="text" value="${challenge || ''}" class="challenge-item" placeholder="課題・学び">
-              <button class="remove-btn" data-action="remove-item">削除</button>
-            </div>`;
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = html;
-          challengesContainer.appendChild(tempDiv.firstElementChild);
-        });
-      }
-    }
-
-    // ==== 各mode共通: 動的入力欄追加（省略、既存通り） ====
+    // ==== 各mode共通: 動的入力欄追加（テンプレート利用） ====
 
     container.querySelectorAll('.add-role-milestone').forEach(btn => {
-      btn.addEventListener('click', function () {
+      btn.addEventListener('click', async function () {
         const milestones = btn.closest('.form-group').querySelector('.role-milestones');
-        const html = `
-          <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <input type="text" value="" class="role-label" style="width: 50px;" placeholder="PG">
-            <input type="text" value="" class="role-title" style="flex: 1;" placeholder="プログラマー">
-            <input type="text" value="" class="role-date" style="width: 120px;" placeholder="2021年4月">
-            ${btn.closest('.project-fields').classList.contains('mode-text') ? '' : '<input type="text" value="" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">'}
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
+        const mode = btn.closest('.project-fields').classList.contains('mode-text') ? 'text' : 'other';
+        const templateName = mode === 'text' ? 'roleMilestoneItemText' : 'roleMilestoneItem';
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
+        tempDiv.innerHTML = TemplateManager.renderTemplate(templateName, {}, 'editor');
         milestones.appendChild(tempDiv.firstElementChild);
       });
     });
@@ -558,13 +228,8 @@ const FormManager = (function () {
     container.querySelectorAll('.add-tech').forEach(btn => {
       btn.addEventListener('click', function () {
         const techContainer = btn.closest('.form-group').querySelector('.tech-stack');
-        const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="tech-item" placeholder="技術名">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
+        tempDiv.innerHTML = TemplateManager.renderTemplate('techItem', { value: '' }, 'editor');
         techContainer.appendChild(tempDiv.firstElementChild);
       });
     });
@@ -572,52 +237,30 @@ const FormManager = (function () {
     container.querySelectorAll('.add-achievement').forEach(btn => {
       btn.addEventListener('click', function () {
         const achievementsContainer = btn.closest('.form-group').querySelector('.achievements');
-        const html = `
-          <div class="dynamic-item">
-            <input type="text" value="" class="achievement-item" placeholder="実績内容">
-            <button class="remove-btn" data-action="remove-item">削除</button>
-          </div>`;
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
+        tempDiv.innerHTML = TemplateManager.renderTemplate('achievementItem', { value: '' }, 'editor');
         achievementsContainer.appendChild(tempDiv.firstElementChild);
       });
     });
 
     container.querySelector('.add-team-info')?.addEventListener('click', function () {
       const teamInfoList = container.querySelector('.team-info-list');
-      const html = `
-        <div class="dynamic-item" style="display:flex; gap:10px;">
-          <input type="text" value="" class="team-label" style="width: 120px;" placeholder="例: フロントエンド">
-          <input type="number" value="" class="team-count" style="width:70px;" min="0" placeholder="人数">
-          <button class="remove-btn" data-action="remove-item">削除</button>
-        </div>`;
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
+      tempDiv.innerHTML = TemplateManager.renderTemplate('teamInfoItem', {}, 'editor');
       teamInfoList.appendChild(tempDiv.firstElementChild);
     });
 
     container.querySelector('.add-challenge')?.addEventListener('click', function () {
       const challengesContainer = container.querySelector('.mode-text .challenges');
-      const html = `
-        <div class="dynamic-item">
-          <input type="text" value="" class="challenge-item" placeholder="課題・学び">
-          <button class="remove-btn" data-action="remove-item">削除</button>
-        </div>`;
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
+      tempDiv.innerHTML = TemplateManager.renderTemplate('challengeItem', { value: '' }, 'editor');
       challengesContainer.appendChild(tempDiv.firstElementChild);
     });
 
     container.querySelector('.add-diagram')?.addEventListener('click', function () {
       const diagramContainer = container.querySelector('.mode-visual .additional-diagrams');
-      const html = `
-        <div class="dynamic-item">
-          <input type="text" value="" class="diagram-title" placeholder="図タイトル">
-          <input type="text" value="" class="diagram-image" placeholder="画像URLまたはbase64">
-          <button class="remove-btn" data-action="remove-item">削除</button>
-        </div>`;
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
+      tempDiv.innerHTML = TemplateManager.renderTemplate('diagramItem', {}, 'editor');
       diagramContainer.appendChild(tempDiv.firstElementChild);
     });
 
@@ -652,14 +295,9 @@ const FormManager = (function () {
 
     container.innerHTML = TemplateManager.renderTemplate('skillCategory', templateData, 'editor');
 
-    // ★サブリスト：スキルが空なら1つ追加
+    // サブリスト：スキルが空なら1つ追加（共通化）
     const skillsContainer = container.querySelector('.skill-items');
-    if (skillsContainer && !templateData.items.length) {
-      const skillId = `skill-${categoryId}-${Date.now()}`;
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = TemplateManager.renderTemplate('skillItem', { skillId }, 'editor');
-      skillsContainer.appendChild(tempDiv.firstElementChild);
-    }
+    await ensureListHasAtLeastOne(skillsContainer, 'skillItem', { skillId: `skill-${categoryId}-${Date.now()}` });
 
     container.querySelector('.add-skill')?.addEventListener('click', function () {
       const skillsContainer = container.querySelector('.skill-items');
@@ -752,7 +390,8 @@ const FormManager = (function () {
     createSkillCategory,
     createStrengthItem,
     addDynamicItem,
-    initForm
+    initForm,
+    ensureListHasAtLeastOne // 新規追加
   };
 })();
 

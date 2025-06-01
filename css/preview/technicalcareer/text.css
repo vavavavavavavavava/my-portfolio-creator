@@ -1,11 +1,17 @@
 /* css/preview/technicalcareer/text.css - テキスト重視型レイアウト */
 
 .text-mode {
+    display: grid;
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto minmax(0, 1fr);
     grid-template-areas:
         "tc-title"
         "tc-flow"
         "tc-main";
+    gap: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+    height: 100%;
 }
 
 .text-mode .tc-main {

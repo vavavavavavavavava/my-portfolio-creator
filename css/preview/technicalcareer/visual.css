@@ -1,11 +1,17 @@
 /* css/preview/technicalcareer/visual.css - 視覚重視型レイアウト */
 
 .visual-mode {
+    display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto minmax(0, 1fr);
     grid-template-areas:
         "tc-title tc-title"
         "tc-flow tc-tech"
         "tc-visual tc-main";
+    gap: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+    height: 100%;
 }
 
 .tc-visual {

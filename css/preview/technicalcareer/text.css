@@ -1,19 +1,92 @@
-/* css/preview/technicalcareer/text.css - テキスト重視型レイアウト */
-
-.text-mode {
+/* ========== テキスト重視型レイアウト ========== */
+.layout-text {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: auto auto auto 1fr auto;
     grid-template-areas:
-        "tc-title"
-        "tc-flow"
-        "tc-main";
+        "header"
+        "timeline"
+        "overview"
+        "details"
+        "footer";
     gap: 15px;
-    box-sizing: border-box;
-    overflow: hidden;
-    height: 100%;
 }
 
-.text-mode .tc-main {
-    padding: 16px;
+.layout-text .project-header {
+    grid-area: header;
+}
+
+.layout-text .timeline-section {
+    grid-area: timeline;
+}
+
+.layout-text .overview-section {
+    grid-area: overview;
+}
+
+.layout-text .details-section {
+    grid-area: details;
+}
+
+.layout-text .footer-section {
+    grid-area: footer;
+}
+
+/* ========== テキスト重視型専用スタイル ========== */
+.layout-text .details-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.layout-text .overview-section .overview-card {
+    padding: 15px;
+}
+
+.layout-text .overview-section .overview-card p {
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.layout-text .footer-section {
+    display: flex;
+    gap: 15px;
+}
+
+.layout-text .footer-section .section-card {
+    flex: 1;
+}
+
+/* テキスト要素の調整 */
+.layout-text .detail-text {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.layout-text .overview-card {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #3498db;
+}
+
+.layout-text .overview-card h3 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.layout-text .overview-card p {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* 実績リストの調整 */
+.layout-text .achievement-list li {
+    font-size: 12px;
+    margin-bottom: 6px;
+    line-height: 1.4;
 }

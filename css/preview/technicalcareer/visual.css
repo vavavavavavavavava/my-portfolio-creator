@@ -1,59 +1,95 @@
-/* css/preview/technicalcareer/visual.css - 視覚重視型レイアウト */
-
-.visual-mode {
+/* ========== 視覚重視型レイアウト ========== */
+.layout-visual {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: auto auto 2fr;
     grid-template-areas:
-        "tc-title tc-title"
-        "tc-flow tc-tech"
-        "tc-visual tc-main";
+        "header header"
+        "timeline tech"
+        "illustration content";
     gap: 15px;
-    box-sizing: border-box;
-    overflow: hidden;
+}
+
+.layout-visual .project-header {
+    grid-area: header;
+}
+
+.layout-visual .timeline-section {
+    grid-area: timeline;
+}
+
+.layout-visual .tech-section {
+    grid-area: tech;
+}
+
+.layout-visual .illustration-section {
+    grid-area: illustration;
+}
+
+.layout-visual .content-section {
+    grid-area: content;
+}
+
+/* ========== 視覚重視型専用スタイル ========== */
+.layout-visual .illustration-placeholder {
     height: 100%;
+    min-height: 250px;
 }
 
-.tc-visual {
-    grid-area: tc-visual;
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px;
-    text-align: center;
+.layout-visual .content-section {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
-.tc-visual img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-}
-
-.tc-diagrams {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.tc-diagram-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.layout-visual .visual-text {
     font-size: 12px;
+    line-height: 1.4;
+    margin: 0;
 }
 
-.tc-diagram-item img {
-    max-width: 120px;
-    margin-bottom: 2px;
-    border: 1px solid #eee;
-    border-radius: 4px;
+.layout-visual .visual-list {
+    font-size: 11px;
 }
 
-.tc-diagram-item div {
-    text-align: center;
+.layout-visual .visual-list li {
+    font-size: 11px;
+}
+
+/* メインビジュアルの特別スタイル */
+.layout-visual .main-visual {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px dashed #6c757d;
+    position: relative;
+    overflow: hidden;
+}
+
+.layout-visual .visual-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.layout-visual .visual-diagram {
+    font-size: 12px;
     color: #34495e;
+    font-family: 'Courier New', monospace;
+    background: rgba(52, 152, 219, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.layout-visual .visual-note {
+    margin-top: 20px;
+    font-size: 11px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* 技術セクションの調整 */
+.layout-visual .tech-section .section-card {
+    height: fit-content;
 }

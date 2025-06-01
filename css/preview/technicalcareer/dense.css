@@ -1,42 +1,90 @@
-/* css/preview/technicalcareer/dense.css - 密度重視型レイアウト */
-
-.dense-mode {
+/* ========== 密度重視型レイアウト ========== */
+.layout-dense {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
     grid-template-areas:
-        "tc-title tc-title tc-title"
-        "tc-flow tc-tech tc-main"
-        "tc-flow tc-illustration tc-main";
-    gap: 15px;
-    box-sizing: border-box;
-    overflow: hidden;
-    height: 100%;
+        "header header header"
+        "timeline timeline tech-stack"
+        "overview achievements illustration";
+    gap: 12px;
 }
 
-.dense-mode .tc-flow,
-.dense-mode .tc-tech,
-.dense-mode .tc-main,
-.dense-mode .tc-illustration {
+.layout-dense .project-header {
+    grid-area: header;
+}
+
+.layout-dense .timeline-section {
+    grid-area: timeline;
+}
+
+.layout-dense .tech-section {
+    grid-area: tech-stack;
+}
+
+.layout-dense .overview-section {
+    grid-area: overview;
+}
+
+.layout-dense .achievements-section {
+    grid-area: achievements;
+}
+
+.layout-dense .illustration-section {
+    grid-area: illustration;
+}
+
+/* ========== 密度重視型専用スタイル ========== */
+.layout-dense .section-card {
     padding: 10px;
+    font-size: 12px;
 }
 
-.dense-mode .tc-role-badge {
-    width: 36px;
-    height: 36px;
-    font-size: 13px;
+.layout-dense .illustration-placeholder {
+    height: 120px;
 }
 
-.dense-mode .tc-role-name,
-.dense-mode .tc-role-desc {
+.layout-dense .compact-text {
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.layout-dense .compact-list {
+    font-size: 10px;
+}
+
+.layout-dense .compact-list li {
+    font-size: 10px;
+    margin-bottom: 3px;
+}
+
+/* 役割タイムラインの調整 */
+.layout-dense .role-timeline .role-item {
+    margin: 0 2px;
+}
+
+.layout-dense .role-timeline .role-badge {
+    width: 40px;
+    height: 40px;
+    font-size: 12px;
+}
+
+.layout-dense .role-timeline .role-date {
+    font-size: 10px;
+}
+
+.layout-dense .role-timeline .role-name {
     font-size: 11px;
 }
 
-.dense-mode .tc-tech-badge {
-    font-size: 11px;
+.layout-dense .role-timeline .role-desc {
+    font-size: 9px;
+}
+
+/* 技術バッジの調整 */
+.layout-dense .tech-badge {
+    font-size: 10px;
     padding: 2px 6px;
-}
-
-.dense-mode .tc-achievements li {
-    font-size: 11px;
+    margin: 1px;
 }

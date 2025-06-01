@@ -1,312 +1,142 @@
-/* css/preview/technicalcareer/common.css - テクニカルキャリア共通スタイル */
-
-.technical-career-slide {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
+/* ========== 基本スタイル ========== */
+body {
     font-family: 'Segoe UI', 'Meiryo', sans-serif;
-    background: #f5f5f5;
+    margin: 0;
     padding: 20px;
-    border-radius: 12px;
-    display: grid;
-    gap: 16px;
-    overflow: hidden;
-}
-
-/* タイトル */
-.tc-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-    background: #2c3e50;
-    padding: 10px 24px;
-    border-radius: 5px;
-    grid-area: tc-title;
-}
-
-/* 役割変遷フロー */
-.tc-flow {
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px;
-    grid-area: tc-flow;
-}
-
-.tc-flow-title {
-    margin: 0 0 5px 0;
+    background: #f5f5f5;
     color: #2c3e50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ========== 共通コンポーネント ========== */
+.title-header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.section-card {
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.section-title {
+    font-weight: bold;
+    font-size: 14px;
+    color: #3498db;
+    margin-bottom: 8px;
     border-bottom: 2px solid #3498db;
     padding-bottom: 3px;
-    font-size: 14px;
 }
 
-/* タイムライン */
-.tc-timeline {
-    position: relative;
+.tech-badge {
+    background-color: #3498db;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    display: inline-block;
+    margin: 2px;
+}
+
+/* ========== 役割タイムライン ========== */
+.role-timeline {
     display: flex;
-    margin: 10px 0;
-    overflow-x: auto;
-    padding: 10px 0;
+    gap: 15px;
+    margin-bottom: 15px;
+    position: relative;
 }
 
-.tc-timeline::before {
+.role-timeline::before {
     content: '';
     position: absolute;
-    top: 32px;
-    left: 22px;
-    right: 22px;
-    height: 3px;
-    background-color: #3498db;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    height: 2px;
+    background: #3498db;
     z-index: 1;
 }
 
-/* 役割アイテム */
-.tc-role {
+.role-item {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    text-align: center;
     position: relative;
-    min-width: 80px;
-    padding: 0 5px;
     z-index: 2;
 }
 
-.tc-role-badge {
+.role-badge {
     background: #e74c3c;
-    color: #fff;
-    width: 44px;
-    height: 44px;
+    color: white;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 5px;
     font-weight: bold;
-    font-size: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 0 auto 8px;
+    font-size: 14px;
 }
 
-.tc-role-date {
-    font-size: 12px;
-    color: #7f8c8d;
-    margin-bottom: 3px;
-}
-
-.tc-role-name {
-    font-weight: bold;
-    color: #2c3e50;
-    font-size: 12px;
-    text-align: center;
-    margin-bottom: 3px;
-}
-
-.tc-role-desc {
-    color: #34495e;
+.role-date {
     font-size: 11px;
-    text-align: center;
-    line-height: 1.3;
-}
-
-/* 技術スタック */
-.tc-tech {
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px;
-    grid-area: tc-tech;
-}
-
-.tc-tech h3 {
-    margin: 0 0 5px 0;
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 3px;
-    font-size: 14px;
-}
-
-.tc-tech-badge {
-    background: #3498db;
-    color: #fff;
-    border-radius: 12px;
-    padding: 3px 8px;
-    margin: 2px;
-    font-size: 13px;
-    display: inline-block;
-}
-
-/* メインコンテンツ */
-.tc-main {
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px;
-    grid-area: tc-main;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* 概要 */
-.tc-overview h3 {
-    margin: 0 0 5px 0;
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 3px;
-    font-size: 14px;
-}
-
-.tc-overview p {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-/* 実績 */
-.tc-achievements h3,
-.tc-achievements h4 {
-    margin: 0 0 5px 0;
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 3px;
-    font-size: 14px;
-}
-
-.tc-achievements ul {
-    margin: 0;
-    padding-left: 20px;
-}
-
-.tc-achievements li {
-    margin-bottom: 2px;
-    font-size: 12px;
-}
-
-/* イラスト・図表 */
-.tc-illustration {
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    grid-area: tc-illustration;
-}
-
-.tc-illustration img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
-
-.tc-illustration-placeholder {
-    background: #ecf0f1;
     color: #7f8c8d;
-    text-align: center;
-    padding: 30px 10px;
-    border-radius: 8px;
-    font-size: 13px;
-    width: 100%;
-    min-height: 80px;
+    margin-bottom: 5px;
+}
+
+.role-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 3px;
+}
+
+.role-desc {
+    font-size: 10px;
+    color: #7f8c8d;
+}
+
+/* ========== 実績リスト ========== */
+.achievement-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.achievement-list li {
+    padding-left: 15px;
+    position: relative;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #34495e;
+}
+
+.achievement-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* ========== イラストプレースホルダー ========== */
+.illustration-placeholder {
+    border: 2px dashed #bdc3c7;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-/* サイドバー */
-.tc-sidebar {
-    grid-area: tc-sidebar;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* チーム情報 */
-.tc-teaminfo {
-    margin-top: 10px;
+    color: #7f8c8d;
     font-size: 12px;
-}
-
-.tc-teaminfo h3 {
-    margin: 0 0 5px 0;
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 3px;
-    font-size: 14px;
-}
-
-.tc-teaminfo ul {
-    margin: 0;
-    padding-left: 20px;
-}
-
-.tc-teaminfo li {
-    margin-bottom: 2px;
-    font-size: 12px;
-}
-
-/* テキストモード固有のスタイル */
-.tc-details {
-    display: flex;
-    gap: 18px;
-}
-
-.tc-detail-block {
-    flex: 1;
-    background: #f5f6fa;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
-}
-
-.tc-detail-block h4 {
-    margin: 0 0 8px 0;
-    color: #2c3e50;
-    font-size: 13px;
-}
-
-.tc-detail-block p {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.4;
-}
-
-.tc-challenges {
-    margin-top: 10px;
-}
-
-.tc-challenges h4 {
-    margin: 0 0 5px 0;
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 3px;
-    font-size: 14px;
-}
-
-.tc-challenges ul {
-    margin: 0;
-    padding-left: 20px;
-}
-
-.tc-challenges li {
-    margin-bottom: 2px;
-    font-size: 12px;
-}
-
-.tc-impact {
-    background: #ecf0f1;
-    border-radius: 4px;
-    padding: 8px;
-    margin-top: 10px;
-}
-
-.tc-impact h4 {
-    margin: 0 0 5px 0;
-    color: #2c3e50;
-    font-size: 14px;
-}
-
-.tc-impact p {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.4;
+    text-align: center;
 }

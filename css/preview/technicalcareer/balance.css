@@ -1,21 +1,75 @@
-/* css/preview/technicalcareer/balance.css - バランス型レイアウト */
-
-.balance-mode {
+/* ========== バランス型レイアウト ========== */
+.layout-balance {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
     grid-template-areas:
-        "tc-title tc-title"
-        "tc-flow tc-sidebar"
-        "tc-main tc-sidebar";
+        "header sidebar"
+        "timeline sidebar"
+        "main-content sidebar";
     gap: 15px;
-    box-sizing: border-box;
-    overflow: hidden;
-    height: 100%;
 }
 
-.tc-sidebar {
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px;
+.layout-balance .project-header {
+    grid-area: header;
+}
+
+.layout-balance .timeline-section {
+    grid-area: timeline;
+}
+
+.layout-balance .main-content {
+    grid-area: main-content;
+}
+
+.layout-balance .sidebar {
+    grid-area: sidebar;
+}
+
+/* ========== バランス型専用スタイル ========== */
+.layout-balance .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.layout-balance .illustration-placeholder {
+    height: 150px;
+}
+
+.layout-balance .balanced-text {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.layout-balance .team-info {
+    font-size: 11px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* サイドバーの調整 */
+.layout-balance .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.layout-balance .sidebar .section-card {
+    flex-shrink: 0;
+}
+
+.layout-balance .sidebar .illustration-placeholder {
+    flex-grow: 1;
+    min-height: 120px;
+}
+
+/* タイムラインの調整 */
+.layout-balance .role-timeline .role-item {
+    flex: 1;
+}
+
+.layout-balance .role-timeline .role-desc {
+    font-size: 9px;
 }

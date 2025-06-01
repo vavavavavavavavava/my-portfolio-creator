@@ -1,29 +1,57 @@
-/* css/preview/technicalcareer/detail.css - 詳細重視型レイアウト */
-
-.detail-mode {
+/* ========== 詳細重視型レイアウト ========== */
+.layout-detail {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
-        "tc-title tc-title"
-        "tc-flow tc-sidebar"
-        "tc-main tc-sidebar";
-    gap: 15px;
-    box-sizing: border-box;
-    overflow: hidden;
-    height: 100%;
+        "header header"
+        "timeline timeline"
+        "main-content sidebar"
+        "footer footer";
+    gap: 20px;
 }
 
-.detail-mode .tc-sidebar {
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.layout-detail .project-header {
+    grid-area: header;
 }
 
-.detail-mode .tc-illustration {
-    flex: 1;
-    min-height: 200px;
+.layout-detail .timeline-section {
+    grid-area: timeline;
+}
+
+.layout-detail .main-content {
+    grid-area: main-content;
+}
+
+.layout-detail .sidebar {
+    grid-area: sidebar;
+}
+
+.layout-detail .footer-section {
+    grid-area: footer;
+}
+
+/* ========== 詳細重視型専用コンポーネント ========== */
+.layout-detail .overview-card {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #3498db;
+}
+
+.layout-detail .overview-card h3 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.layout-detail .overview-card p {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.layout-detail .illustration-placeholder {
+    height: 200px;
 }

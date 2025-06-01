@@ -3,66 +3,94 @@
  * プレビュー用テクニカルキャリアテンプレート（視覚重視型）
  */
 (function () {
-  if (typeof TemplateManager === 'undefined') return;
-  TemplateManager.registerTemplate('technicalcareer_visual', `
-<div class="slide">
-  <div class="technical-career-slide visual-mode">
-    <div class="tc-title">{{projectTitle}}</div>
-    
-    <div class="tc-flow">
-      <h3 class="tc-flow-title">{{flowTitle}}</h3>
-      <div class="tc-timeline">
+    if (typeof TemplateManager === 'undefined') return;
+    TemplateManager.registerTemplate('technicalcareer_visual', `
+<div class="slide layout-visual">
+  <div class="title-header project-header">
+    {{projectTitle}}
+  </div>
+  
+  <div class="timeline-section">
+    <div class="section-card">
+      <div class="section-title">{{flowTitle}}</div>
+      <div class="role-timeline">
         {{#each roleMilestones}}
-        <div class="tc-role">
-          <div class="tc-role-date">{{date}}</div>
-          <div class="tc-role-badge">{{label}}</div>
-          <div class="tc-role-name">{{role}}</div>
-          <div class="tc-role-desc">{{description}}</div>
+        <div class="role-item">
+          <div class="role-badge">{{label}}</div>
+          <div class="role-date">{{date}}</div>
+          <div class="role-name">{{role}}</div>
+          <div class="role-desc">{{description}}</div>
         </div>
         {{/each}}
       </div>
     </div>
-    
-    <div class="tc-tech">
-      <h3>使用技術</h3>
+  </div>
+
+  <div class="tech-section">
+    <div class="section-card">
+      <div class="section-title">使用技術</div>
       <div>
-        {{#each techStack}}<span class="tc-tech-badge">{{this}}</span>{{/each}}
+        {{#each techStack}}
+        <span class="tech-badge">{{this}}</span>
+        {{/each}}
       </div>
     </div>
-    
-    <div class="tc-visual">
+  </div>
+
+  <div class="illustration-section">
+    <div class="illustration-placeholder main-visual">
       {{#if illustrationImage}}
-        <img src="{{illustrationImage}}" alt="illustration">
+        <img src="{{illustrationImage}}" alt="システム構成図" style="width: 100%; height: 100%; object-fit: contain;">
       {{else}}
-        <div class="tc-illustration-placeholder">大きな構成図・イラスト</div>
-      {{/if}}
-      {{#if additionalDiagrams}}
-        <div class="tc-diagrams">
-          {{#each additionalDiagrams}}
-            <div class="tc-diagram-item">
-              <img src="{{image}}" alt="{{title}}">
-              <div>{{title}}</div>
-            </div>
-          {{/each}}
+        <div class="visual-title">
+          システム構成図
+        </div>
+        <div class="visual-diagram">
+          IoTセンサー ← MQTT → API Server<br>
+          ↓<br>
+          Database ← → Web Dashboard<br>
+          ↓<br>
+          Alert System & Analytics
+        </div>
+        <div class="visual-note">
+          大きなイラスト・図表<br>
+          配置エリア<br>
+          （メインビジュアル）
         </div>
       {{/if}}
+      
+      {{#if additionalDiagrams}}
+      <div class="additional-diagrams">
+        {{#each additionalDiagrams}}
+        <div class="diagram-item">
+          <img src="{{image}}" alt="{{title}}" style="max-width: 100%; height: auto;">
+          <div class="diagram-title">{{title}}</div>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-card">
+      <div class="section-title">{{overviewTitle}}</div>
+      <p class="visual-text">
+        {{overviewText}}
+      </p>
     </div>
     
-    <div class="tc-main">
-      <div class="tc-overview">
-        <h3>{{overviewTitle}}</h3>
-        <p>{{overviewText}}</p>
-      </div>
-      <div class="tc-achievements">
-        <h3>成果</h3>
-        <ul>
-          {{#each achievements}}<li>{{this}}</li>{{/each}}
-        </ul>
-      </div>
+    <div class="section-card">
+      <div class="section-title">成果</div>
+      <ul class="achievement-list visual-list">
+        {{#each achievements}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
     </div>
   </div>
 </div>
 `, 'preview');
 
-  console.log('プレビュー用テクニカルキャリアテンプレート（視覚重視型）を登録しました');
+    console.log('プレビュー用テクニカルキャリアテンプレート（視覚重視型）を登録しました');
 })();

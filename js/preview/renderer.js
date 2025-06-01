@@ -1,97 +1,187 @@
 /**
- * js/preview/renderer.js
+ * js/preview/renderer.js (layoutMode 対応版)
  * プレビューページのレンダリングを担当するモジュール
  */
 const Renderer = (function () {
-  // 現在表示中のデータを保持する変数
+  // ----------------------------------------------------------------------
+  // state
+  // ----------------------------------------------------------------------
   let currentDisplayData = null;
+  let layoutTemplatesLoaded = false;
+
+  // ----------------------------------------------------------------------
+  // helpers
+  // ----------------------------------------------------------------------
+  /**
+   * 指定したテンプレートを取得し、必ず "関数" として返すヘルパ。
+   * TemplateManager から返却された値が文字列なら Handlebars.compile、
+   * すでに関数ならそのまま返す。
+   */
+  function getCompiledTemplate(name, type = 'preview') {
+    const tpl = TemplateManager.getTemplate(name, type);
+    if (!tpl) {
+      console.error(`Template not found: ${name}`);
+      return () => `<div class="slide error">Template &quot;${name}&quot; not found</div>`;
+    }
+    return typeof tpl === 'function' ? tpl : Handlebars.compile(tpl);
+  }
 
   /**
-   * データとテンプレートを読み込み、レンダリングする
-   * @param {Object} customData - 表示するカスタムデータ（指定がなければデフォルトデータ）
-   * @return {boolean} - レンダリングの成否
+   * technicalcareer 用レイアウトテンプレート (detail.js / dense.js 等) を
+   * 個別ロードする。未ロードの場合のみ実行。
+   */
+  async function loadLayoutTemplates() {
+    if (layoutTemplatesLoaded) return true;
+
+    try {
+      const layoutFiles = [
+        'templates/preview/technicalcareer/detail.js',
+        'templates/preview/technicalcareer/dense.js',
+        'templates/preview/technicalcareer/balance.js',
+        'templates/preview/technicalcareer/visual.js',
+        'templates/preview/technicalcareer/text.js'
+      ];
+
+      const results = await Promise.all(
+        layoutFiles.map(file =>
+          Utils.loadScript(file).catch(err => {
+            console.warn(`Failed to load layout template: ${file}`, err);
+            return null;
+          })
+        )
+      );
+
+      const failed = results.filter(r => r === null).length;
+      if (failed > 0) {
+        console.warn(`${failed} layout templates failed to load`);
+      }
+
+      layoutTemplatesLoaded = true;
+      return true;
+    } catch (err) {
+      console.error('Error loading layout templates:', err);
+      return false;
+    }
+  }
+
+  // ----------------------------------------------------------------------
+  // core
+  // ----------------------------------------------------------------------
+  /**
+   * 全スライドをレンダリングする。
+   * @param {Object} [customData] - 表示用データ。省略時は Config.DEFAULT_DATA
+   * @return {boolean}
    */
   async function renderSlides(customData = null) {
     try {
+      // 1) ベースとなるテンプレート群を読み込む
       await TemplateManager.loadAllTemplates();
+      // 2) technicalcareer 用レイアウト群を読み込む
+      await loadLayoutTemplates();
 
+      // 3) データセット
       if (!customData) {
-        throw new Error('表示するデータが指定されていません');
+        customData = Config.DEFAULT_DATA;
       }
-
-      const data = customData;
       currentDisplayData = customData;
 
-      // レンダリング結果を挿入するコンテナ
-      const container = document.getElementById('slides-container');
-      container.innerHTML = ''; // コンテナを一旦クリア
-
-      // 各テンプレートをコンパイルしてレンダリング
+      // 4) "必ず関数" なテンプレートを用意
       const templates = {
-        title: Handlebars.compile(TemplateManager.getTemplate('title', 'preview')),
-        career: Handlebars.compile(TemplateManager.getTemplate('career', 'preview')),
-        technicalcareer: Handlebars.compile(TemplateManager.getTemplate('technicalcareer', 'preview')),
-        skills: Handlebars.compile(TemplateManager.getTemplate('skills', 'preview')),
-        strengths: Handlebars.compile(TemplateManager.getTemplate('strengths', 'preview'))
+        title: getCompiledTemplate('title'),
+        career: getCompiledTemplate('career'),
+        technicalcareer: getCompiledTemplate('technicalcareer'),
+        skills: getCompiledTemplate('skills'),
+        strengths: getCompiledTemplate('strengths')
       };
 
-      // 各テンプレートに対応するデータを渡してレンダリング
-      container.innerHTML += templates.title(data.title);
-      container.innerHTML += templates.career(data.career);
+      // 5) コンテナへ描画
+      const container = document.getElementById('slides-container');
+      container.innerHTML = '';
 
-      // 技術キャリアが配列なら各プロジェクトごとにレンダリング
-      if (Array.isArray(data.technicalcareer)) {
-        data.technicalcareer.forEach(project => {
-          container.innerHTML += templates.technicalcareer(project);
+      const d = currentDisplayData;
+      container.innerHTML += templates.title(d.title);
+      container.innerHTML += templates.career(d.career);
+
+      if (Array.isArray(d.technicalcareer)) {
+        d.technicalcareer.forEach(proj => {
+          container.innerHTML += templates.technicalcareer(proj);
         });
-      } else {
-        // 後方互換性のため、オブジェクトの場合も対応
-        container.innerHTML += templates.technicalcareer(data.technicalcareer);
+      } else if (d.technicalcareer) {
+        container.innerHTML += templates.technicalcareer(d.technicalcareer);
       }
 
-      container.innerHTML += templates.skills(data.skills);
-      container.innerHTML += templates.strengths(data.strengths);
+      container.innerHTML += templates.skills(d.skills);
+      container.innerHTML += templates.strengths(d.strengths);
 
-      // グローバル変数にも設定（外部からのアクセス用）
+      // 6) 外部アクセス用
       window.currentDisplayData = currentDisplayData;
-
       return true;
-    } catch (error) {
-      console.error('スライドのレンダリングに失敗しました:', error);
-      Notification.error('スライドのレンダリングに失敗しました: ' + error.message);
+    } catch (err) {
+      console.error('スライドのレンダリングに失敗しました:', err);
+      Notification.error('スライドのレンダリングに失敗しました: ' + err.message);
       return false;
     }
   }
 
   /**
-   * PDFとして保存する（ブラウザの印刷機能を利用）
+   * 特定の技術キャリアスライドの layoutMode を変更して再描画。
+   * @param {'technicalcareer'} slideType
+   * @param {number} slideIndex
+   * @param {string} newLayoutType
+   */
+  function changeSlideLayout(slideType, slideIndex, newLayoutType) {
+    if (!currentDisplayData) {
+      console.error('No data loaded');
+      return false;
+    }
+
+    try {
+      if (slideType === 'technicalcareer') {
+        if (Array.isArray(currentDisplayData.technicalcareer)) {
+          const proj = currentDisplayData.technicalcareer[slideIndex];
+          if (proj) proj.layoutMode = newLayoutType;
+        } else if (currentDisplayData.technicalcareer && slideIndex === 0) {
+          currentDisplayData.technicalcareer.layoutMode = newLayoutType;
+        }
+      }
+      return renderSlides(currentDisplayData);
+    } catch (err) {
+      console.error('Failed to change slide layout:', err);
+      return false;
+    }
+  }
+
+  /**
+   * ブラウザ印刷機能で PDF 保存
    */
   function saveToPDF() {
     try {
       window.print();
       return true;
-    } catch (error) {
-      console.error('PDF出力に失敗しました:', error);
-      Notification.error('PDF出力に失敗しました: ' + error.message);
+    } catch (err) {
+      console.error('PDF 出力に失敗しました:', err);
+      Notification.error('PDF 出力に失敗しました: ' + err.message);
       return false;
     }
   }
 
   /**
    * 現在表示中のデータを取得
-   * @return {Object} - 現在表示中のデータ
    */
   function getCurrentData() {
     return currentDisplayData;
   }
 
-  // 公開API
+  // ----------------------------------------------------------------------
+  // Expose
+  // ----------------------------------------------------------------------
   return {
     renderSlides,
     saveToPDF,
-    getCurrentData
+    getCurrentData,
+    changeSlideLayout
   };
 })();
 
-// グローバルへのエクスポート
+// グローバルエクスポート
 window.Renderer = Renderer;

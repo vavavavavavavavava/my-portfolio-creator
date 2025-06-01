@@ -1,0 +1,33 @@
+.dense-mode {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        "tc-title tc-title tc-title"
+        "tc-flow tc-tech tc-main"
+        "tc-flow tc-illustration tc-main";
+}
+
+.tc-flow,
+.tc-tech,
+.tc-main,
+.tc-illustration {
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.tc-flow {
+    grid-area: tc-flow;
+}
+
+.tc-tech {
+    grid-area: tc-tech;
+}
+
+.tc-main {
+    grid-area: tc-main;
+}
+
+.tc-illustration {
+    grid-area: tc-illustration;
+    text-align: center;
+}

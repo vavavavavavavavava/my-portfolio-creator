@@ -1,0 +1,27 @@
+.balance-mode {
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+        "tc-title tc-title"
+        "tc-flow tc-sidebar"
+        "tc-main tc-sidebar";
+}
+
+.tc-flow,
+.tc-main,
+.tc-sidebar {
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.tc-sidebar {
+    grid-area: tc-sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tc-teaminfo {
+    margin-top: 10px;
+    font-size: 12px;
+}

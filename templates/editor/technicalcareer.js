@@ -3,7 +3,10 @@
  * エディタ用テクニカルキャリアテンプレート
  */
 (function () {
-  if (typeof TemplateManager === 'undefined') return;
+  if (typeof TemplateManager === 'undefined') {
+    console.error('TemplateManager が見つかりません。technicalcareer.js の読み込みに失敗しました。');
+    return;
+  }
 
   // editor用 テクニカルキャリア（プロジェクト）項目
   TemplateManager.registerTemplate('technicalProjectItem', `

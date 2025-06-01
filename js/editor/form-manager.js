@@ -92,11 +92,99 @@ const FormManager = (function () {
       container.querySelectorAll('.project-fields').forEach(group => {
         if (group.classList.contains('mode-' + mode)) {
           group.style.display = '';
+
+          // ▼【共通処理】全サブリストで「空なら1件追加」！
+
+          // 役割マイルストーン
+          const milestonesContainer = group.querySelector('.role-milestones');
+          if (milestonesContainer && milestonesContainer.children.length === 0) {
+            const html = `
+          <div class="dynamic-item" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <input type="text" value="" class="role-label" style="width: 50px;" placeholder="PG">
+            <input type="text" value="" class="role-title" style="flex: 1;" placeholder="プログラマー">
+            <input type="text" value="" class="role-date" style="width: 120px;" placeholder="2021年4月">
+            ${group.classList.contains('mode-text') ? '' : '<input type="text" value="" class="role-description" style="flex: 2;" placeholder="バックエンド開発担当">'}
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            milestonesContainer.appendChild(tempDiv.firstElementChild);
+          }
+
+          // 技術スタック
+          const techContainer = group.querySelector('.tech-stack');
+          if (techContainer && techContainer.children.length === 0) {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="" class="tech-item" placeholder="技術名">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            techContainer.appendChild(tempDiv.firstElementChild);
+          }
+
+          // 実績
+          const achievementsContainer = group.querySelector('.achievements');
+          if (achievementsContainer && achievementsContainer.children.length === 0) {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="" class="achievement-item" placeholder="実績内容">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            achievementsContainer.appendChild(tempDiv.firstElementChild);
+          }
+
+          // チーム（balanceモードのみ）
+          const teamInfoList = group.querySelector('.team-info-list');
+          if (teamInfoList && teamInfoList.children.length === 0) {
+            const html = `
+          <div class="dynamic-item" style="display:flex; gap:10px;">
+            <input type="text" value="" class="team-label" style="width: 120px;" placeholder="例: フロントエンド">
+            <input type="number" value="" class="team-count" style="width:70px;" min="0" placeholder="人数">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            teamInfoList.appendChild(tempDiv.firstElementChild);
+          }
+
+          // 課題（textモードのみ）
+          const challengesContainer = group.querySelector('.challenges');
+          if (challengesContainer && challengesContainer.children.length === 0) {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="" class="challenge-item" placeholder="課題・学び">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            challengesContainer.appendChild(tempDiv.firstElementChild);
+          }
+
+          // ダイアグラム（visualモードのみ）
+          const diagramContainer = group.querySelector('.additional-diagrams');
+          if (diagramContainer && diagramContainer.children.length === 0) {
+            const html = `
+          <div class="dynamic-item">
+            <input type="text" value="" class="diagram-title" placeholder="図タイトル">
+            <input type="text" value="" class="diagram-image" placeholder="画像URLまたはbase64">
+            <button class="remove-btn" data-action="remove-item">削除</button>
+          </div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            diagramContainer.appendChild(tempDiv.firstElementChild);
+          }
+
+          // ▲ここまで一括
         } else {
           group.style.display = 'none';
         }
       });
     }
+
     selector.addEventListener('change', updateFieldsByMode);
     updateFieldsByMode();
 

@@ -45,5 +45,7 @@
     </div>
 </div>`, 'preview');
 
-  console.log('プレビュー用テクニカルスキルテンプレートを登録しました');
+  if (Config.DEBUG_MODE) {
+    console.log('プレビュー用テクニカルスキルテンプレートを登録しました');
+  }
 })();

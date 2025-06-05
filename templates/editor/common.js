@@ -24,5 +24,7 @@
   TemplateManager.registerTemplate('techItem', createDynamicItemTemplate('技術名', 'tech-item'), 'editor');
   TemplateManager.registerTemplate('achievementItem', createDynamicItemTemplate('実績内容', 'achievement-item'), 'editor');
 
-  console.log('エディタ用共通テンプレートを登録しました');
+  if (Config.DEBUG_MODE) {
+    console.log('エディタ用共通テンプレートを登録しました');
+  }
 })();

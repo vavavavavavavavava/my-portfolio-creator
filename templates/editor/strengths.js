@@ -22,5 +22,7 @@
 <button class="remove-btn" data-action="remove-container">この強みを削除</button>
 <hr style="margin: 20px 0;">`, 'editor');
 
-  console.log('エディタ用強み・今後の展望テンプレートを登録しました');
+  if (Config.DEBUG_MODE) {
+    console.log('エディタ用強み・今後の展望テンプレートを登録しました');
+  }
 })();

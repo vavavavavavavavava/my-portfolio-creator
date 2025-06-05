@@ -46,5 +46,7 @@
 <button class="remove-btn" data-action="remove-container">この職歴を削除</button>
 <hr style="margin: 20px 0;">`, 'editor');
 
-  console.log('エディタ用キャリア年表テンプレートを登録しました');
+  if (Config.DEBUG_MODE) {
+    console.log('エディタ用キャリア年表テンプレートを登録しました');
+  }
 })();

@@ -65,5 +65,7 @@
   <button class="remove-btn" data-action="remove-item">削除</button>
 </div>`, 'editor');
 
-  console.log('エディタ用テクニカルスキルテンプレートを登録しました');
+  if (Config.DEBUG_MODE) {
+    console.log('エディタ用テクニカルスキルテンプレートを登録しました');
+  }
 })();

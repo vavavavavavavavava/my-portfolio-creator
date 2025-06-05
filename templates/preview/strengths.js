@@ -62,5 +62,7 @@
     </div>
 </div>`, 'preview');
 
-  console.log('プレビュー用強み・今後の展望テンプレートを登録しました');
+  if (Config.DEBUG_MODE) {
+    console.log('プレビュー用強み・今後の展望テンプレートを登録しました');
+  }
 })();

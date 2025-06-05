@@ -24,5 +24,7 @@
   <input type="text" id="title-company" placeholder="株式会社サンプル" value="{{company}}">
 </div>`, 'editor');
 
-  console.log('エディタ用タイトルテンプレートを登録しました');
+  if (Config.DEBUG_MODE) {
+    console.log('エディタ用タイトルテンプレートを登録しました');
+  }
 })();

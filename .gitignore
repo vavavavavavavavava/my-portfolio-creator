@@ -1,1 +1,14 @@
+# .gitignore - バージョン管理から除外する一般的なパターン
+
+# Node.js dependencies
+node_modules/
+
+# ログファイル
+*.log
+
+# macOS特有のファイル
+.DS_Store
+*.DS_Store
+
+# 環境設定ファイル
 .env

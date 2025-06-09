@@ -144,26 +144,6 @@ const FormManager = (function () {
         if (group.classList.contains('mode-' + mode)) {
           group.style.display = '';
 
-          // ===== 単一入力フィールドの初期化 =====
-          const simpleFieldMap = {
-            '.project-title': 'projectTitle',
-            '.flow-title': 'flowTitle',
-            '.overview-title': 'overviewTitle',
-            '.overview-text': 'overviewText',
-            '.project-background': 'projectBackground',
-            '.technical-approach': 'technicalApproach',
-            '.implementation-details': 'implementationDetails',
-            '.business-impact': 'businessImpact',
-            '.illustration-image': 'illustrationImage'
-          };
-
-          Object.entries(simpleFieldMap).forEach(([selector, key]) => {
-            const field = group.querySelector(selector);
-            if (field && data[key] !== undefined) {
-              field.value = data[key];
-            }
-          });
-
           // ▼ 全サブリストで「空なら1件追加」：共通テンプレート利用
 
           // 役割マイルストーン

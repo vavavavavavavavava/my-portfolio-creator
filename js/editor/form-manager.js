@@ -97,120 +97,154 @@ const FormManager = (function () {
     const selector = container.querySelector('.layout-mode-selector');
     selector.value = data.layoutMode || 'detail';
 
+    // ▼ 各モードごとの初期値設定
+    async function populateGroupData(group, mode) {
+      const simpleFieldMap = {
+        '.project-title': 'projectTitle',
+        '.flow-title': 'flowTitle',
+        '.overview-title': 'overviewTitle',
+        '.overview-text': 'overviewText',
+        '.project-background': 'projectBackground',
+        '.technical-approach': 'technicalApproach',
+        '.implementation-details': 'implementationDetails',
+        '.business-impact': 'businessImpact',
+        '.illustration-image': 'illustrationImage'
+      };
+
+      Object.entries(simpleFieldMap).forEach(([selector, key]) => {
+        const field = group.querySelector(selector);
+        if (field && data[key] !== undefined) {
+          field.value = data[key];
+        }
+      });
+
+      const milestonesContainer = group.querySelector('.role-milestones');
+      if (milestonesContainer) {
+        if (Array.isArray(data.roleMilestones) && data.roleMilestones.length > 0) {
+          milestonesContainer.innerHTML = '';
+          for (const milestone of data.roleMilestones) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = TemplateManager.renderTemplate(
+              mode === 'text' ? 'roleMilestoneItemText' : 'roleMilestoneItem',
+              milestone,
+              'editor'
+            );
+            milestonesContainer.appendChild(tempDiv.firstElementChild);
+          }
+        } else {
+          await ensureListHasAtLeastOne(
+            milestonesContainer,
+            mode === 'text' ? 'roleMilestoneItemText' : 'roleMilestoneItem',
+            {}
+          );
+        }
+      }
+
+      const techContainer = group.querySelector('.tech-stack');
+      if (techContainer) {
+        if (Array.isArray(data.techStack) && data.techStack.length > 0) {
+          techContainer.innerHTML = '';
+          for (const tech of data.techStack) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = TemplateManager.renderTemplate('techItem', { value: tech }, 'editor');
+            techContainer.appendChild(tempDiv.firstElementChild);
+          }
+        } else {
+          await ensureListHasAtLeastOne(techContainer, 'techItem', { value: '' });
+        }
+      }
+
+      const achievementsContainer = group.querySelector('.achievements');
+      if (achievementsContainer) {
+        if (Array.isArray(data.achievements) && data.achievements.length > 0) {
+          achievementsContainer.innerHTML = '';
+          for (const achievement of data.achievements) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = TemplateManager.renderTemplate('achievementItem', { value: achievement }, 'editor');
+            achievementsContainer.appendChild(tempDiv.firstElementChild);
+          }
+        } else {
+          await ensureListHasAtLeastOne(achievementsContainer, 'achievementItem', { value: '' });
+        }
+      }
+
+      const teamInfoList = group.querySelector('.team-info-list');
+      if (teamInfoList && mode === 'balance') {
+        if (Array.isArray(data.teamInfo) && data.teamInfo.length > 0) {
+          teamInfoList.innerHTML = '';
+          for (const team of data.teamInfo) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = TemplateManager.renderTemplate('teamInfoItem', team, 'editor');
+            teamInfoList.appendChild(tempDiv.firstElementChild);
+          }
+        } else {
+          await ensureListHasAtLeastOne(teamInfoList, 'teamInfoItem', {});
+        }
+      }
+
+      const challengesContainer = group.querySelector('.challenges');
+      if (challengesContainer && mode === 'text') {
+        if (Array.isArray(data.challenges) && data.challenges.length > 0) {
+          challengesContainer.innerHTML = '';
+          for (const challenge of data.challenges) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = TemplateManager.renderTemplate('challengeItem', { value: challenge }, 'editor');
+            challengesContainer.appendChild(tempDiv.firstElementChild);
+          }
+        } else {
+          await ensureListHasAtLeastOne(challengesContainer, 'challengeItem', { value: '' });
+        }
+      }
+
+      const diagramContainer = group.querySelector('.additional-diagrams');
+      if (diagramContainer && mode === 'visual') {
+        if (Array.isArray(data.additionalDiagrams) && data.additionalDiagrams.length > 0) {
+          diagramContainer.innerHTML = '';
+          for (const diagram of data.additionalDiagrams) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = TemplateManager.renderTemplate('diagramItem', diagram, 'editor');
+            diagramContainer.appendChild(tempDiv.firstElementChild);
+          }
+        } else {
+          await ensureListHasAtLeastOne(diagramContainer, 'diagramItem', {});
+        }
+      }
+    }
+
+    async function populateProjectFields() {
+      const groups = container.querySelectorAll('.project-fields');
+      for (const group of groups) {
+        let mode = 'detail';
+        if (group.classList.contains('mode-text')) {
+          mode = 'text';
+        } else if (group.classList.contains('mode-visual')) {
+          mode = 'visual';
+        } else if (
+          group.classList.contains('mode-balance') &&
+          !group.classList.contains('mode-detail') &&
+          !group.classList.contains('mode-dense')
+        ) {
+          mode = 'balance';
+        }
+        await populateGroupData(group, mode);
+      }
+    }
+
     // ▼ 表示切り替え関数
-    async function updateFieldsByMode() {
+    function updateFieldsByMode() {
       const mode = selector.value;
-      container.querySelectorAll('.project-fields').forEach(async group => {
+      container.querySelectorAll('.project-fields').forEach(group => {
         if (group.classList.contains('mode-' + mode)) {
           group.style.display = '';
-
-          // ▼ 全サブリストで「空なら1件追加」：共通テンプレート利用
-
-          // 役割マイルストーン
-          const milestonesContainer = group.querySelector('.role-milestones');
-          if (milestonesContainer) {
-            if (Array.isArray(data.roleMilestones) && data.roleMilestones.length > 0) {
-              milestonesContainer.innerHTML = '';
-              for (const milestone of data.roleMilestones) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = TemplateManager.renderTemplate(
-                  mode === 'text' ? 'roleMilestoneItemText' : 'roleMilestoneItem',
-                  milestone, 'editor'
-                );
-                milestonesContainer.appendChild(tempDiv.firstElementChild);
-              }
-            } else {
-              await ensureListHasAtLeastOne(
-                milestonesContainer,
-                mode === 'text' ? 'roleMilestoneItemText' : 'roleMilestoneItem',
-                {}
-              );
-            }
-          }
-
-          // 技術スタック
-          const techContainer = group.querySelector('.tech-stack');
-          if (techContainer) {
-            if (Array.isArray(data.techStack) && data.techStack.length > 0) {
-              techContainer.innerHTML = '';
-              for (const tech of data.techStack) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = TemplateManager.renderTemplate('techItem', { value: tech }, 'editor');
-                techContainer.appendChild(tempDiv.firstElementChild);
-              }
-            } else {
-              await ensureListHasAtLeastOne(techContainer, 'techItem', { value: '' });
-            }
-          }
-
-          // 実績
-          const achievementsContainer = group.querySelector('.achievements');
-          if (achievementsContainer) {
-            if (Array.isArray(data.achievements) && data.achievements.length > 0) {
-              achievementsContainer.innerHTML = '';
-              for (const achievement of data.achievements) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = TemplateManager.renderTemplate('achievementItem', { value: achievement }, 'editor');
-                achievementsContainer.appendChild(tempDiv.firstElementChild);
-              }
-            } else {
-              await ensureListHasAtLeastOne(achievementsContainer, 'achievementItem', { value: '' });
-            }
-          }
-
-          // チーム（balanceモードのみ）
-          const teamInfoList = group.querySelector('.team-info-list');
-          if (teamInfoList && mode === 'balance') {
-            if (Array.isArray(data.teamInfo) && data.teamInfo.length > 0) {
-              teamInfoList.innerHTML = '';
-              for (const team of data.teamInfo) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = TemplateManager.renderTemplate('teamInfoItem', team, 'editor');
-                teamInfoList.appendChild(tempDiv.firstElementChild);
-              }
-            } else {
-              await ensureListHasAtLeastOne(teamInfoList, 'teamInfoItem', {});
-            }
-          }
-
-          // 課題（textモードのみ）
-          const challengesContainer = group.querySelector('.challenges');
-          if (challengesContainer && mode === 'text') {
-            if (Array.isArray(data.challenges) && data.challenges.length > 0) {
-              challengesContainer.innerHTML = '';
-              for (const challenge of data.challenges) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = TemplateManager.renderTemplate('challengeItem', { value: challenge }, 'editor');
-                challengesContainer.appendChild(tempDiv.firstElementChild);
-              }
-            } else {
-              await ensureListHasAtLeastOne(challengesContainer, 'challengeItem', { value: '' });
-            }
-          }
-
-          // ダイアグラム（visualモードのみ）
-          const diagramContainer = group.querySelector('.additional-diagrams');
-          if (diagramContainer && mode === 'visual') {
-            if (Array.isArray(data.additionalDiagrams) && data.additionalDiagrams.length > 0) {
-              diagramContainer.innerHTML = '';
-              for (const diagram of data.additionalDiagrams) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = TemplateManager.renderTemplate('diagramItem', diagram, 'editor');
-                diagramContainer.appendChild(tempDiv.firstElementChild);
-              }
-            } else {
-              await ensureListHasAtLeastOne(diagramContainer, 'diagramItem', {});
-            }
-          }
-
         } else {
           group.style.display = 'none';
         }
       });
     }
 
+    await populateProjectFields();
     selector.addEventListener('change', updateFieldsByMode);
-    await updateFieldsByMode();
+    updateFieldsByMode();
 
     // ==== 各mode共通: 動的入力欄追加（テンプレート利用） ====
 

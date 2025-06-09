@@ -97,6 +97,46 @@ const FormManager = (function () {
     const selector = container.querySelector('.layout-mode-selector');
     selector.value = data.layoutMode || 'detail';
 
+    // ▼ 基本フィールドの値を設定（これが欠けていた）
+    if (data.projectTitle) {
+      const projectTitleInputs = container.querySelectorAll('.project-title');
+      projectTitleInputs.forEach(input => input.value = data.projectTitle);
+    }
+    if (data.flowTitle) {
+      const flowTitleInputs = container.querySelectorAll('.flow-title');
+      flowTitleInputs.forEach(input => input.value = data.flowTitle);
+    }
+    if (data.overviewTitle) {
+      const overviewTitleInputs = container.querySelectorAll('.overview-title');
+      overviewTitleInputs.forEach(input => input.value = data.overviewTitle);
+    }
+    if (data.overviewText) {
+      const overviewTextInputs = container.querySelectorAll('.overview-text');
+      overviewTextInputs.forEach(input => input.value = data.overviewText);
+    }
+    // テキストモード専用フィールドの設定
+    if (data.projectBackground) {
+      const backgroundInputs = container.querySelectorAll('.project-background');
+      backgroundInputs.forEach(input => input.value = data.projectBackground);
+    }
+    if (data.technicalApproach) {
+      const approachInputs = container.querySelectorAll('.technical-approach');
+      approachInputs.forEach(input => input.value = data.technicalApproach);
+    }
+    if (data.implementationDetails) {
+      const detailsInputs = container.querySelectorAll('.implementation-details');
+      detailsInputs.forEach(input => input.value = data.implementationDetails);
+    }
+    if (data.businessImpact) {
+      const impactInputs = container.querySelectorAll('.business-impact');
+      impactInputs.forEach(input => input.value = data.businessImpact);
+    }
+    // 全モード共通：イラスト画像の設定
+    if (data.illustrationImage) {
+      const illustrationInputs = container.querySelectorAll('.illustration-image');
+      illustrationInputs.forEach(input => input.value = data.illustrationImage);
+    }
+
     // ▼ 表示切り替え関数
     async function updateFieldsByMode() {
       const mode = selector.value;

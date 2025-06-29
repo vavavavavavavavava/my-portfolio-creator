@@ -19,7 +19,7 @@
   <label>スキル項目</label>
   <div class="skill-items dynamic-list">
     {{#each items}}
-    <div class="skill-item">
+    <div class="skill-item dynamic-item">
       <input type="text" value="{{name}}" class="skill-name" placeholder="Java">
       <div class="level-select">
         <div class="level-option">
@@ -35,7 +35,7 @@
           <div class="level-dot advanced"></div>
         </div>
       </div>
-      <button class="remove-btn remove-skill">削除</button>
+      <button class="remove-btn" data-action="remove-item">削除</button>
     </div>
     {{/each}}
   </div>
@@ -46,7 +46,7 @@
 
   // 個別スキル項目追加用テンプレート
   TemplateManager.registerTemplate('skillItem', `
-<div class="skill-item">
+<div class="skill-item dynamic-item">
   <input type="text" value="" class="skill-name" placeholder="Java">
   <div class="level-select">
     <div class="level-option">

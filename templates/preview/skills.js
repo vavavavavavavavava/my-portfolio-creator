@@ -12,7 +12,14 @@
   // テクニカルスキルスライド用テンプレート
   TemplateManager.registerTemplate('skills', `<!-- テクニカルスキルスライドテンプレート -->
 <div class="slide">
-    <div class="title-header">テクニカルスキル</div>
+    <div class="title-header">
+        テクニカルスキル
+        {{#if totalPages}}
+        {{#if (gt totalPages 1)}}
+        <span class="page-indicator">{{pageNumber}}/{{totalPages}}</span>
+        {{/if}}
+        {{/if}}
+    </div>
     
     <div class="content" style="padding: 0 30px;">
         {{#each categories}}

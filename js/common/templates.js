@@ -188,6 +188,11 @@ const TemplateManager = (function() {
     Handlebars.registerHelper('startsWith', function(str, prefix) {
       return str && str.toString().startsWith(prefix);
     });
+    
+    // 大于比較ヘルパー
+    Handlebars.registerHelper('gt', function(a, b) {
+      return a > b;
+    });
   }
   
   // 初期化

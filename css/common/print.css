@@ -1,12 +1,13 @@
 /* css/common/print.css - 印刷用スタイル */
 
 @media print {
+
   /* 全体の設定 */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  
+
   /* ボディとコンテナの設定 */
   body {
     margin: 0 !important;
@@ -15,37 +16,174 @@
     background-color: white !important;
     display: block !important;
   }
-  
+
   .slide-container {
     margin: 0 !important;
     padding: 0 !important;
     gap: 0 !important;
     display: block !important;
   }
-  
+
   /* スライドのサイズを印刷ページに合わせる */
   .slide {
     width: 100% !important;
-    min-height: 0 !important; /* min-heightを0にして内容に合わせる */
+    height: auto !important;
+    /* 高さを内容に合わせる */
+    min-height: 0 !important;
+    /* min-heightを0にして内容に合わせる */
+    max-height: 210mm !important;
+    /* A4横向きの高さに制限 */
     box-sizing: border-box !important;
     margin: 0 !important;
-    padding: 20px !important;
+    padding: 15px !important;
+    /* パディングを少し減らす */
     box-shadow: none !important;
+    border-radius: 0 !important;
     overflow: visible !important;
-    
+
     /* 改ページ設定 - 確実に各スライド後に改ページ */
     page-break-after: always !important;
     break-after: page !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
+
+    /* フォントサイズを印刷時に少し小さくして内容を収める */
+    font-size: 0.9em !important;
+    line-height: 1.3 !important;
   }
-  
+
+  /* タイトルスライドは特別な設定 */
+  .slide.title-slide {
+    height: 210mm !important;
+    /* タイトルスライドは高さを固定 */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 40px !important;
+    /* タイトルスライドはパディングを大きく */
+    font-size: 1em !important;
+    /* タイトルスライドはフォントサイズを通常に戻す */
+  }
+
+  .slide.title-slide .content {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* タイトルスライド内の要素は元の余白を維持 */
+  .slide.title-slide .slide-title {
+    margin-bottom: 100px !important;
+  }
+
+  .slide.title-slide .name {
+    margin-bottom: 20px !important;
+  }
+
+  .slide.title-slide .name-reading {
+    margin-bottom: 100px !important;
+  }
+
+  .slide.title-slide .company {
+    padding-top: 30px !important;
+    margin: 0 !important;
+  }
+
   /* 最後のスライドの後には改ページしない */
   .slide:last-child {
     page-break-after: avoid !important;
     break-after: avoid !important;
   }
-  
+
+  /* キャリア年表項目の区切り制御 */
+  .timeline-entry,
+  .timeline-content,
+  .timeline-date {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* スキル一覧のカテゴリと項目の区切り制御 */
+  .skill-category,
+  .skill-item,
+  .skills-container {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 強みセクションの区切り制御 */
+  .strength-item,
+  .strengths-grid {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* テクニカルキャリアの区切り制御 */
+  .role-item,
+  .section-card,
+  .overview-card,
+  .main-content,
+  .sidebar,
+  .timeline-section {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 汎用的な項目の区切り制御 */
+  .content-item,
+  .content-block,
+  .category-title,
+  .legend {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 印刷時の余白・マージン調整でよりコンパクトに */
+  .title-header {
+    margin-bottom: 15px !important;
+    padding: 8px 15px !important;
+    font-size: 1.2em !important;
+  }
+
+  .timeline-entry {
+    margin-bottom: 10px !important;
+  }
+
+  .skill-category {
+    margin-bottom: 10px !important;
+  }
+
+  .section-card {
+    margin-bottom: 10px !important;
+    padding: 10px !important;
+  }
+
+  /* 各種余白を調整 */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 10px !important;
+    margin-bottom: 8px !important;
+  }
+
+  p {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+  }
+
+  ul,
+  ol {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+  }
+
   /* UI要素を非表示 */
   #control-panel,
   .notification,
@@ -53,19 +191,19 @@
   .no-print {
     display: none !important;
   }
-  
+
   /* リンクのURLを表示 */
   a[href]:after {
     content: " (" attr(href) ")";
     font-size: 90%;
     color: #666;
   }
-  
+
   /* 内部リンクは表示しない */
   a[href^="#"]:after {
     content: "";
   }
-  
+
   /* ページの設定 */
   @page {
     size: A4 landscape;

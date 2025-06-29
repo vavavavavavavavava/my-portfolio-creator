@@ -27,6 +27,71 @@ const Renderer = (function () {
   }
 
   /**
+   * キャリア年表データを適切なページ数に分割する
+   * @param {Array} careerHistory - キャリア履歴データ
+   * @param {number} maxItemsPerPage - 1ページあたりの最大項目数
+   * @return {Array} - 分割されたページ配列
+   */
+  function splitCareerHistory(careerHistory, maxItemsPerPage = 4) {
+    if (!Array.isArray(careerHistory) || careerHistory.length === 0) {
+      return [];
+    }
+
+    const pages = [];
+    for (let i = 0; i < careerHistory.length; i += maxItemsPerPage) {
+      pages.push(careerHistory.slice(i, i + maxItemsPerPage));
+    }
+    return pages;
+  }
+
+  /**
+   * テクニカルキャリアデータを適切なページ数に分割する
+   * @param {Array} technicalCareer - テクニカルキャリアデータ  
+   * @param {number} maxItemsPerPage - 1ページあたりの最大項目数
+   * @return {Array} - 分割されたページ配列
+   */
+  function splitTechnicalCareer(technicalCareer, maxItemsPerPage = 2) {
+    if (!Array.isArray(technicalCareer) || technicalCareer.length === 0) {
+      return [];
+    }
+
+    const pages = [];
+    for (let i = 0; i < technicalCareer.length; i += maxItemsPerPage) {
+      pages.push(technicalCareer.slice(i, i + maxItemsPerPage));
+    }
+    return pages;
+  }
+
+  /**
+   * スキルデータを適切なページ数に分割する
+   * @param {Object} skillsData - スキルデータ
+   * @param {number} maxCategoriesPerPage - 1ページあたりの最大カテゴリ数
+   * @return {Array} - 分割されたページ配列
+   */
+  function splitSkills(skillsData, maxCategoriesPerPage = 6) {
+    if (!skillsData || !Array.isArray(skillsData.categories)) {
+      return [];
+    }
+
+    const categories = skillsData.categories;
+    if (categories.length <= maxCategoriesPerPage) {
+      return [skillsData];
+    }
+
+    const pages = [];
+    for (let i = 0; i < categories.length; i += maxCategoriesPerPage) {
+      const pageCategories = categories.slice(i, i + maxCategoriesPerPage);
+      pages.push({
+        ...skillsData,
+        categories: pageCategories,
+        pageNumber: Math.floor(i / maxCategoriesPerPage) + 1,
+        totalPages: Math.ceil(categories.length / maxCategoriesPerPage)
+      });
+    }
+    return pages;
+  }
+
+  /**
    * technicalcareer 用レイアウトテンプレート (detail.js / dense.js 等) を
    * 個別ロードする。未ロードの場合のみ実行。
    */
@@ -100,9 +165,25 @@ const Renderer = (function () {
 
       const d = currentDisplayData;
       container.innerHTML += templates.title(d.title);
-      container.innerHTML += templates.career(d.career);
 
-      if (Array.isArray(d.technicalcareer)) {
+      // キャリア年表の複数ページ対応
+      if (d.career && Array.isArray(d.career.careerHistory)) {
+        const careerPages = splitCareerHistory(d.career.careerHistory);
+        careerPages.forEach((pageData, index) => {
+          const careerPageData = {
+            ...d.career,
+            careerHistory: pageData,
+            pageNumber: index + 1,
+            totalPages: careerPages.length
+          };
+          container.innerHTML += templates.career(careerPageData);
+        });
+      } else if (d.career) {
+        container.innerHTML += templates.career(d.career);
+      }
+
+      // テクニカルキャリアの複数ページ対応
+      if (Array.isArray(d.technicalcareer) && d.technicalcareer.length > 0) {
         d.technicalcareer.forEach(proj => {
           container.innerHTML += templates.technicalcareer(proj);
         });
@@ -110,7 +191,14 @@ const Renderer = (function () {
         container.innerHTML += templates.technicalcareer(d.technicalcareer);
       }
 
-      container.innerHTML += templates.skills(d.skills);
+      // スキルの複数ページ対応
+      if (d.skills) {
+        const skillPages = splitSkills(d.skills);
+        skillPages.forEach(pageData => {
+          container.innerHTML += templates.skills(pageData);
+        });
+      }
+
       container.innerHTML += templates.strengths(d.strengths);
 
       // 6) 外部アクセス用

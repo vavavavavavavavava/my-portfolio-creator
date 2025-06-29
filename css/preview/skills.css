@@ -1,4 +1,20 @@
 /* css/preview/skills.css - テクニカルスキルテンプレート固有のスタイル */
+
+/* タイトルヘッダーでpage-indicatorを使えるようにする（career.cssからインポート） */
+.title-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-indicator {
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-weight: normal;
+}
+
 .skill-category {
   background-color: #ecf0f1;
   border-radius: 5px;

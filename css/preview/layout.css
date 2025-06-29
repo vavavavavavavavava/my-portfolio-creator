@@ -24,17 +24,19 @@ body {
 /* スライド */
 .slide {
   width: 1050px;
-  height: 742px; /* A4横サイズ */
+  min-height: 742px;
+  /* A4横サイズの最小高さを維持 */
   background-color: white;
   box-sizing: border-box;
   position: relative;
-  overflow: hidden;
   page-break-after: always;
   margin-bottom: 30px;
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
+
+
 
 .slide:last-child {
   page-break-after: avoid;
@@ -44,8 +46,8 @@ body {
 .content {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 80px);
-  overflow: hidden;
+  height: 100%;
+  /* コンテナの高さを100%に */
 }
 
 /* タイトルヘッダー */

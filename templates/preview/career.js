@@ -12,7 +12,14 @@
   // キャリア年表スライド用テンプレート
   TemplateManager.registerTemplate('career', `<!-- キャリア年表スライドテンプレート（日付カード版） -->
 <div class="slide">
-    <div class="title-header">キャリア年表</div>
+    <div class="title-header">
+        キャリア年表
+        {{#if totalPages}}
+        {{#if (gt totalPages 1)}}
+        <span class="page-indicator">{{pageNumber}}/{{totalPages}}</span>
+        {{/if}}
+        {{/if}}
+    </div>
     
     <div class="timeline-container">
         <div class="timeline-line"></div>

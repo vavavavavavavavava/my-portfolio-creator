@@ -4,7 +4,7 @@
 
 ## クイックスタート
 
-実際に動作しているアプリケーションには、[ここからアクセスできます。](https://vavavavavavavavava.github.io/my-portfolio-creator/)
+実際に動作しているアプリケーションには、[ここからアクセスできます。](https://my-portfolio-creator.pages.dev/)
 
 効果的なマイポートフォリオを作成するためのヒントや詳細については、[マイポートフォリオ作成ガイド](./docs/guide.md) を参照してください。
 

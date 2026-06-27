@@ -9,6 +9,7 @@
   <!-- スタイルシート：共通 -->
   <link rel="stylesheet" href="css/common/base.css">
   <link rel="stylesheet" href="css/common/print.css" media="print">
+  <link rel="stylesheet" href="css/editor/dialog.css">
 
   <!-- スタイルシート：プレビュー -->
   <link rel="stylesheet" href="css/preview/layout.css">
@@ -30,7 +31,7 @@
 
 <body>
   <!-- コントロールパネル（印刷時には非表示） -->
-  <div id="control-panel">
+  <div id="control-panel" aria-label="プレビュー操作">
     <button id="paste-json-btn">JSONを貼り付け</button>
     <button id="save-pdf-btn">PDFで保存</button>
   </div>

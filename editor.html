@@ -18,9 +18,15 @@
 
 <body>
   <div class="container">
-    <h1>マイポートフォリオエディタ</h1>
+    <header class="app-header">
+      <div>
+        <p class="app-kicker">Portfolio Builder</p>
+        <h1>マイポートフォリオエディタ</h1>
+        <p class="app-description">キャリア情報を整理し、JSON保存とプレビュー出力まで行う編集ワークスペースです。</p>
+      </div>
+    </header>
 
-    <div class="button-group">
+    <div class="button-group" aria-label="エディタ操作">
       <div class="file-input-container" style="display: none;">
         <input type="file" id="load-json" accept=".json">
       </div>

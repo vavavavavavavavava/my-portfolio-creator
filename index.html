@@ -6,12 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>マイポートフォリオクリエイター</title>
   <style>
+    :root {
+      --primary-color: #2563eb;
+      --page-bg: #f4f7fb;
+      --text-color: #1e293b;
+      --muted-text: #64748b;
+      --border-color: #d9e2ec;
+      --radius-md: 8px;
+      --shadow-md: 0 14px 34px rgba(15, 23, 42, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', 'Meiryo', sans-serif;
+      font-family: 'Segoe UI', 'Meiryo', system-ui, sans-serif;
       margin: 0;
       padding: 20px;
-      background-color: #f5f5f5;
-      color: #2c3e50;
+      background:
+        linear-gradient(180deg, #eef4ff 0, rgba(238, 244, 255, 0) 280px),
+        var(--page-bg);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -22,35 +38,38 @@
     
     .container {
       max-width: 600px;
-      padding: 30px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 32px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
     }
     
     h1 {
-      color: #3498db;
-      margin-top: 0;
+      color: #0f172a;
+      margin: 0 0 10px;
+      font-size: 28px;
     }
     
     p {
       margin-bottom: 20px;
+      color: var(--muted-text);
       line-height: 1.6;
     }
     
     a {
       display: inline-block;
-      padding: 10px 20px;
-      background-color: #3498db;
+      padding: 10px 18px;
+      background-color: var(--primary-color);
       color: white;
       text-decoration: none;
-      border-radius: 4px;
+      border-radius: 6px;
       font-weight: bold;
       transition: background-color 0.2s;
     }
     
     a:hover {
-      background-color: #2980b9;
+      background-color: #1d4ed8;
     }
   </style>
 </head>

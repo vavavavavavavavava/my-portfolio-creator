@@ -1,54 +1,58 @@
 /* css/editor/tabs.css - タブUIスタイル */
 
-/* タブコンテナ */
 .tabs {
   display: flex;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
+  gap: 6px;
+  overflow-x: auto;
+  margin-bottom: 18px;
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-sm);
+  scrollbar-width: thin;
 }
 
-/* タブ */
 .tab {
-  padding: 10px 20px;
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--muted-text);
   cursor: pointer;
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  border-bottom: none;
-  border-radius: 5px 5px 0 0;
-  margin-right: 5px;
-  transition: background-color 0.2s;
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
 }
 
-/* アクティブなタブ */
 .tab.active {
-  background-color: #3498db;
-  color: white;
-  border-color: #3498db;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.18);
 }
 
-/* ホバー状態のタブ */
 .tab:hover:not(.active) {
-  background-color: #e9ecef;
+  background-color: var(--surface-muted);
+  color: var(--text-color);
 }
 
-/* タブコンテンツ */
 .tab-content {
   display: none;
   opacity: 0;
   position: relative;
 }
 
-/* アクティブなタブコンテンツ */
 .tab-content.active {
   display: block;
   opacity: 1;
-  transition: opacity 0.3s ease-in-out;
+  animation: tabFadeIn 0.22s ease-out;
 }
 
-@keyframes fadeIn {
+@keyframes tabFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -56,9 +60,25 @@
   }
 }
 
-/* ボタングループ (タブコントロール用) */
 .button-group {
-  margin: 20px 0;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
+  margin: 0 0 18px;
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 720px) {
+  .button-group {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
 }

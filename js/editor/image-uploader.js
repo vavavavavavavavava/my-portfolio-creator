@@ -35,47 +35,28 @@ const ImageUploader = (function () {
     // プレビュー画像要素の作成
     const illustrationPreview = document.createElement('div');
     illustrationPreview.className = 'illustration-preview';
-    illustrationPreview.style.marginTop = '10px';
-    illustrationPreview.style.textAlign = 'center';
     illustrationPreview.style.display = 'none';
 
     const previewImg = document.createElement('img');
-    previewImg.style.maxWidth = '100%';
-    previewImg.style.maxHeight = '200px';
-    previewImg.style.border = '1px solid #ddd';
-    previewImg.style.borderRadius = '4px';
-    previewImg.style.padding = '5px';
     illustrationPreview.appendChild(previewImg);
 
     // コンテナの作成
     const controlsContainer = document.createElement('div');
-    controlsContainer.style.marginTop = '10px';
+    controlsContainer.className = 'image-input-controls';
 
     // タブ切り替えコンテナ
     const tabContainer = document.createElement('div');
-    tabContainer.style.display = 'flex';
-    tabContainer.style.marginBottom = '10px';
-    tabContainer.style.borderBottom = '1px solid #ddd';
+    tabContainer.className = 'image-input-tabs';
 
     // ファイルアップロードタブ
     const fileUploadTab = document.createElement('div');
     fileUploadTab.textContent = 'ファイルアップロード';
     fileUploadTab.className = 'image-input-tab active';
-    fileUploadTab.style.padding = '8px 15px';
-    fileUploadTab.style.cursor = 'pointer';
-    fileUploadTab.style.backgroundColor = '#3498db';
-    fileUploadTab.style.color = 'white';
-    fileUploadTab.style.borderRadius = '4px 4px 0 0';
-    fileUploadTab.style.marginRight = '5px';
 
     // URL入力タブ
     const urlInputTab = document.createElement('div');
     urlInputTab.textContent = 'URLから読み込み';
     urlInputTab.className = 'image-input-tab';
-    urlInputTab.style.padding = '8px 15px';
-    urlInputTab.style.cursor = 'pointer';
-    urlInputTab.style.backgroundColor = '#f8f9fa';
-    urlInputTab.style.borderRadius = '4px 4px 0 0';
 
     tabContainer.appendChild(fileUploadTab);
     tabContainer.appendChild(urlInputTab);
@@ -83,10 +64,7 @@ const ImageUploader = (function () {
     // ファイル選択コンテナ
     const fileInputContainer = document.createElement('div');
     fileInputContainer.className = 'image-input-container';
-    fileInputContainer.style.marginTop = '10px';
     fileInputContainer.style.display = 'flex';
-    fileInputContainer.style.alignItems = 'center';
-    fileInputContainer.style.gap = '10px';
 
     const fileInputId = `illustration-file-${uniquePrefix}`;
     const fileInput = document.createElement('input');
@@ -99,18 +77,10 @@ const ImageUploader = (function () {
     fileInputLabel.htmlFor = fileInputId;
     fileInputLabel.className = 'file-input-label';
     fileInputLabel.textContent = '画像ファイルを選択';
-    fileInputLabel.style.display = 'inline-block';
-    fileInputLabel.style.padding = '8px 15px';
-    fileInputLabel.style.backgroundColor = '#9b59b6';
-    fileInputLabel.style.color = 'white';
-    fileInputLabel.style.borderRadius = '4px';
-    fileInputLabel.style.cursor = 'pointer';
-    fileInputLabel.style.fontSize = '14px';
 
     // URL入力コンテナ
     const urlInputContainer = document.createElement('div');
     urlInputContainer.className = 'image-input-container';
-    urlInputContainer.style.marginTop = '10px';
     urlInputContainer.style.display = 'none'; // 初期状態では非表示
 
     const urlInputId = `illustration-url-${uniquePrefix}`;
@@ -119,22 +89,10 @@ const ImageUploader = (function () {
     urlInput.id = urlInputId;
     urlInput.placeholder = 'https://example.com/image.jpg';
     urlInput.className = 'url-input';
-    urlInput.style.width = '70%';
-    urlInput.style.padding = '8px';
-    urlInput.style.border = '1px solid #ddd';
-    urlInput.style.borderRadius = '4px';
-    urlInput.style.marginRight = '10px';
 
     const loadUrlButton = document.createElement('button');
     loadUrlButton.textContent = '読み込む';
     loadUrlButton.className = 'load-url-btn';
-    loadUrlButton.style.padding = '8px 15px';
-    loadUrlButton.style.backgroundColor = '#9b59b6';
-    loadUrlButton.style.color = 'white';
-    loadUrlButton.style.border = 'none';
-    loadUrlButton.style.borderRadius = '4px';
-    loadUrlButton.style.cursor = 'pointer';
-    loadUrlButton.style.fontSize = '14px';
 
     urlInputContainer.appendChild(urlInput);
     urlInputContainer.appendChild(loadUrlButton);
@@ -145,13 +103,6 @@ const ImageUploader = (function () {
       clearButton.type = 'button';
       clearButton.className = 'clear-image-btn';
       clearButton.textContent = '画像をクリア';
-      clearButton.style.padding = '8px 15px';
-      clearButton.style.backgroundColor = '#e74c3c';
-      clearButton.style.color = 'white';
-      clearButton.style.border = 'none';
-      clearButton.style.borderRadius = '4px';
-      clearButton.style.cursor = 'pointer';
-      clearButton.style.fontSize = '14px';
       clearButton.style.display = 'none';
       return clearButton;
     }
@@ -174,16 +125,10 @@ const ImageUploader = (function () {
     // スタイル注釈の追加
     const noteTextFile = document.createElement('p');
     noteTextFile.className = 'uploader-note file-note';
-    noteTextFile.style.fontSize = '12px';
-    noteTextFile.style.color = '#7f8c8d';
-    noteTextFile.style.marginTop = '5px';
     noteTextFile.innerHTML = '* 画像はBase64形式でJSONに埋め込まれます。PNG/JPG推奨。<br>* 大きなファイルはJSONサイズが膨大になるため、1MB以下を推奨します。';
 
     const noteTextUrl = document.createElement('p');
     noteTextUrl.className = 'uploader-note url-note';
-    noteTextUrl.style.fontSize = '12px';
-    noteTextUrl.style.color = '#7f8c8d';
-    noteTextUrl.style.marginTop = '5px';
     noteTextUrl.style.display = 'none';
     noteTextUrl.innerHTML = '* 有効な画像URLを入力してください。<br>* 外部URLの場合、インターネット接続時のみ表示されます。';
 
@@ -202,23 +147,17 @@ const ImageUploader = (function () {
       // タブの見た目を更新
       const tabs = tabContainer.querySelectorAll('.image-input-tab');
       tabs.forEach(tab => {
-        tab.style.backgroundColor = '#f8f9fa';
-        tab.style.color = '#2c3e50';
         tab.classList.remove('active');
       });
 
       // コンテナの表示を切り替え
       if (tabType === 'file') {
-        fileUploadTab.style.backgroundColor = '#3498db';
-        fileUploadTab.style.color = 'white';
         fileUploadTab.classList.add('active');
         fileInputContainer.style.display = 'flex';
         urlInputContainer.style.display = 'none';
         noteTextFile.style.display = 'block';
         noteTextUrl.style.display = 'none';
       } else {
-        urlInputTab.style.backgroundColor = '#3498db';
-        urlInputTab.style.color = 'white';
         urlInputTab.classList.add('active');
         fileInputContainer.style.display = 'none';
         urlInputContainer.style.display = 'flex';

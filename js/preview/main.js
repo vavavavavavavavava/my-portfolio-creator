@@ -10,10 +10,10 @@
     const container = document.getElementById('slides-container');
     if (container) {
       container.innerHTML = `
-        <div style="padding: 20px; background-color: #f8d7da; color: #721c24; border-radius: 5px; margin: 20px;">
+        <div class="preview-error">
           <h3>エラーが発生しました</h3>
           <p>${message}</p>
-          <p><a href="editor.html" style="color: #721c24; font-weight: bold;">エディタページに戻る</a></p>
+          <p><a href="editor.html">エディタページに戻る</a></p>
         </div>
       `;
     }

@@ -21,8 +21,14 @@ const Config = (function () {
       'templates/preview/skills.js', 'templates/preview/strengths.js',
       'templates/preview/technicalcareer.js'
     ],
-    isEditorPage: () => window.location.pathname.includes('editor.html'),
-    isPreviewPage: () => window.location.pathname.includes('preview.html')
+    isEditorPage: () => {
+      const path = window.location.pathname.replace(/\/$/, '');
+      return path.endsWith('/editor') || path.endsWith('/editor.html');
+    },
+    isPreviewPage: () => {
+      const path = window.location.pathname.replace(/\/$/, '');
+      return path.endsWith('/preview') || path.endsWith('/preview.html');
+    }
   };
 })();
 

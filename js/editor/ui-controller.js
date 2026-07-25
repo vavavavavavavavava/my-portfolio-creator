@@ -36,8 +36,7 @@ const UiController = (function () {
       'copy-ai-prompt': () => PromptHandler.copy(),
       'preview-page': () => {
         if (JsonHandler.saveToSessionStorage()) {
-          window.open(`preview.html?source=editor&v=${Config.APP_VERSION}`, '_blank');
-          Notification.success('プレビューページを開きました');
+          window.location.href = `preview.html?source=editor&v=${Config.APP_VERSION}`;
         } else {
           Notification.error('プレビューの準備に失敗しました');
         }
@@ -65,14 +64,17 @@ const UiController = (function () {
   }
 
   function setupPreviewEventListeners() {
-    const pasteJsonBtn = document.getElementById('paste-json-btn');
+    const returnToEditorBtn = document.getElementById('return-to-editor-btn');
     const savePdfBtn = document.getElementById('save-pdf-btn');
 
-    if (pasteJsonBtn) {
-      pasteJsonBtn.addEventListener('click', () => {
-        const currentJsonString = window.currentDisplayData ?
-          JSON.stringify(window.currentDisplayData, null, 2) : '';
-        DialogManager.showJsonDialog(currentJsonString);
+    if (returnToEditorBtn) {
+      returnToEditorBtn.addEventListener('click', () => {
+        const cameFromEditor = new URLSearchParams(window.location.search).get('source') === 'editor';
+        if (cameFromEditor && window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = 'editor.html';
+        }
       });
     }
 
@@ -83,9 +85,9 @@ const UiController = (function () {
 
   function init() {
     initTabs();
-    FormManager.init();
 
     if (Config.isEditorPage()) {
+      FormManager.init();
       setupEditorEventListeners();
     } else if (Config.isPreviewPage()) {
       setupPreviewEventListeners();

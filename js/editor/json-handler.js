@@ -152,7 +152,9 @@ const JsonHandler = (function () {
   function saveToSessionStorage() {
     const data = generateJSON();
     if (!data) return false;
-    sessionStorage.setItem(Config.STORAGE_KEYS.PREVIEW_DATA, JSON.stringify(data));
+    const jsonString = JSON.stringify(data);
+    sessionStorage.setItem(Config.STORAGE_KEYS.PREVIEW_DATA, jsonString);
+    sessionStorage.setItem(Config.STORAGE_KEYS.EDITOR_STATE, jsonString);
     return true;
   }
   function loadFromSessionStorage() {

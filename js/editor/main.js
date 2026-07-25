@@ -14,8 +14,8 @@
       // UIコントローラーの初期化
       UiController.init();
       
-      // フォームの初期化
-      FormManager.initForm();
+      // 初回表示から完成形のデザインを確認できるサンプルを読み込む
+      await JsonHandler.loadDataIntoForm(DefaultPortfolioData.create(), { notify: false });
       
       console.log('エディタページの初期化が完了しました');
     } catch (error) {

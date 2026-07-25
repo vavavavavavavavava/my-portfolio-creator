@@ -36,7 +36,7 @@ const UiController = (function () {
       'copy-ai-prompt': () => PromptHandler.copy(),
       'preview-page': () => {
         if (JsonHandler.saveToSessionStorage()) {
-          window.open('preview.html?source=editor', '_blank');
+          window.open(`preview.html?source=editor&v=${Config.APP_VERSION}`, '_blank');
           Notification.success('プレビューページを開きました');
         } else {
           Notification.error('プレビューの準備に失敗しました');

@@ -1,55 +1,117 @@
-/* css/preview/title.css - タイトルスライドスタイル */
 .slide.title-slide {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 縦方向中央揃え */
-  align-items: center;     /* 横方向中央揃え */
-  padding: 40px;
+  padding: 0;
+  display: grid;
+  grid-template-rows: 132px 1fr 82px;
+  background:
+    linear-gradient(125deg, var(--deck-navy) 0 15%, transparent 15.2%) top left / 100% 100% no-repeat,
+    linear-gradient(305deg, var(--deck-teal) 0 9%, transparent 9.2%) bottom right / 100% 100% no-repeat,
+    radial-gradient(circle at 87% 24%, rgba(8,117,138,.1), transparent 26%),
+    #fff;
+}
+
+.slide.title-slide::before {
+  content: "";
+  position: absolute;
+  top: 48px;
+  right: 44px;
+  width: 190px;
+  height: 120px;
+  opacity: .45;
+  background-image: radial-gradient(circle, #adc0d7 1.4px, transparent 1.6px);
+  background-size: 12px 12px;
+}
+
+.title-slide .title-frame {
+  position: relative;
+  z-index: 1;
+  padding-top: 52px;
+  text-align: center;
+}
+
+.title-kicker {
+  display: inline-block;
+  padding: 10px 35px;
+  border: 1px solid var(--deck-navy);
+  border-radius: 999px;
+  color: var(--deck-navy);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.title-rule {
+  width: 225px;
+  height: 3px;
+  margin: 27px auto 0;
+  background: linear-gradient(90deg, var(--deck-navy) 0 43%, var(--deck-teal) 43% 57%, var(--deck-navy) 57%);
 }
 
 .slide.title-slide .content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 内部コンテンツも縦方向中央揃え */
-  align-items: center;     /* 内部コンテンツも横方向中央揃え */
-  width: 100%;
-  height: 100%;           /* 内部コンテンツの高さも100%に */
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  padding: 28px 90px 18px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-/* 以下は既存のスタイル */
-.title-slide .slide-title {
-  font-size: 42px;
-  color: #2c3e50;
-  margin-bottom: 100px;
-  font-weight: bold;
+.title-slide-label {
+  margin-bottom: 14px;
+  color: var(--deck-teal);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .25em;
 }
 
 .title-slide .name {
-  font-size: 64px;
-  font-weight: bold;
-  color: #3498db;
-  margin-bottom: 20px;
+  color: var(--deck-navy);
+  font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
+  font-size: 68px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: .13em;
 }
 
 .title-slide .name-reading {
-  font-size: 24px;
-  color: #7f8c8d;
-  margin-bottom: 100px;
-}
-
-.title-slide .company {
-  font-size: 32px;
-  color: #2c3e50;
-  border-top: 2px solid #3498db;
-  padding-top: 30px;
-  display: inline-block;
+  width: 410px;
+  margin-top: 13px;
+  padding-top: 9px;
+  border-top: 1px solid #9aaac0;
+  color: var(--deck-muted);
+  font-size: 15px;
+  letter-spacing: .28em;
 }
 
 .title-slide .headline {
-  max-width: 760px;
-  margin-top: 36px;
-  color: #34495e;
-  font-size: 24px;
-  line-height: 1.5;
+  max-width: 870px;
+  margin-top: 34px;
+  color: var(--deck-ink);
+  font-family: "Yu Mincho", "YuMincho", serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.title-slide .company {
+  margin-top: 32px;
+  color: var(--deck-navy);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.title-footer {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  margin: 0 0 8px;
+  padding: 21px 130px 0;
+  border-top: 1px solid #aebacc;
+  color: var(--deck-navy);
+  font-family: "Yu Mincho", "YuMincho", serif;
+  font-size: 17px;
+  font-weight: 700;
   text-align: center;
+  letter-spacing: .05em;
 }

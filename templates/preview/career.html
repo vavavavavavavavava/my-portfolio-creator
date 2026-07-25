@@ -1,16 +1,18 @@
 <div class="slide">
-  <div class="title-header">キャリア年表{{#if totalPages}}{{#if (gt totalPages 1)}}<span class="page-indicator">{{pageNumber}}/{{totalPages}}</span>{{/if}}{{/if}}</div>
+  <div class="title-header"><div><span class="title-eyebrow">CAREER</span>キャリア年表</div>{{#if totalPages}}{{#if (gt totalPages 1)}}<span class="page-indicator">{{pageNumber}} / {{totalPages}}</span>{{/if}}{{/if}}</div>
   <div class="timeline-container">
     <div class="timeline-line"></div>
     <div class="timeline-entries">
       {{#each items}}
       <div class="timeline-entry">
-        <div class="timeline-date"><div class="date-period">{{period.from}}〜<br>{{displayTo period.to}}</div></div>
+        <div class="timeline-date"><div class="date-period">{{period.from}} — {{displayTo period.to}}</div></div>
         <div class="timeline-content">
-          <div class="timeline-role">{{role}}</div>
-          <div class="timeline-company">{{company}}</div>
-          <div class="timeline-description">{{summary}}</div>
-          {{#if highlights.length}}<div class="timeline-highlights">{{#each highlights}}<div class="timeline-highlight">{{this}}</div>{{/each}}</div>{{/if}}
+          <div class="timeline-heading">
+            <div class="timeline-role">{{{emphasis role}}}</div>
+            <div class="timeline-company">{{{emphasis company}}}</div>
+          </div>
+          <div class="timeline-description">{{{emphasis summary}}}</div>
+          {{#if highlights.length}}<div class="timeline-highlights">{{#each highlights}}<div class="timeline-highlight">{{{emphasis this}}}</div>{{/each}}</div>{{/if}}
         </div>
       </div>
       {{/each}}

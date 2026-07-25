@@ -16,11 +16,29 @@ const Renderer = (function () {
   Handlebars.registerHelper('levelLabel', value => ({
     core: '主力', practical: '実務経験', basic: '基礎学習'
   })[value] || value);
+  Handlebars.registerHelper('emphasis', value => {
+    if (value == null) return '';
+    const source = String(value);
+    const fragments = [];
+    let cursor = 0;
+    const pattern = /\*\*([^*\n]+?)\*\*/g;
+    let match;
+
+    while ((match = pattern.exec(source)) !== null) {
+      fragments.push(Handlebars.Utils.escapeExpression(source.slice(cursor, match.index)));
+      fragments.push(
+        `<strong class="text-emphasis">${Handlebars.Utils.escapeExpression(match[1])}</strong>`
+      );
+      cursor = match.index + match[0].length;
+    }
+    fragments.push(Handlebars.Utils.escapeExpression(source.slice(cursor)));
+    return new Handlebars.SafeString(fragments.join(''));
+  });
 
   async function loadTemplates() {
     if (compiledTemplates) return compiledTemplates;
     const entries = await Promise.all(Object.entries(templateFiles).map(async ([name, path]) => {
-      const response = await fetch(path);
+      const response = await fetch(`${path}?v=${Config.APP_VERSION}`);
       if (!response.ok) throw new Error(`テンプレートを読み込めません: ${path}`);
       return [name, Handlebars.compile(await response.text())];
     }));

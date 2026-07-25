@@ -1,131 +1,117 @@
-/* css/preview/career.css - キャリア年表テンプレート固有のスタイル */
-.title-header {
-  background-color: #2c3e50;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.page-indicator {
-  font-size: 16px;
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 4px 8px;
-  border-radius: 3px;
-  font-weight: normal;
-}
-
 .timeline-container {
-  flex: 1;
-  display: flex;
   position: relative;
-  padding: 0 30px;
+  flex: 1;
+  /* 線と丸は同じ座標系を使う。左paddingを入れると丸だけ右へずれる。 */
+  padding: 0 4px 0 0;
 }
 
-/* タイムラインの線（元の位置を維持） */
 .timeline-line {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 150px;
-  width: 4px;
-  background-color: #3498db;
+  top: 20px;
+  bottom: 22px;
+  left: 142px;
+  width: 2px;
+  background: #9dbac6;
 }
 
 .timeline-entries {
-  width: 100%;
   position: relative;
-  padding-left: 40px;
+  display: grid;
+  gap: 12px;
 }
 
 .timeline-entry {
-  display: flex;
-  margin-bottom: 20px;
   position: relative;
+  min-height: 127px;
+  display: grid;
+  grid-template-columns: 125px 1fr;
+  gap: 28px;
 }
 
-/* 日付部分をカード状に修正 */
+.timeline-entry::before {
+  content: "";
+  position: absolute;
+  top: 19px;
+  left: 130px;
+  width: 18px;
+  height: 18px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: var(--deck-teal);
+  box-shadow: 0 0 0 1px #8bb2bf;
+}
+
 .timeline-date {
-  width: 150px;
-  font-weight: bold;
-  font-size: 16px;
-  color: #2c3e50;
-  text-align: center; /* 中央揃え */
-  flex-shrink: 0;
-  background-color: #f8f9fa; /* 軽い背景色 */
-  border-radius: 5px; /* 角を丸く */
-  padding: 8px 5px; /* パディングを追加 */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 軽い影を追加 */
-  border-left: 5px solid #3498db; /* 左側に青いボーダー */
-  align-self: flex-start; /* 上部に合わせる */
-  left: 1px; /* 左側に寄せる */
-}
-
-/* 日付部分の行間を調整 */
-.timeline-date .date-period {
-  line-height: 1.3;
+  align-self: start;
+  margin-top: 6px;
+  padding: 9px 7px;
+  border: 1px solid #bdd0d9;
+  border-radius: 999px;
+  background: #f5fafb;
+  color: var(--deck-navy);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .timeline-content {
-  background-color: #ecf0f1;
-  border-radius: 5px;
-  padding: 12px;
-  margin-left: 40px;
-  flex: 1;
-  position: relative;
-  max-width: 800px;
+  min-width: 0;
+  padding: 14px 18px;
+  border: 1px solid #d5dce5;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(7, 28, 76, .06);
 }
 
-.timeline-content::before {
-  content: '';
-  position: absolute;
-  left: -10px;
-  top: 15px;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 10px solid #ecf0f1;
+.timeline-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 15px;
+  margin-bottom: 7px;
 }
 
 .timeline-role {
-  font-weight: bold;
-  font-size: 16px;
-  color: #e74c3c;
-  margin-bottom: 5px;
+  color: var(--deck-navy);
+  font-family: "Yu Mincho", "YuMincho", serif;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .timeline-company {
-  font-size: 14px;
-  font-weight: bold;
-  color: #2c3e50;
-  margin-bottom: 8px;
+  color: var(--deck-teal);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .timeline-description {
-  font-size: 13px;
-  color: #7f8c8d;
-  margin-bottom: 8px;
+  color: #3f4c61;
+  font-size: 12px;
+  line-height: 1.55;
 }
 
 .timeline-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
   margin-top: 8px;
-  font-size: 13px;
 }
 
 .timeline-highlight {
-  background-color: rgba(52, 152, 219, 0.1);
-  border-left: 3px solid #3498db;
-  padding: 3px 8px;
-  margin-bottom: 3px;
+  position: relative;
+  padding-left: 12px;
+  color: var(--deck-ink);
+  font-size: 11px;
+  line-height: 1.4;
 }
 
-.highlight-title {
-  font-weight: bold;
-  color: #2c3e50;
+.timeline-highlight::before {
+  content: "";
+  position: absolute;
+  top: .5em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--deck-teal);
 }

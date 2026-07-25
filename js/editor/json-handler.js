@@ -89,7 +89,8 @@ const JsonHandler = (function () {
     for (const item of items || []) container.appendChild(await factory(item));
   }
 
-  async function loadDataIntoForm(data) {
+  async function loadDataIntoForm(data, options = {}) {
+    const { notify = true } = options;
     if (!data || (data.schemaVersion != null && data.schemaVersion !== 2)) {
       Notification.error('schemaVersion 2 のJSONを指定してください');
       return false;
@@ -111,7 +112,7 @@ const JsonHandler = (function () {
       const certs = document.getElementById('certification-items');
       certs.innerHTML = '';
       for (const cert of data.strengths?.certifications || []) await FormManager.addDynamicItem(certs, cert, 'cert-item');
-      Notification.success('データを読み込みました');
+      if (notify) Notification.success('データを読み込みました');
       return true;
     } catch (error) {
       console.error('データ読み込み中にエラーが発生しました:', error);

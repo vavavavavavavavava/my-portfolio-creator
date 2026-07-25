@@ -1,0 +1,496 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "portfolio-v2.schema.json",
+  "title": "My Portfolio Creator Portfolio Schema v2",
+  "description": "My Portfolio Creatorで使用するポートフォリオデータのJSON Schemaです。",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "profile",
+    "summary",
+    "careerEntries",
+    "projects",
+    "skills",
+    "strengths",
+    "certifications",
+    "futureInterests",
+    "presentation"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "2.0"
+    },
+    "profile": {
+      "$ref": "#/$defs/profile"
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "careerEntries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/careerEntry"
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/project"
+      }
+    },
+    "skills": {
+      "$ref": "#/$defs/skills"
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/strength"
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/certification"
+      }
+    },
+    "futureInterests": {
+      "$ref": "#/$defs/stringArray"
+    },
+    "presentation": {
+      "$ref": "#/$defs/presentation"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "period": {
+      "type": "object",
+      "required": [
+        "from",
+        "to"
+      ],
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "profile": {
+      "type": "object",
+      "required": [
+        "documentTitle",
+        "name",
+        "nameReading",
+        "professionalTitle",
+        "tagline",
+        "affiliation"
+      ],
+      "properties": {
+        "documentTitle": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "nameReading": {
+          "type": "string"
+        },
+        "professionalTitle": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": "string"
+        },
+        "affiliation": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "statement",
+        "experienceDomains",
+        "coreCapabilities",
+        "coreTechnologies",
+        "availableRoles",
+        "qualificationHighlights"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "experienceDomains": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "coreCapabilities": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "coreTechnologies": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "availableRoles": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "qualificationHighlights": {
+          "$ref": "#/$defs/stringArray"
+        }
+      },
+      "additionalProperties": false
+    },
+    "careerEntry": {
+      "type": "object",
+      "required": [
+        "id",
+        "period",
+        "role",
+        "organizationLabel",
+        "industry",
+        "summary",
+        "highlights"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/period"
+        },
+        "role": {
+          "type": "string"
+        },
+        "organizationLabel": {
+          "type": "string"
+        },
+        "industry": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "highlights": {
+          "$ref": "#/$defs/stringArray"
+        }
+      },
+      "additionalProperties": false
+    },
+    "processItem": {
+      "type": "object",
+      "required": [
+        "label",
+        "description"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "achievement": {
+      "type": "object",
+      "required": [
+        "statement",
+        "metric",
+        "evidence"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "team": {
+      "type": "object",
+      "required": [
+        "size",
+        "position"
+      ],
+      "properties": {
+        "size": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "visual": {
+      "type": "object",
+      "required": [
+        "type",
+        "title",
+        "src",
+        "alt"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "src": {
+          "type": "string"
+        },
+        "alt": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "period",
+        "role",
+        "organizationLabel",
+        "summary",
+        "background",
+        "responsibilities",
+        "process",
+        "approaches",
+        "deliverables",
+        "achievements",
+        "technologies",
+        "team",
+        "visuals",
+        "layoutHint"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/period"
+        },
+        "role": {
+          "type": "string"
+        },
+        "organizationLabel": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "background": {
+          "type": "string"
+        },
+        "responsibilities": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "process": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/processItem"
+          }
+        },
+        "approaches": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "deliverables": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "achievements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/achievement"
+          }
+        },
+        "technologies": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "team": {
+          "$ref": "#/$defs/team"
+        },
+        "visuals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/visual"
+          }
+        },
+        "layoutHint": {
+          "enum": [
+            "auto",
+            "full",
+            "compact",
+            "visual"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "skill": {
+      "type": "object",
+      "required": [
+        "name",
+        "proficiency",
+        "experienceYears",
+        "lastUsed",
+        "contexts"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "proficiency": {
+          "enum": [
+            "core",
+            "working",
+            "basic"
+          ]
+        },
+        "experienceYears": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "lastUsed": {
+          "type": "string"
+        },
+        "contexts": {
+          "$ref": "#/$defs/stringArray"
+        }
+      },
+      "additionalProperties": false
+    },
+    "skillCategory": {
+      "type": "object",
+      "required": [
+        "name",
+        "items"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/skill"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "skills": {
+      "type": "object",
+      "required": [
+        "categories"
+      ],
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/skillCategory"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "strength": {
+      "type": "object",
+      "required": [
+        "title",
+        "description",
+        "evidence",
+        "relatedProjectIds"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "relatedProjectIds": {
+          "$ref": "#/$defs/stringArray"
+        }
+      },
+      "additionalProperties": false
+    },
+    "certification": {
+      "type": "object",
+      "required": [
+        "name",
+        "acquiredAt",
+        "issuer"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "acquiredAt": {
+          "type": "string"
+        },
+        "issuer": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "presentation": {
+      "type": "object",
+      "required": [
+        "theme",
+        "pageSize",
+        "sectionOrder"
+      ],
+      "properties": {
+        "theme": {
+          "const": "business-navy"
+        },
+        "pageSize": {
+          "const": "A4-landscape"
+        },
+        "sectionOrder": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "title",
+              "summary",
+              "career",
+              "projects",
+              "skills",
+              "strengths",
+              "direction"
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

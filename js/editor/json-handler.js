@@ -13,6 +13,7 @@ const JsonHandler = (function () {
         title: {
           name: document.getElementById('title-name').value,
           nameReading: document.getElementById('title-name-reading').value,
+          profession: document.getElementById('title-profession').value,
           company: document.getElementById('title-company').value,
           headline: document.getElementById('title-headline').value
         },
@@ -98,6 +99,7 @@ const JsonHandler = (function () {
     try {
       document.getElementById('title-name').value = data.title?.name || '';
       document.getElementById('title-name-reading').value = data.title?.nameReading || '';
+      document.getElementById('title-profession').value = data.title?.profession || '';
       document.getElementById('title-company').value = data.title?.company || '';
       document.getElementById('title-headline').value = data.title?.headline || '';
 

@@ -1,7 +1,7 @@
 .slide.title-slide {
   padding: 0;
   display: grid;
-  grid-template-rows: 132px 1fr 82px;
+  grid-template-rows: 132px 1fr;
   background:
     linear-gradient(125deg, var(--deck-navy) 0 15%, transparent 15.2%) top left / 100% 100% no-repeat,
     linear-gradient(305deg, var(--deck-teal) 0 9%, transparent 9.2%) bottom right / 100% 100% no-repeat,
@@ -50,7 +50,7 @@
   position: relative;
   z-index: 1;
   min-height: 0;
-  padding: 28px 90px 18px;
+  padding: 28px 90px 100px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -99,19 +99,4 @@
   font-size: 18px;
   font-weight: 700;
   letter-spacing: .1em;
-}
-
-.title-footer {
-  position: relative;
-  z-index: 1;
-  align-self: end;
-  margin: 0 0 8px;
-  padding: 21px 130px 0;
-  border-top: 1px solid #aebacc;
-  color: var(--deck-navy);
-  font-family: "Yu Mincho", "YuMincho", serif;
-  font-size: 17px;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: .05em;
 }

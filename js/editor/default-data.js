@@ -8,6 +8,7 @@ const DefaultPortfolioData = {
       title: {
         name: '山田 太郎',
         nameReading: 'やまだ たろう',
+        profession: 'ITエンジニア',
         company: '株式会社サンプルテック　システム開発部',
         headline: '業務理解から設計・実装・改善まで、**価値につなげる**エンジニアリング。'
       },

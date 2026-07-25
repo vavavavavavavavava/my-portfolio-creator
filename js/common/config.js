@@ -7,7 +7,7 @@ const Config = (function () {
       ? window.env.DEBUG_MODE.toLowerCase() === 'true'
       : false;
   return {
-    APP_VERSION: '2.1.2',
+    APP_VERSION: '2.1.4',
     DEBUG_MODE: debugFromEnv,
     STORAGE_KEYS: {
       PREVIEW_DATA: 'portfolio_preview_data',

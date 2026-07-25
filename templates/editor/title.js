@@ -20,6 +20,10 @@
   <input type="text" id="title-name-reading" placeholder="やまだ たろう" value="{{nameReading}}">
 </div>
 <div class="form-group">
+  <label for="title-profession">職種</label>
+  <input type="text" id="title-profession" placeholder="ITエンジニア" value="{{profession}}">
+</div>
+<div class="form-group">
   <label for="title-company">会社名</label>
   <input type="text" id="title-company" placeholder="株式会社サンプル" value="{{company}}">
 </div>`, 'editor');

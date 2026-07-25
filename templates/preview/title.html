@@ -4,11 +4,10 @@
     <div class="title-rule" aria-hidden="true"></div>
   </div>
   <div class="content">
-    <div class="title-slide-label">IT PROFESSIONAL</div>
+    {{#if profession}}<div class="title-slide-label">{{{emphasis profession}}}</div>{{/if}}
     <div class="name">{{{emphasis name}}}</div>
     <div class="name-reading">{{{emphasis nameReading}}}</div>
     {{#if headline}}<div class="headline">{{{emphasis headline}}}</div>{{/if}}
     <div class="company">{{{emphasis company}}}</div>
   </div>
-  <div class="title-footer">経験・技術・強みを、価値につながるストーリーへ。</div>
 </div>

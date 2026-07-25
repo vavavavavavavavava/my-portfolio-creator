@@ -1,18 +1,30 @@
 /**
  * js/v2/template-loader.js
- * 外部HTMLテンプレートを読み込み、DOMとして複製するローダー。
+ * HTMLの<template>を読み込み、DOMとして複製するローダー。
  */
 (function () {
   'use strict';
 
   const templates = new Map();
 
+  function register(name, id, sourceDocument) {
+    const template = sourceDocument.getElementById(id);
+    if (!(template instanceof HTMLTemplateElement)) {
+      throw new Error(`HTMLテンプレートが見つかりません: ${id}`);
+    }
+    templates.set(name, template);
+  }
+
   async function loadAll(definitions) {
     const grouped = new Map();
+
     Object.entries(definitions).forEach(([name, definition]) => {
-      const url = definition.url;
-      if (!grouped.has(url)) grouped.set(url, []);
-      grouped.get(url).push({ name, id: definition.id });
+      if (!definition.url) {
+        register(name, definition.id, document);
+        return;
+      }
+      if (!grouped.has(definition.url)) grouped.set(definition.url, []);
+      grouped.get(definition.url).push({ name, id: definition.id });
     });
 
     await Promise.all(Array.from(grouped.entries()).map(async ([url, entries]) => {
@@ -20,14 +32,8 @@
       if (!response.ok) throw new Error(`テンプレートを読み込めませんでした: ${url}`);
 
       const html = await response.text();
-      const documentFragment = new DOMParser().parseFromString(html, 'text/html');
-      entries.forEach(({ name, id }) => {
-        const template = documentFragment.getElementById(id);
-        if (!(template instanceof HTMLTemplateElement)) {
-          throw new Error(`HTMLテンプレートが見つかりません: ${id}`);
-        }
-        templates.set(name, template);
-      });
+      const sourceDocument = new DOMParser().parseFromString(html, 'text/html');
+      entries.forEach(({ name, id }) => register(name, id, sourceDocument));
     }));
   }
 

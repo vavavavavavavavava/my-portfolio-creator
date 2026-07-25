@@ -6,6 +6,7 @@
   <meta name="description" content="AIとJSONを使って、面談用キャリアシートを作成するエディタです。">
   <title>My Portfolio Creator</title>
   <link rel="stylesheet" href="css/app-v2.css">
+  <link rel="stylesheet" href="css/json-editor.css">
 </head>
 <body class="app-page">
   <header class="app-header">
@@ -29,8 +30,7 @@
         <a class="button" href="schema.html" target="_blank" rel="noopener">スキーマ説明ページ</a>
         <button id="copy-sample-json" class="button" type="button">サンプルJSONをコピー</button>
         <button id="download-json" class="button" type="button">編集中のJSONを保存</button>
-        <label class="button file-button" for="load-json">JSONを読み込む</label>
-        <input id="load-json" type="file" accept="application/json,.json" hidden>
+        <button id="open-json-editor" class="button" type="button">JSONを読み込む</button>
       </div>
     </section>
 
@@ -145,10 +145,36 @@
     </form>
   </main>
 
+  <dialog id="json-editor-dialog" class="json-editor-dialog" aria-labelledby="json-editor-title">
+    <div class="json-editor-panel">
+      <header class="json-editor-header">
+        <div>
+          <p class="section-kicker">JSON EDITOR</p>
+          <h2 id="json-editor-title">JSONを貼り付け・編集</h2>
+        </div>
+        <button id="close-json-editor" class="button button-small" type="button" aria-label="JSONエディタを閉じる">閉じる</button>
+      </header>
+
+      <p class="json-editor-description">
+        生成AIが出力したJSONを、そのまま貼り付けて読み込めます。現在の入力内容もJSONとして直接編集できます。
+      </p>
+      <textarea id="json-editor-textarea" class="json-editor-textarea" spellcheck="false" aria-describedby="json-editor-error"></textarea>
+      <p id="json-editor-error" class="json-editor-error" role="alert" hidden></p>
+
+      <footer class="json-editor-actions">
+        <label class="button file-button" for="load-json">ファイルから開く</label>
+        <input id="load-json" type="file" accept="application/json,.json" hidden>
+        <button id="copy-json-editor" class="button" type="button">表示中のJSONをコピー</button>
+        <button id="apply-json-editor" class="button button-primary" type="button">このJSONを読み込む</button>
+      </footer>
+    </div>
+  </dialog>
+
   <div id="notification" class="notification" role="status" aria-live="polite"></div>
 
   <script src="js/v2/template-loader.js"></script>
   <script src="js/v2/schema.js"></script>
   <script src="js/v2/editor.js"></script>
+  <script src="js/v2/json-editor.js"></script>
 </body>
 </html>

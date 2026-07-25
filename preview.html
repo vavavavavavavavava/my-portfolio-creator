@@ -1,70 +1,26 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>マイポートフォリオプレビュー</title>
-
-  <!-- スタイルシート：共通 -->
-  <link rel="stylesheet" href="css/common/base.css">
-  <link rel="stylesheet" href="css/common/print.css" media="print">
-  <link rel="stylesheet" href="css/editor/dialog.css">
-
-  <!-- スタイルシート：プレビュー -->
-  <link rel="stylesheet" href="css/preview/layout.css">
-  <link rel="stylesheet" href="css/preview/title.css">
-  <link rel="stylesheet" href="css/preview/career.css">
-  <link rel="stylesheet" href="css/preview/skills.css">
-  <link rel="stylesheet" href="css/preview/strengths.css">
-  <link rel="stylesheet" href="css/preview/technicalcareer/balance.css">
-  <link rel="stylesheet" href="css/preview/technicalcareer/common.css">
-  <link rel="stylesheet" href="css/preview/technicalcareer/detail.css">
-  <link rel="stylesheet" href="css/preview/technicalcareer/dense.css">
-  <link rel="stylesheet" href="css/preview/technicalcareer/text.css">
-  <link rel="stylesheet" href="css/preview/technicalcareer/visual.css">
-
-
-  <!-- Handlebarsライブラリ -->
-  <script src="js/vendor/handlebars.min.js"></script>
+  <meta name="description" content="My Portfolio Creatorで作成したキャリアシートのプレビューです。">
+  <title>キャリアシート プレビュー</title>
+  <link rel="stylesheet" href="css/app-v2.css">
+  <link rel="stylesheet" href="css/portfolio-v2.css">
 </head>
-
-<body>
-  <!-- コントロールパネル（印刷時には非表示） -->
-  <div id="control-panel" aria-label="プレビュー操作">
-    <button id="paste-json-btn">JSONを貼り付け</button>
-    <button id="save-pdf-btn">PDFで保存</button>
+<body class="preview-page">
+  <div class="preview-toolbar no-print" aria-label="プレビュー操作">
+    <a class="button" href="editor.html">編集に戻る</a>
+    <label class="button file-button" for="preview-load-json">JSONを読み込む</label>
+    <input id="preview-load-json" type="file" accept="application/json,.json" hidden>
+    <button id="print-portfolio" class="button button-primary" type="button">PDFで保存 / 印刷</button>
   </div>
 
-  <!-- 通知表示用の要素 -->
-  <div class="notification" id="notification" style="display: none;">
-    保存しました！
-  </div>
+  <main id="slides-container" class="slides-container" aria-live="polite"></main>
+  <div id="notification" class="notification no-print" role="status" aria-live="polite"></div>
 
-  <!-- レンダリングされたテンプレートを挿入するコンテナ -->
-  <div id="slides-container" class="slide-container"></div>
-
-  <!-- スクリプトの読み込み：共通モジュール -->
-  <script src="js/common/env-loader.js"></script>
-  <script src="js/common/config.js"></script>
-  <script src="js/common/utils.js"></script>
-  <script src="js/common/notification.js"></script>
-  <script src="js/common/templates.js"></script>
-
-  <!-- スクリプトの読み込み：テンプレート -->
-  <script src="templates/preview/title.js"></script>
-  <script src="templates/preview/career.js"></script>
-  <script src="templates/preview/skills.js"></script>
-  <script src="templates/preview/strengths.js"></script>
-  <script src="templates/preview/technicalcareer.js"></script>
-
-
-  <!-- スクリプトの読み込み：プレビューモジュール -->
-  <script src="js/editor/ui-controller.js"></script>
-  <script src="js/editor/form-manager.js"></script>
-  <script src="js/editor/dialog-manager.js"></script>
-  <script src="js/preview/renderer.js"></script>
-  <script src="js/preview/main.js"></script>
+  <script src="js/v2/template-loader.js"></script>
+  <script src="js/v2/schema.js"></script>
+  <script src="js/v2/preview.js"></script>
 </body>
-
 </html>

@@ -69,7 +69,16 @@ const Renderer = (function () {
       items, pageNumber: index + 1, totalPages: skillPages.length
     })));
     output.push(templates.strengths(data.strengths || {}));
-    document.getElementById('slides-container').innerHTML = output.join('');
+    const slidesContainer = document.getElementById('slides-container');
+    slidesContainer.innerHTML = output.join('');
+    const slides = slidesContainer.querySelectorAll('.slide');
+    slides.forEach((slide, index) => {
+      const pageNumber = document.createElement('div');
+      pageNumber.className = 'deck-page-number';
+      pageNumber.setAttribute('aria-label', `${index + 1} / ${slides.length} ページ`);
+      pageNumber.textContent = `${index + 1} / ${slides.length}`;
+      slide.appendChild(pageNumber);
+    });
     window.currentDisplayData = data;
     return true;
   }

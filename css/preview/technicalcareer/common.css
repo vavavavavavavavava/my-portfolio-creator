@@ -1,32 +1,24 @@
 .technical-career-slide .title-header {
-  margin-bottom: 16px;
+  min-height: 92px;
+  margin-bottom: 20px;
 }
 
-.project-header {
-  min-height: 105px;
-  margin-bottom: 15px;
+.project-title-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 
-.project-label {
-  margin-bottom: 5px;
-  color: var(--deck-teal);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .2em;
-}
-
-.project-header h2 {
-  max-width: 540px;
-  margin: 0;
-  color: var(--deck-navy);
-  font-family: "Yu Mincho", "YuMincho", serif;
+.project-title {
+  min-width: 0;
+  max-width: 610px;
   font-size: 27px;
-  line-height: 1.35;
-  letter-spacing: .03em;
+  line-height: 1.3;
+}
+
+.project-title .title-eyebrow {
+  margin-bottom: 5px;
 }
 
 .project-meta {
@@ -36,12 +28,13 @@
 }
 
 .project-meta > div {
-  min-width: 165px;
-  padding: 10px 13px;
+  min-width: 142px;
+  padding: 9px 12px;
   border: 1px solid #aebbcf;
   border-radius: 8px;
   color: var(--deck-navy);
-  font-size: 11px;
+  font-family: "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+  font-size: 12px;
   font-weight: 700;
 }
 
@@ -49,7 +42,8 @@
   display: block;
   margin-bottom: 3px;
   color: var(--deck-teal);
-  font-size: 8px;
+  font-size: 9px;
+  font-weight: 800;
   letter-spacing: .16em;
 }
 
@@ -111,7 +105,7 @@
 
 .section-copy {
   color: #3f4c61;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.65;
 }
 
@@ -134,8 +128,8 @@
   margin-bottom: 7px;
   padding-left: 13px;
   color: #344158;
-  font-size: 11px;
-  line-height: 1.45;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .achievement-list li::before {
@@ -176,6 +170,6 @@
   border-radius: 5px;
   background: var(--deck-teal-soft);
   color: #07596a;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
 }

@@ -1,0 +1,79 @@
+以下のJSONは、技術経歴書（マイポートフォリオ）のデータ形式です。
+
+このJSONをテンプレートとして、後述する私の経歴情報を元に各項目を埋めてください。
+
+完成したJSONのみを、JSON形式のコードブロックで出力してください。
+
+## 生成するJSONの形式
+
+```json
+{
+  "title": {
+    "name": "",
+    "nameReading": "",
+    "company": "",
+    "headline": ""
+  },
+  "career": [
+    {
+      "period": {
+        "from": "",
+        "to": null
+      },
+      "company": "",
+      "role": "",
+      "summary": "",
+      "highlights": []
+    }
+  ],
+  "projects": [
+    {
+      "title": "",
+      "period": {
+        "from": "",
+        "to": null
+      },
+      "role": "",
+      "overview": "",
+      "responsibilities": [],
+      "achievements": [],
+      "techStack": [],
+      "image": ""
+    }
+  ],
+  "skills": [
+    {
+      "category": "",
+      "items": [
+        {
+          "name": "",
+          "level": "basic"
+        }
+      ]
+    }
+  ],
+  "strengths": {
+    "items": [
+      {
+        "title": "",
+        "description": ""
+      }
+    ],
+    "focusAreas": [],
+    "certifications": [
+      {
+        "name": "",
+        "acquiredAt": ""
+      }
+    ]
+  }
+}
+```
+
+## 私の経歴情報
+
+---
+
+【ここに自分の経歴情報を記載してください】
+
+---

@@ -2,8 +2,19 @@
  * AI入力用プロンプトのコピー処理
  */
 const PromptHandler = (function () {
-  function getPrompt() {
-    return document.getElementById('ai-prompt')?.textContent.trim() || '';
+  const PROMPT_URL = 'prompts/portfolio-json-generation.txt';
+  let cachedPrompt = '';
+
+  async function getPrompt() {
+    if (cachedPrompt) return cachedPrompt;
+
+    const response = await fetch(PROMPT_URL);
+    if (!response.ok) {
+      throw new Error(`Prompt file could not be loaded: ${response.status}`);
+    }
+
+    cachedPrompt = (await response.text()).trim();
+    return cachedPrompt;
   }
 
   function fallbackCopy(text) {
@@ -20,13 +31,10 @@ const PromptHandler = (function () {
   }
 
   async function copy() {
-    const prompt = getPrompt();
-    if (!prompt) {
-      Notification.error('コピーするプロンプトが見つかりません');
-      return false;
-    }
-
     try {
+      const prompt = await getPrompt();
+      if (!prompt) throw new Error('Prompt file is empty');
+
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(prompt);
       } else if (!fallbackCopy(prompt)) {

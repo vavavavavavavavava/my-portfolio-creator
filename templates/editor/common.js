@@ -19,8 +19,14 @@
   // 各テンプレートを統一フォーマットで登録
   TemplateManager.registerTemplate('dynamicItem', createDynamicItemTemplate(), 'editor');
   TemplateManager.registerTemplate('focusItem', createDynamicItemTemplate('機械学習', 'focus-item'), 'editor');
-  TemplateManager.registerTemplate('certItem', createDynamicItemTemplate('応用情報技術者', 'cert-item'), 'editor');
-  TemplateManager.registerTemplate('careerProjectItem', createDynamicItemTemplate('プロジェクト名', 'project-item'), 'editor');
+  TemplateManager.registerTemplate('certItem', `
+    <div class="dynamic-item cert-item">
+      <input type="text" value="{{name}}" class="cert-name" placeholder="応用情報技術者試験">
+      <input type="text" value="{{acquiredAt}}" class="cert-acquired-at" placeholder="2025-04">
+      <button class="remove-btn" data-action="remove-item">削除</button>
+    </div>`, 'editor');
+  TemplateManager.registerTemplate('careerHighlightItem', createDynamicItemTemplate('代表的な経験', 'highlight-item'), 'editor');
+  TemplateManager.registerTemplate('responsibilityItem', createDynamicItemTemplate('担当内容', 'responsibility-item'), 'editor');
   TemplateManager.registerTemplate('techItem', createDynamicItemTemplate('技術名', 'tech-item'), 'editor');
   TemplateManager.registerTemplate('achievementItem', createDynamicItemTemplate('実績内容', 'achievement-item'), 'editor');
 

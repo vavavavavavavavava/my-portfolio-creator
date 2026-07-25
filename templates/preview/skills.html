@@ -1,0 +1,12 @@
+<div class="slide">
+  <div class="title-header">テクニカルスキル{{#if totalPages}}{{#if (gt totalPages 1)}}<span class="page-indicator">{{pageNumber}}/{{totalPages}}</span>{{/if}}{{/if}}</div>
+  <div class="content" style="padding:0 30px">
+    {{#each items}}
+    <div class="skill-category">
+      <div class="category-title">{{category}}</div>
+      <div class="skills-container">{{#each items}}<div class="skill-item"><div class="skill-name">{{name}}</div><span class="skill-level-label level-{{level}}">{{levelLabel level}}</span></div>{{/each}}</div>
+    </div>
+    {{/each}}
+    <div class="legend"><span>主力</span><span>実務経験</span><span>基礎学習</span></div>
+  </div>
+</div>

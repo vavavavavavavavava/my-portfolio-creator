@@ -7,7 +7,7 @@ const Config = (function () {
       ? window.env.DEBUG_MODE.toLowerCase() === 'true'
       : false;
   return {
-    APP_VERSION: '1.0.0',
+    APP_VERSION: '2.0.0',
     DEBUG_MODE: debugFromEnv,
     STORAGE_KEYS: {
       PREVIEW_DATA: 'portfolio_preview_data',
@@ -16,10 +16,7 @@ const Config = (function () {
     TEMPLATE_FILES: [
       'templates/editor/common.js', 'templates/editor/title.js',
       'templates/editor/career.js', 'templates/editor/skills.js',
-      'templates/editor/strengths.js', 'templates/editor/technicalcareer.js',
-      'templates/preview/title.js', 'templates/preview/career.js',
-      'templates/preview/skills.js', 'templates/preview/strengths.js',
-      'templates/preview/technicalcareer.js'
+      'templates/editor/strengths.js', 'templates/editor/technicalcareer.js'
     ],
     isEditorPage: () => {
       const path = window.location.pathname.replace(/\/$/, '');

@@ -24,8 +24,6 @@
    */
   async function init() {
     try {
-      await TemplateManager.loadAllTemplates();
-
       // エディタからのデータ取得
       const urlParams = new URLSearchParams(window.location.search);
       let previewData = null;

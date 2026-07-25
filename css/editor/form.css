@@ -131,14 +131,12 @@ input[type="file"] {
 }
 
 button.remove-btn,
-.clear-image-btn,
-#json-input-cancel {
+.clear-image-btn {
   background-color: var(--danger-color);
 }
 
 button.remove-btn:hover,
-.clear-image-btn:hover,
-#json-input-cancel:hover {
+.clear-image-btn:hover {
   background-color: var(--danger-hover);
 }
 
@@ -166,16 +164,22 @@ button.remove-btn {
   background-color: #020617;
 }
 
-#preview-json,
-#paste-json {
+#edit-json {
   border-color: var(--border-strong);
   background-color: #ffffff;
   color: var(--text-color);
 }
 
-#preview-json:hover,
-#paste-json:hover {
+#edit-json:hover {
   background-color: var(--surface-muted);
+}
+
+#copy-ai-prompt {
+  background-color: var(--secondary-color);
+}
+
+#copy-ai-prompt:hover {
+  background-color: var(--secondary-hover);
 }
 
 .level-select {
@@ -296,22 +300,6 @@ button.remove-btn {
   color: var(--muted-text);
   font-size: 12px;
   line-height: 1.6;
-}
-
-.json-preview {
-  max-height: 340px;
-  overflow: auto;
-  margin: 0 0 18px;
-  padding: 16px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  background-color: #0f172a;
-  color: #dbeafe;
-  font-family: Consolas, "Courier New", monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  white-space: pre-wrap;
-  box-shadow: var(--shadow-sm);
 }
 
 @media (max-width: 720px) {

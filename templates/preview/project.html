@@ -1,0 +1,16 @@
+<div class="slide technical-career-slide">
+  <div class="title-header">プロジェクト</div>
+  <div class="project-header"><h2>{{title}}</h2><div class="project-period">{{period.from}}〜{{displayTo period.to}}</div></div>
+  <div class="section-card"><div class="section-title">役割</div><div>{{role}}</div></div>
+  <div class="project-grid">
+    <div>
+      <div class="section-card"><div class="section-title">プロジェクト概要</div><div>{{overview}}</div></div>
+      <div class="section-card"><div class="section-title">担当内容</div><ul class="achievement-list">{{#each responsibilities}}<li>{{this}}</li>{{/each}}</ul></div>
+      <div class="section-card"><div class="section-title">成果・工夫</div><ul class="achievement-list">{{#each achievements}}<li>{{this}}</li>{{/each}}</ul></div>
+    </div>
+    <div>
+      {{#if image}}<img class="project-image" src="{{image}}" alt="{{title}}の説明画像">{{/if}}
+      <div class="section-card"><div class="section-title">技術スタック</div>{{#each techStack}}<span class="tech-badge">{{this}}</span>{{/each}}</div>
+    </div>
+  </div>
+</div>

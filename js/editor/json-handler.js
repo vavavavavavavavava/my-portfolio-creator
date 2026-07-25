@@ -1,162 +1,80 @@
 /**
- * js/editor/json-handler.js
- * JSONデータの生成、読み込み、保存を処理するモジュール
+ * schemaVersion 2 の生成・読み込み・保存
  */
 const JsonHandler = (function () {
-  /**
-   * フォームデータからJSONオブジェクトを生成
-   * @return {Object} 生成されたJSONオブジェクト
-   */
+  const nullable = value => value || null;
+  const values = (root, selector) =>
+    Array.from(root.querySelectorAll(selector)).map(input => input.value).filter(Boolean);
+
   function generateJSON() {
     try {
       const data = {
+        schemaVersion: 2,
         title: {
           name: document.getElementById('title-name').value,
           nameReading: document.getElementById('title-name-reading').value,
-          company: document.getElementById('title-company').value
+          company: document.getElementById('title-company').value,
+          headline: document.getElementById('title-headline').value
         },
-        career: {
-          careerHistory: []
-        },
-        technicalcareer: [],
-        skills: {
-          skillLevelLabels: Array.from(document.querySelectorAll('.skill-level-label')).map(input => input.value),
-          categories: []
-        },
-        strengths: {
-          strengths: [],
-          futureFocus: [],
-          certifications: []
-        }
+        career: [],
+        projects: [],
+        skills: [],
+        strengths: { items: [], focusAreas: [], certifications: [] }
       };
 
-      // キャリア年表データ
       document.querySelectorAll('#career-items .career-item').forEach(item => {
-        const careerItem = {
+        data.career.push({
           period: {
             from: item.querySelector('.career-period-from').value,
-            to: item.querySelector('.career-period-to').value
+            to: nullable(item.querySelector('.career-period-to').value)
           },
-          role: item.querySelector('.career-role').value,
           company: item.querySelector('.career-company').value,
-          description: item.querySelector('.career-description').value,
-          projects: Array.from(item.querySelectorAll('.project-item')).map(input => input.value)
-        };
-        data.career.careerHistory.push(careerItem);
+          role: item.querySelector('.career-role').value,
+          summary: item.querySelector('.career-summary').value,
+          highlights: values(item, '.highlight-item')
+        });
       });
 
-      // テクニカルキャリアデータ
-      document.querySelectorAll('#project-list .project-container').forEach(project => {
-        const layoutMode = project.querySelector('.layout-mode-selector')?.value || 'detail';
-        let projectData = { layoutMode };
-
-        // modeごとにフィールドを取得
-        if (['detail', 'dense', 'balance'].includes(layoutMode)) {
-          projectData.projectTitle = project.querySelector('.project-title')?.value || '';
-          projectData.flowTitle = project.querySelector('.flow-title')?.value || '';
-          projectData.roleMilestones = Array.from(project.querySelectorAll('.mode-' + layoutMode + ' .role-milestones .dynamic-item')).map(milestone => ({
-            label: milestone.querySelector('.role-label')?.value || '',
-            role: milestone.querySelector('.role-title')?.value || '',
-            date: milestone.querySelector('.role-date')?.value || '',
-            description: milestone.querySelector('.role-description')?.value || ''
-          }));
-          projectData.techStack = Array.from(project.querySelectorAll('.mode-' + layoutMode + ' .tech-stack .tech-item')).map(input => input.value);
-          projectData.overviewTitle = project.querySelector('.overview-title')?.value || '';
-          projectData.overviewText = project.querySelector('.overview-text')?.value || '';
-          projectData.achievements = Array.from(project.querySelectorAll('.mode-' + layoutMode + ' .achievements .achievement-item')).map(input => input.value);
-          projectData.illustrationImage = project.querySelector('.mode-' + layoutMode + ' .illustration-image')?.value || '';
-          // balance専用フィールド
-          // balance型のteamInfo取得
-          if (layoutMode === 'balance') {
-            projectData.teamInfo = Array.from(project.querySelectorAll('.team-info-list .dynamic-item')).map(item => ({
-              label: item.querySelector('.team-label')?.value || '',
-              count: item.querySelector('.team-count')?.value || ''
-            })).filter(item => item.label || item.count); // 空行を除外
-          }
-        } else if (layoutMode === 'visual') {
-          projectData.projectTitle = project.querySelector('.project-title')?.value || '';
-          projectData.flowTitle = project.querySelector('.flow-title')?.value || '';
-          projectData.roleMilestones = Array.from(project.querySelectorAll('.mode-visual .role-milestones .dynamic-item')).map(milestone => ({
-            label: milestone.querySelector('.role-label')?.value || '',
-            role: milestone.querySelector('.role-title')?.value || '',
-            date: milestone.querySelector('.role-date')?.value || '',
-            description: milestone.querySelector('.role-description')?.value || ''
-          }));
-          projectData.techStack = Array.from(project.querySelectorAll('.mode-visual .tech-stack .tech-item')).map(input => input.value);
-          projectData.overviewTitle = project.querySelector('.overview-title')?.value || '';
-          projectData.overviewText = project.querySelector('.overview-text')?.value || '';
-          projectData.achievements = Array.from(project.querySelectorAll('.mode-visual .achievements .achievement-item')).map(input => input.value);
-          projectData.illustrationImage = project.querySelector('.mode-visual .illustration-image')?.value || '';
-          // 追加ダイアグラム
-          projectData.additionalDiagrams = Array.from(project.querySelectorAll('.mode-visual .additional-diagrams .dynamic-item')).map(item => ({
-            title: item.querySelector('.diagram-title')?.value || '',
-            image: item.querySelector('.diagram-image')?.value || ''
-          }));
-        } else if (layoutMode === 'text') {
-          projectData.projectTitle = project.querySelector('.project-title')?.value || '';
-          projectData.flowTitle = project.querySelector('.flow-title')?.value || '';
-          projectData.roleMilestones = Array.from(project.querySelectorAll('.mode-text .role-milestones .dynamic-item')).map(milestone => ({
-            label: milestone.querySelector('.role-label')?.value || '',
-            role: milestone.querySelector('.role-title')?.value || '',
-            date: milestone.querySelector('.role-date')?.value || ''
-          }));
-          projectData.techStack = Array.from(project.querySelectorAll('.mode-text .tech-stack .tech-item')).map(input => input.value);
-          projectData.overviewTitle = project.querySelector('.overview-title')?.value || '';
-          projectData.projectBackground = project.querySelector('.project-background')?.value || '';
-          projectData.technicalApproach = project.querySelector('.technical-approach')?.value || '';
-          projectData.implementationDetails = project.querySelector('.implementation-details')?.value || '';
-          projectData.achievements = Array.from(project.querySelectorAll('.mode-text .achievements .achievement-item')).map(input => input.value);
-          projectData.challenges = Array.from(project.querySelectorAll('.mode-text .challenges .challenge-item')).map(input => input.value);
-          projectData.businessImpact = project.querySelector('.mode-text .business-impact')?.value || '';
-        }
-
-        data.technicalcareer.push(projectData);
+      document.querySelectorAll('#project-list .project-container').forEach(item => {
+        data.projects.push({
+          title: item.querySelector('.project-title').value,
+          period: {
+            from: item.querySelector('.project-period-from').value,
+            to: nullable(item.querySelector('.project-period-to').value)
+          },
+          role: item.querySelector('.project-role').value,
+          overview: item.querySelector('.project-overview').value,
+          responsibilities: values(item, '.responsibility-item'),
+          achievements: values(item, '.achievement-item'),
+          techStack: values(item, '.tech-item'),
+          image: item.querySelector('.illustration-image').value
+        });
       });
 
-
-      // テクニカルスキルデータ
       document.querySelectorAll('#skill-categories .skill-category-item').forEach(category => {
-        const categoryData = {
-          categoryName: category.querySelector('.category-name')?.value || '',
-          items: []
-        };
-
-        category.querySelectorAll('.skill-items .skill-item').forEach(skill => {
-          const levelInputs = skill.querySelectorAll('input[type="radio"]');
-          let level = 1;
-          levelInputs.forEach(input => {
-            if (input.checked) {
-              level = parseInt(input.value);
-            }
-          });
-
-          categoryData.items.push({
-            name: skill.querySelector('.skill-name')?.value || '',
-            level: level
-          });
+        data.skills.push({
+          category: category.querySelector('.category-name').value,
+          items: Array.from(category.querySelectorAll('.skill-item')).map(skill => ({
+            name: skill.querySelector('.skill-name').value,
+            level: skill.querySelector('.skill-level').value
+          })).filter(skill => skill.name)
         });
-
-        data.skills.categories.push(categoryData);
       });
 
-      // 強みデータ
       document.querySelectorAll('#strengths-items .strength-item-container').forEach(item => {
-        data.strengths.strengths.push({
-          title: item.querySelector('.strength-title')?.value || '',
-          description: item.querySelector('.strength-description')?.value || ''
+        data.strengths.items.push({
+          title: item.querySelector('.strength-title').value,
+          description: item.querySelector('.strength-description').value
         });
       });
-
-      // 注力分野
-      document.querySelectorAll('#future-focus-items .focus-item').forEach(item => {
-        data.strengths.futureFocus.push(item.value || '');
-      });
-
-      // 資格
+      data.strengths.focusAreas = values(document, '#future-focus-items .focus-item');
       document.querySelectorAll('#certification-items .cert-item').forEach(item => {
-        data.strengths.certifications.push(item.value || '');
+        const name = item.querySelector('.cert-name').value;
+        if (name) data.strengths.certifications.push({
+          name,
+          acquiredAt: item.querySelector('.cert-acquired-at').value
+        });
       });
-
       return data;
     } catch (error) {
       console.error('JSON生成中にエラーが発生しました:', error);
@@ -165,120 +83,34 @@ const JsonHandler = (function () {
     }
   }
 
-  /**
-   * JSONデータをフォームに読み込む
-   * @param {Object} data - 読み込むJSONデータ
-   * @return {boolean} 読み込みの成否
-   */
+  async function replaceItems(containerId, items, factory) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    for (const item of items || []) container.appendChild(await factory(item));
+  }
+
   async function loadDataIntoForm(data) {
-    if (!data) {
-      Notification.error('有効なデータが指定されていません');
+    if (!data || (data.schemaVersion != null && data.schemaVersion !== 2)) {
+      Notification.error('schemaVersion 2 のJSONを指定してください');
       return false;
     }
-
     try {
-      // タイトルセクション
-      if (data.title) {
-        document.getElementById('title-name').value = data.title.name || '';
-        document.getElementById('title-name-reading').value = data.title.nameReading || '';
-        document.getElementById('title-company').value = data.title.company || '';
-      }
+      document.getElementById('title-name').value = data.title?.name || '';
+      document.getElementById('title-name-reading').value = data.title?.nameReading || '';
+      document.getElementById('title-company').value = data.title?.company || '';
+      document.getElementById('title-headline').value = data.title?.headline || '';
 
-      // キャリアセクション
-      if (data.career && data.career.careerHistory) {
-        const careerContainer = document.getElementById('career-items');
-        careerContainer.innerHTML = '';
+      await replaceItems('career-items', data.career, FormManager.createCareerItem);
+      await replaceItems('project-list', data.projects, FormManager.createProjectItem);
+      await replaceItems('skill-categories', data.skills, FormManager.createSkillCategory);
+      await replaceItems('strengths-items', data.strengths?.items, FormManager.createStrengthItem);
 
-        if (Array.isArray(data.career.careerHistory)) {
-          // 非同期処理を同期的に実行するため、forEach ではなく for...of を使用
-          for (const item of data.career.careerHistory) {
-            const careerItem = await FormManager.createCareerItem(item);
-            careerContainer.appendChild(careerItem);
-          }
-        } else {
-          console.warn('career.careerHistory は配列ではありません');
-        }
-      }
-
-      // テクニカルキャリアセクション
-      if (data.technicalcareer) {
-        const projectContainer = document.getElementById('project-list');
-        projectContainer.innerHTML = '';
-
-        if (Array.isArray(data.technicalcareer)) {
-          for (const project of data.technicalcareer) {
-            const projectItem = await FormManager.createProjectItem(project);
-            projectContainer.appendChild(projectItem);
-          }
-        } else {
-          console.warn('technicalcareer は配列ではありません');
-          // 後方互換性のため、オブジェクトの場合も対応
-          const projectItem = await FormManager.createProjectItem(data.technicalcareer);
-          projectContainer.appendChild(projectItem);
-        }
-      }
-
-      // スキルセクション
-      if (data.skills) {
-        // スキルレベルラベル
-        if (data.skills.skillLevelLabels && Array.isArray(data.skills.skillLevelLabels)) {
-          const labelInputs = document.querySelectorAll('.skill-level-label');
-          data.skills.skillLevelLabels.forEach((label, index) => {
-            if (index < labelInputs.length) {
-              labelInputs[index].value = label || '';
-            }
-          });
-        }
-
-        // スキルカテゴリ
-        if (data.skills.categories && Array.isArray(data.skills.categories)) {
-          const categoryContainer = document.getElementById('skill-categories');
-          categoryContainer.innerHTML = '';
-
-          for (const category of data.skills.categories) {
-            const categoryItem = await FormManager.createSkillCategory(category);
-            categoryContainer.appendChild(categoryItem);
-          }
-        }
-      }
-
-      // 強みセクション
-      if (data.strengths) {
-        // 強み項目
-        if (data.strengths.strengths && Array.isArray(data.strengths.strengths)) {
-          const strengthsContainer = document.getElementById('strengths-items');
-          strengthsContainer.innerHTML = '';
-
-          for (const strength of data.strengths.strengths) {
-            const strengthItem = await FormManager.createStrengthItem(strength);
-            strengthsContainer.appendChild(strengthItem);
-          }
-        }
-
-        // 注力分野
-        if (data.strengths.futureFocus && Array.isArray(data.strengths.futureFocus)) {
-          const focusContainer = document.getElementById('future-focus-items');
-          focusContainer.innerHTML = '';
-
-          for (const focus of data.strengths.futureFocus) {
-            await FormManager.addDynamicItem(focusContainer, focus, 'focus-item');
-          }
-        }
-
-        // 資格
-        if (data.strengths.certifications && Array.isArray(data.strengths.certifications)) {
-          const certContainer = document.getElementById('certification-items');
-          certContainer.innerHTML = '';
-
-          for (const cert of data.strengths.certifications) {
-            await FormManager.addDynamicItem(certContainer, cert, 'cert-item');
-          }
-        }
-      }
-
-      // すべての既存プロジェクトに画像アップロード機能を適用
-      ImageUploader.upgradeExistingProjects();
-
+      const focus = document.getElementById('future-focus-items');
+      focus.innerHTML = '';
+      for (const value of data.strengths?.focusAreas || []) await FormManager.addDynamicItem(focus, value, 'focus-item');
+      const certs = document.getElementById('certification-items');
+      certs.innerHTML = '';
+      for (const cert of data.strengths?.certifications || []) await FormManager.addDynamicItem(certs, cert, 'cert-item');
       Notification.success('データを読み込みました');
       return true;
     } catch (error) {
@@ -288,157 +120,45 @@ const JsonHandler = (function () {
     }
   }
 
-  /**
-   * JSON文字列からデータを読み込む
-   * @param {string} jsonString - JSON文字列
-   * @return {boolean} 読み込みの成否
-   */
   async function loadFromJsonString(jsonString) {
-    try {
-      const data = Utils.parseJson(jsonString);
-      if (!data) {
-        throw new Error('JSONの解析に失敗しました');
-      }
-
-      return await loadDataIntoForm(data);
-    } catch (error) {
-      console.error('JSON文字列の読み込みに失敗しました:', error);
-      Notification.error('JSONの解析に失敗しました');
-      return false;
-    }
+    const data = Utils.parseJson(jsonString);
+    return data ? loadDataIntoForm(data) : false;
   }
-
-  /**
-   * ファイルからJSONデータを読み込む
-   * @param {File} file - JSONファイル
-   * @return {boolean} 読み込みの成否
-   */
   async function loadFromFile(file) {
-    try {
-      const jsonString = await Utils.readFileAsync(file);
-      return await loadFromJsonString(jsonString);
-    } catch (error) {
-      console.error('ファイルの読み込みに失敗しました:', error);
-      Notification.error('ファイルの読み込みに失敗しました');
+    return loadFromJsonString(await Utils.readFileAsync(file));
+  }
+  function downloadJsonString(jsonString) {
+    const data = Utils.parseJson(jsonString);
+    if (!data) {
+      Notification.error('有効なJSONを入力してください');
       return false;
     }
+    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+    const link = Object.assign(document.createElement('a'), {
+      href: url, download: `portfolio_data_${Utils.getTimestamp()}.json`
+    });
+    link.click();
+    URL.revokeObjectURL(url);
+    Notification.success(`${link.download} として保存しました`);
+    return true;
   }
-
-  /**
-   * 現在のデータをJSONファイルとして保存
-   */
   function saveToFile() {
-    try {
-      const data = generateJSON();
-      if (!data) {
-        throw new Error('データの生成に失敗しました');
-      }
-
-      const jsonString = JSON.stringify(data, null, 2);
-      const timestamp = Utils.getTimestamp();
-      const fileName = `portfolio_data_${timestamp}.json`;
-
-      const blob = new Blob([jsonString], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-
-      setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }, 0);
-
-      Notification.success(`${fileName} として保存しました`);
-      return true;
-    } catch (error) {
-      console.error('ファイルの保存に失敗しました:', error);
-      Notification.error('ファイルの保存に失敗しました');
-      return false;
-    }
+    const data = generateJSON();
+    return data ? downloadJsonString(JSON.stringify(data)) : false;
   }
-
-  /**
-   * 現在のデータをセッションストレージに一時保存（プレビュー用）
-   */
   function saveToSessionStorage() {
-    try {
-      const data = generateJSON();
-      if (!data) {
-        throw new Error('データの生成に失敗しました');
-      }
-
-      const jsonString = JSON.stringify(data);
-      sessionStorage.setItem(Config.STORAGE_KEYS.PREVIEW_DATA, jsonString);
-
-      return true;
-    } catch (error) {
-      console.error('セッションストレージへの保存に失敗しました:', error);
-      return false;
-    }
+    const data = generateJSON();
+    if (!data) return false;
+    sessionStorage.setItem(Config.STORAGE_KEYS.PREVIEW_DATA, JSON.stringify(data));
+    return true;
   }
-
-  /**
-   * セッションストレージからデータを読み込む
-   * @return {Object|null} 読み込んだデータまたはnull
-   */
   function loadFromSessionStorage() {
-    try {
-      const jsonString = sessionStorage.getItem(Config.STORAGE_KEYS.PREVIEW_DATA);
-      if (!jsonString) {
-        return null;
-      }
-
-      return Utils.parseJson(jsonString);
-    } catch (error) {
-      console.error('セッションストレージからの読み込みに失敗しました:', error);
-      return null;
-    }
+    return Utils.parseJson(sessionStorage.getItem(Config.STORAGE_KEYS.PREVIEW_DATA));
   }
-
-  /**
-   * JSONプレビューを表示/非表示
-   */
-  function toggleJsonPreview() {
-    try {
-      const data = generateJSON();
-      if (!data) {
-        throw new Error('データの生成に失敗しました');
-      }
-
-      const jsonString = JSON.stringify(data, null, 2);
-      const previewElement = document.getElementById('json-preview');
-
-      previewElement.textContent = jsonString;
-      previewElement.style.display = previewElement.style.display === 'none' ? 'block' : 'none';
-
-      if (previewElement.style.display !== 'none') {
-        previewElement.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      return true;
-    } catch (error) {
-      console.error('JSONプレビューの表示に失敗しました:', error);
-      Notification.error('JSONプレビューの表示に失敗しました');
-      return false;
-    }
-  }
-
-  // 公開API
   return {
-    generateJSON,
-    loadDataIntoForm,
-    loadFromJsonString,
-    loadFromFile,
-    saveToFile,
-    saveToSessionStorage,
-    loadFromSessionStorage,
-    toggleJsonPreview
+    generateJSON, loadDataIntoForm, loadFromJsonString, loadFromFile,
+    downloadJsonString, saveToFile, saveToSessionStorage, loadFromSessionStorage
   };
 })();
 
-// グローバルへのエクスポート
 window.JsonHandler = JsonHandler;

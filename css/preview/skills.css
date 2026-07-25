@@ -111,3 +111,15 @@
   font-size: 12px;
   color: #7f8c8d;
 }
+
+.skill-level-label {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: white;
+  font-size: 11px;
+}
+
+.level-core { background: #e74c3c; }
+.level-practical { background: #1abc9c; }
+.level-basic { background: #3498db; }

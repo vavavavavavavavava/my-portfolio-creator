@@ -29,19 +29,19 @@
 </div>
 <div class="form-group">
   <label>説明</label>
-  <textarea class="career-description" placeholder="職務内容の説明">{{description}}</textarea>
+  <textarea class="career-summary" placeholder="職務内容の概要">{{summary}}</textarea>
 </div>
 <div class="form-group">
-  <label>プロジェクト</label>
-  <div class="career-projects dynamic-list">
-    {{#each projects}}
+  <label>代表的な経験・取り組み</label>
+  <div class="career-highlights dynamic-list">
+    {{#each highlights}}
     <div class="dynamic-item">
-      <input type="text" value="{{this}}" class="project-item">
+      <input type="text" value="{{this}}" class="highlight-item">
       <button class="remove-btn remove-project">削除</button>
     </div>
     {{/each}}
   </div>
-  <button class="add-btn add-project">プロジェクトを追加</button>
+  <button class="add-btn add-highlight">項目を追加</button>
 </div>
 <button class="remove-btn" data-action="remove-container">この職歴を削除</button>
 <hr style="margin: 20px 0;">`, 'editor');

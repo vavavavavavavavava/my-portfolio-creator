@@ -13,7 +13,7 @@
   TemplateManager.registerTemplate('skillCategory', `
 <div class="form-group">
   <label>カテゴリ名</label>
-  <input type="text" class="category-name" placeholder="プログラミング言語" value="{{categoryName}}">
+  <input type="text" class="category-name" placeholder="言語・データ処理" value="{{category}}">
 </div>
 <div class="form-group">
   <label>スキル項目</label>
@@ -21,20 +21,11 @@
     {{#each items}}
     <div class="skill-item dynamic-item">
       <input type="text" value="{{name}}" class="skill-name" placeholder="Java">
-      <div class="level-select">
-        <div class="level-option">
-          <input type="radio" name="skill-{{@root.skillId}}-{{@index}}" value="1" {{#if (eq level 1)}}checked{{/if}}>
-          <div class="level-dot beginner"></div>
-        </div>
-        <div class="level-option">
-          <input type="radio" name="skill-{{@root.skillId}}-{{@index}}" value="2" {{#if (eq level 2)}}checked{{/if}}>
-          <div class="level-dot intermediate"></div>
-        </div>
-        <div class="level-option">
-          <input type="radio" name="skill-{{@root.skillId}}-{{@index}}" value="3" {{#if (eq level 3)}}checked{{/if}}>
-          <div class="level-dot advanced"></div>
-        </div>
-      </div>
+      <select class="skill-level">
+        <option value="core" {{#if (eq level "core")}}selected{{/if}}>主力</option>
+        <option value="practical" {{#if (eq level "practical")}}selected{{/if}}>実務経験</option>
+        <option value="basic" {{#if (eq level "basic")}}selected{{/if}}>基礎学習</option>
+      </select>
       <button class="remove-btn" data-action="remove-item">削除</button>
     </div>
     {{/each}}
@@ -48,20 +39,11 @@
   TemplateManager.registerTemplate('skillItem', `
 <div class="skill-item dynamic-item">
   <input type="text" value="" class="skill-name" placeholder="Java">
-  <div class="level-select">
-    <div class="level-option">
-      <input type="radio" name="skill-{{skillId}}" value="1" checked>
-      <div class="level-dot beginner"></div>
-    </div>
-    <div class="level-option">
-      <input type="radio" name="skill-{{skillId}}" value="2">
-      <div class="level-dot intermediate"></div>
-    </div>
-    <div class="level-option">
-      <input type="radio" name="skill-{{skillId}}" value="3">
-      <div class="level-dot advanced"></div>
-    </div>
-  </div>
+  <select class="skill-level">
+    <option value="core">主力</option>
+    <option value="practical">実務経験</option>
+    <option value="basic" selected>基礎学習</option>
+  </select>
   <button class="remove-btn" data-action="remove-item">削除</button>
 </div>`, 'editor');
 

@@ -27,19 +27,21 @@ const DialogManager = (function () {
     function createJsonDialog(initialJson) {
         const dialog = document.createElement('div');
         dialog.id = 'json-input-dialog';
+        const isEditor = Config.isEditorPage();
 
         dialog.innerHTML = `
-      <h3>JSONデータを貼り付け</h3>
+      <h3>${isEditor ? 'JSONを編集' : 'JSONデータを貼り付け'}</h3>
       <textarea id="json-input">${initialJson}</textarea>
-      <div class="dialog-file-actions">
-        <button id="load-from-file-btn">
-          ファイルから読み込み
-        </button>
-        <input type="file" id="dialog-file-input" accept=".json">
-      </div>
-      <div class="dialog-buttons">
-        <button id="json-input-cancel">キャンセル</button>
-        <button id="json-input-load">読み込む</button>
+      <div class="dialog-footer">
+        <div class="dialog-file-actions">
+          <button id="load-from-file-btn">ファイルを読み込む</button>
+          ${isEditor ? '<button id="download-json-btn">JSONをダウンロード</button>' : ''}
+          <input type="file" id="dialog-file-input" accept=".json">
+        </div>
+        <div class="dialog-buttons">
+          <button id="json-input-cancel">キャンセル</button>
+          <button id="json-input-load">${isEditor ? '変更を反映' : '読み込む'}</button>
+        </div>
       </div>
     `;
         return dialog;
@@ -56,6 +58,9 @@ const DialogManager = (function () {
         const dialogFileInput = dialog.querySelector('#dialog-file-input');
 
         loadFromFileBtn.addEventListener('click', () => dialogFileInput.click());
+        dialog.querySelector('#download-json-btn')?.addEventListener('click', () => {
+            JsonHandler.downloadJsonString(dialog.querySelector('#json-input').value);
+        });
         dialogFileInput.addEventListener('change', async (event) => {
             const file = event.target.files[0];
             if (file) {

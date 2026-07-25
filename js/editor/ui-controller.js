@@ -28,13 +28,12 @@ const UiController = (function () {
       'add-strength': () => FormManager.createStrengthItem(),
       'add-focus': () => FormManager.addDynamicItem(document.getElementById('future-focus-items'), '', 'focus-item'),
       'add-certification': () => FormManager.addDynamicItem(document.getElementById('certification-items'), '', 'cert-item'),
-      'save-json': () => JsonHandler.saveToFile(),
-      'preview-json': () => JsonHandler.toggleJsonPreview(),
-      'paste-json': () => {
+      'edit-json': () => {
         const data = JsonHandler.generateJSON();
         const jsonString = data ? JSON.stringify(data, null, 2) : '';
         DialogManager.showJsonDialog(jsonString);
       },
+      'copy-ai-prompt': () => PromptHandler.copy(),
       'preview-page': () => {
         if (JsonHandler.saveToSessionStorage()) {
           window.open('preview.html?source=editor', '_blank');

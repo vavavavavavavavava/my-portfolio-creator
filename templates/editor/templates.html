@@ -1,0 +1,124 @@
+<template id="career-entry-template">
+  <article class="item-card career-entry" data-entry-type="career">
+    <header class="item-card-header">
+      <h3 class="item-title">職歴</h3>
+      <button class="button button-small button-danger" data-action="remove-item" type="button">削除</button>
+    </header>
+    <div class="item-card-body">
+      <div class="form-row three">
+        <label>開始<input data-field="period.from" type="text" placeholder="2022.04"></label>
+        <label>終了<input data-field="period.to" type="text" placeholder="現在"></label>
+        <label>役割・職種<input data-field="role" type="text" placeholder="ソフトウェアエンジニア"></label>
+      </div>
+      <div class="form-row">
+        <label>所属・案件の表記<input data-field="organizationLabel" type="text" placeholder="自動車メーカー系企業"></label>
+        <label>業界・領域（任意）<input data-field="industry" type="text" placeholder="自動車 / 電池データ活用"></label>
+      </div>
+      <label>担当概要<textarea data-field="summary" rows="3" placeholder="この期間に担った仕事を簡潔に記載します。"></textarea></label>
+      <label>主な案件・実績（1行1件）<textarea data-field="highlights" rows="4" placeholder="電池データ可視化システムを構築&#10;データ処理業務を自動化"></textarea></label>
+    </div>
+  </article>
+</template>
+<template id="certification-entry-template">
+  <article class="item-card certification-entry" data-entry-type="certification">
+    <div class="form-row three">
+      <label>資格名<input data-field="name" type="text" placeholder="応用情報技術者試験"></label>
+      <label>取得時期<input data-field="acquiredAt" type="text" placeholder="2025.04"></label>
+      <label>発行元（任意）<input data-field="issuer" type="text" placeholder="IPA"></label>
+    </div>
+    <button class="button button-small button-danger" data-action="remove-item" type="button">削除</button>
+  </article>
+</template>
+<template id="project-entry-template">
+  <article class="item-card project-entry" data-entry-type="project">
+    <header class="item-card-header">
+      <h3 class="item-title">プロジェクト</h3>
+      <button class="button button-small button-danger" data-action="remove-item" type="button">削除</button>
+    </header>
+    <div class="item-card-body">
+      <div class="form-row">
+        <label>プロジェクト名<input data-field="title" type="text" placeholder="電池データ可視化システム開発"></label>
+        <label>レイアウト
+          <select data-field="layoutHint">
+            <option value="auto">自動選択</option>
+            <option value="full">詳細</option>
+            <option value="compact">コンパクト</option>
+            <option value="visual">ビジュアル</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-row three">
+        <label>開始<input data-field="period.from" type="text" placeholder="2024.04"></label>
+        <label>終了<input data-field="period.to" type="text" placeholder="2025.03"></label>
+        <label>役割<input data-field="role" type="text" placeholder="開発担当"></label>
+      </div>
+      <label>所属・案件の表記<input data-field="organizationLabel" type="text" placeholder="自動車メーカー系 / 研究開発部門"></label>
+      <label>一言概要<input data-field="summary" type="text" placeholder="充放電試験データを可視化・分析するWebシステムを構築"></label>
+      <label>背景・課題<textarea data-field="background" rows="3" placeholder="どのような課題があり、なぜ取り組んだかを記載します。"></textarea></label>
+      <div class="form-row">
+        <label>担当範囲（1行1件）<textarea data-field="responsibilities" rows="5" placeholder="業務ヒアリング&#10;画面設計&#10;実装・テスト"></textarea></label>
+        <label>担当プロセス（1行「工程名 | 説明」）<textarea data-field="process" rows="5" placeholder="要件整理 | 利用者へのヒアリングと要求整理&#10;画面設計 | 操作フローとダッシュボードを設計"></textarea></label>
+      </div>
+      <div class="form-row">
+        <label>工夫・アプローチ（1行1件）<textarea data-field="approaches" rows="4" placeholder="既存業務を観察し、操作手順を減らした"></textarea></label>
+        <label>成果物（1行1件）<textarea data-field="deliverables" rows="4" placeholder="Webダッシュボード&#10;運用手順書"></textarea></label>
+      </div>
+      <label>成果（1行「内容 | 指標 | 根拠」）
+        <textarea data-field="achievements" rows="5" placeholder="解析時間を短縮 | 約60%削減 | 旧手順との作業時間比較&#10;運用を安定化 | 半年間継続稼働 | 運用記録"></textarea>
+        <span class="label-help">指標や根拠が不明な場合は空欄のままにし、推測で埋めません。</span>
+      </label>
+      <div class="form-row">
+        <label>使用技術（1行1件）<textarea data-field="technologies" rows="4" placeholder="Python&#10;FastAPI&#10;Plotly"></textarea></label>
+        <label>チーム情報
+          <div class="form-row">
+            <input data-field="team.size" type="text" placeholder="人数（例：5名）">
+            <input data-field="team.position" type="text" placeholder="立場（例：開発担当）">
+          </div>
+        </label>
+      </div>
+      <label>画像・図（1行「タイトル | URLまたはData URL | 代替テキスト」）
+        <textarea data-field="visuals" rows="4" placeholder="ダッシュボード画面 | https://example.com/image.png | 分析画面のスクリーンショット"></textarea>
+      </label>
+    </div>
+  </article>
+</template>
+<template id="skill-category-template">
+  <article class="item-card skill-category-entry" data-entry-type="skill-category">
+    <header class="item-card-header">
+      <label>カテゴリ名<input data-field="name" type="text" placeholder="プログラミング言語"></label>
+      <button class="button button-small button-danger" data-action="remove-item" type="button">カテゴリを削除</button>
+    </header>
+    <div class="skill-items"></div>
+    <button class="button button-small add-button" data-action="add-skill-item" type="button">スキルを追加</button>
+  </article>
+</template>
+<template id="skill-item-template">
+  <div class="skill-item-row" data-entry-type="skill-item">
+    <label>スキル<input data-field="name" type="text" placeholder="Python"></label>
+    <label>習熟区分
+      <select data-field="proficiency">
+        <option value="core">主力</option>
+        <option value="working">実務経験</option>
+        <option value="basic">基礎・学習</option>
+      </select>
+    </label>
+    <label>実務年数<input data-field="experienceYears" type="number" min="0" step="0.5" placeholder="3"></label>
+    <label>最終利用<input data-field="lastUsed" type="text" placeholder="2026"></label>
+    <label>利用場面（カンマ区切り）<input data-field="contexts" type="text" placeholder="データ処理, 可視化, Web API"></label>
+    <button class="button button-small button-danger" data-action="remove-item" type="button">削除</button>
+  </div>
+</template>
+<template id="strength-entry-template">
+  <article class="item-card strength-entry" data-entry-type="strength">
+    <header class="item-card-header">
+      <h3>強み</h3>
+      <button class="button button-small button-danger" data-action="remove-item" type="button">削除</button>
+    </header>
+    <div class="item-card-body">
+      <label>強みの名称<input data-field="title" type="text" placeholder="業務を理解して仕組みに落とす力"></label>
+      <label>説明<textarea data-field="description" rows="4" placeholder="普段どのように行動し、どんな価値を生むかを記載します。"></textarea></label>
+      <label>根拠となる経験<textarea data-field="evidence" rows="3" placeholder="その強みを裏付ける具体的な経験を記載します。"></textarea></label>
+      <label>関連プロジェクトID（カンマ区切り・任意）<input data-field="relatedProjectIds" type="text" placeholder="project-1, project-2"></label>
+    </div>
+  </article>
+</template>

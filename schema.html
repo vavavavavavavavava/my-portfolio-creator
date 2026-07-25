@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="My Portfolio CreatorのAI向けJSONスキーマ説明です。">
+  <meta name="description" content="My Portfolio CreatorのJSONスキーマ説明です。">
   <title>JSONスキーマ説明 | My Portfolio Creator</title>
   <link rel="stylesheet" href="css/app-v2.css">
 </head>
@@ -11,52 +11,18 @@
   <header class="schema-header">
     <div>
       <p class="eyebrow">SCHEMA VERSION 2.0</p>
-      <h1>AI向けJSONスキーマ説明</h1>
-      <p class="lead">AIに経歴情報を渡し、My Portfolio Creator用JSONへ変換してもらうための仕様です。</p>
+      <h1>JSONスキーマ説明</h1>
     </div>
     <div class="schema-actions">
       <button id="copy-schema-guide" class="button button-primary" type="button">説明全文をコピー</button>
-      <a class="button" href="editor.html">エディタに戻る</a>
+      <a class="button" href="editor.html">エディターに戻る</a>
     </div>
   </header>
 
   <main class="schema-content">
-    <section class="schema-summary-card">
-      <h2>最重要ルール</h2>
-      <ul>
-        <li><code>schemaVersion</code> は <code>2.0</code> にする。</li>
-        <li>記載されていない事実・数値・顧客名を推測しない。</li>
-        <li>不明な値は空文字、空配列、または <code>null</code> にする。</li>
-        <li>企業名を公開できない場合は、業界や案件種別までぼかす。</li>
-        <li>プロジェクトの入力項目はレイアウトに依存させない。</li>
-      </ul>
-    </section>
-
-    <section class="schema-links">
-      <a class="resource-card" href="schema/portfolio-v2.schema.json" target="_blank" rel="noopener">
-        <strong>JSON Schema</strong>
-        <span>機械可読な正式スキーマ</span>
-      </a>
-      <a class="resource-card" href="examples/sample-portfolio.json" target="_blank" rel="noopener">
-        <strong>サンプルJSON</strong>
-        <span>入力例を含む完成データ</span>
-      </a>
-      <a class="resource-card" href="docs/schema-v2.md" target="_blank" rel="noopener">
-        <strong>Markdown版</strong>
-        <span>AIへそのまま貼れる全文</span>
-      </a>
-    </section>
-
-    <section class="schema-guide-section">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">FULL GUIDE</p>
-          <h2>スキーマ説明全文</h2>
-        </div>
-        <p>下の内容は、上部の「説明全文をコピー」でまとめてコピーできます。</p>
-      </div>
-      <pre id="schema-guide" class="schema-guide">読み込み中...</pre>
-    </section>
+    <article id="schema-guide" class="schema-guide" aria-busy="true">
+      <p>読み込み中...</p>
+    </article>
   </main>
 
   <div id="notification" class="notification" role="status" aria-live="polite"></div>

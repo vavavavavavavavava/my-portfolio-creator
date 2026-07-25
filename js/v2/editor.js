@@ -266,21 +266,6 @@
     state.saveTimer = window.setTimeout(saveLocal, 300);
   }
 
-  function downloadJson() {
-    const data = collectData();
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    const safeName = data.profile.name || 'portfolio';
-    anchor.href = url;
-    anchor.download = `${safeName.replace(/\s+/g, '-')}-career-sheet.json`;
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    URL.revokeObjectURL(url);
-    showNotification('編集中のJSONを保存しました。');
-  }
-
   async function copyText(text, successMessage) {
     await navigator.clipboard.writeText(text);
     showNotification(successMessage);
@@ -289,7 +274,7 @@
   async function copyAiPrompt() {
     const response = await fetch('ai/prompt-template.txt', { cache: 'no-cache' });
     if (!response.ok) throw new Error('AI用プロンプトを読み込めませんでした。');
-    const schemaUrl = new URL('schema.html', window.location.href).href;
+    const schemaUrl = new URL('docs/schema-v2.md', window.location.href).href;
     const prompt = (await response.text()).replaceAll('{{SCHEMA_URL}}', schemaUrl);
     await copyText(prompt, 'AI用プロンプトをコピーしました。');
   }
@@ -372,7 +357,6 @@
 
       document.getElementById('copy-ai-prompt').addEventListener('click', () => copyAiPrompt().catch(error => showNotification(error.message, true)));
       document.getElementById('copy-sample-json').addEventListener('click', () => copySampleJson().catch(error => showNotification(error.message, true)));
-      document.getElementById('download-json').addEventListener('click', downloadJson);
       document.getElementById('load-json').addEventListener('change', event => {
         const [file] = event.target.files;
         if (file) loadJsonFile(file).catch(error => showNotification(`JSONの読み込みに失敗しました: ${error.message}`, true));

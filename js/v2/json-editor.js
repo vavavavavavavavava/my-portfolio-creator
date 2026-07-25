@@ -121,6 +121,31 @@
     }
   }
 
+  function downloadEditorJson() {
+    const textarea = document.getElementById('json-editor-textarea');
+    try {
+      const parsed = parseJson(textarea.value);
+      const formatted = prettyJson(parsed);
+      const blob = new Blob([formatted], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      const safeName = parsed.profile?.name || 'portfolio';
+
+      textarea.value = formatted;
+      anchor.href = url;
+      anchor.download = `${safeName.replace(/\s+/g, '-')}-career-sheet.json`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+      setError();
+      showNotification('編集中のJSONを保存しました。');
+    } catch (error) {
+      setError(`JSONを保存できません: ${error.message}`);
+      textarea.focus();
+    }
+  }
+
   async function loadFileIntoEditor(event) {
     event.stopImmediatePropagation();
     const input = event.currentTarget;
@@ -199,6 +224,7 @@
     document.getElementById('copy-json-editor')?.addEventListener('click', () => {
       copyEditorJson().catch(error => showNotification(error.message, true));
     });
+    document.getElementById('download-json')?.addEventListener('click', downloadEditorJson);
 
     document.getElementById('load-json')?.addEventListener('change', event => {
       loadFileIntoEditor(event).catch(error => setError(`ファイルを読み込めません: ${error.message}`));

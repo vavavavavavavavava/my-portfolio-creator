@@ -5,7 +5,7 @@ AIとJSONを使って、面談用のキャリアシートを作成する静的We
 ## 主な機能
 
 - AI用プロンプトのコピー
-- AI向けスキーマ説明ページと全文コピー
+- 人間向けスキーマ説明ページと全文コピー
 - 内容入りサンプルJSONのコピー
 - 生成AIが出力したJSONの直接貼り付け・編集・読込
 - 編集中データのJSONファイル保存・再読込
@@ -19,7 +19,7 @@ AIとJSONを使って、面談用のキャリアシートを作成する静的We
 
 - `editor.html`: キャリア情報の編集、AI・JSON支援
 - `preview.html`: A4横のキャリアシートプレビュー、PDF保存
-- `schema.html`: AI向けJSONスキーマ説明と全文コピー
+- `schema.html`: Markdownを読みやすく表示する人間向けスキーマ説明
 
 ## ローカル起動
 
@@ -37,7 +37,8 @@ http://localhost:8000/editor.html
 
 ## JSON Schema v2
 
-- 人が読む説明: `docs/schema-v2.md`
+- 人が読む説明ページ: `schema.html`
+- AIが参照するMarkdown: `docs/schema-v2.md`
 - 正式なJSON Schema: `schema/portfolio-v2.schema.json`
 - 入力例: `examples/sample-portfolio.json`
 - AI用プロンプト: `ai/prompt-template.txt`

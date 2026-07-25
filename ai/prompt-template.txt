@@ -1,6 +1,6 @@
 以下の職務経歴情報を、My Portfolio Creator用JSONへ変換してください。
 
-スキーマ説明ページ：
+スキーマ説明Markdown：
 {{SCHEMA_URL}}
 
 必須ルール：

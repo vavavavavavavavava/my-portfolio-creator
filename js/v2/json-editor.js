@@ -6,6 +6,7 @@
   'use strict';
 
   const NOTICE_KEY = 'mpc.jsonEditor.notice';
+  const SAMPLE_JSON_PATH = 'examples/sample-portfolio.json';
 
   function showNotification(message, isError = false) {
     const element = document.getElementById('notification');
@@ -60,6 +61,10 @@
     const dialog = document.getElementById('json-editor-dialog');
     const textarea = document.getElementById('json-editor-textarea');
     const form = document.getElementById('portfolio-form');
+
+    if (!dialog || !textarea) {
+      throw new Error('JSONエディターの画面を初期化できませんでした。');
+    }
 
     setError();
     form?.dispatchEvent(new Event('input', { bubbles: true }));
@@ -129,7 +134,7 @@
       textarea.value = prettyJson(parsed);
       setError();
       textarea.focus();
-      showNotification('ファイルのJSONをエディタへ読み込みました。');
+      showNotification('ファイルのJSONをエディターへ読み込みました。');
     } catch (error) {
       setError(`ファイルを読み込めません: ${error.message}`);
     } finally {
@@ -142,17 +147,25 @@
     event.stopImmediatePropagation();
 
     try {
-      const response = await fetch('examples/sample-portfolio.json', { cache: 'no-cache' });
+      const response = await fetch(SAMPLE_JSON_PATH, {
+        cache: 'no-cache',
+        headers: { Accept: 'application/json' }
+      });
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
 
+      const contentType = response.headers.get('content-type') || '';
       const text = await response.text();
       let parsed;
       try {
         parsed = parseJson(text);
       } catch (error) {
-        throw new Error('JSONではない内容が返されました。');
+        throw new Error('JSONではない内容が返されました。HTMLのエラーページはコピーしません。');
+      }
+
+      if (contentType && !contentType.includes('json')) {
+        throw new Error(`JSONではないContent-Typeが返されました: ${contentType}`);
       }
 
       await copyText(prettyJson(parsed));
@@ -170,9 +183,17 @@
       showNotification(notice);
     }
 
-    document.getElementById('open-json-editor')?.addEventListener('click', () => {
-      openJsonEditor().catch(error => showNotification(`JSONエディタを開けません: ${error.message}`, true));
-    });
+    const openButton = document.getElementById('open-json-editor');
+    if (openButton) {
+      openButton.textContent = 'JSONエディターを開く';
+      openButton.setAttribute('aria-haspopup', 'dialog');
+      openButton.setAttribute('aria-controls', 'json-editor-dialog');
+      openButton.title = 'JSONの貼り付け・直接編集・ファイル読込を行います';
+      openButton.addEventListener('click', () => {
+        openJsonEditor().catch(error => showNotification(`JSONエディターを開けません: ${error.message}`, true));
+      });
+    }
+
     document.getElementById('close-json-editor')?.addEventListener('click', closeJsonEditor);
     document.getElementById('apply-json-editor')?.addEventListener('click', applyJsonEditor);
     document.getElementById('copy-json-editor')?.addEventListener('click', () => {

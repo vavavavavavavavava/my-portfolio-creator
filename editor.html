@@ -1,174 +1,154 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>マイポートフォリオエディタ</title>
-
-  <!-- スタイルシート -->
-  <link rel="stylesheet" href="css/common/base.css">
-  <link rel="stylesheet" href="css/editor/dialog.css">
-  <link rel="stylesheet" href="css/editor/form.css">
-  <link rel="stylesheet" href="css/editor/tabs.css">
-
-  <!-- Handlebarsライブラリ -->
-  <script src="js/vendor/handlebars.min.js"></script>
+  <meta name="description" content="AIとJSONを使って、面談用キャリアシートを作成するエディタです。">
+  <title>My Portfolio Creator</title>
+  <link rel="stylesheet" href="css/app-v2.css">
 </head>
+<body class="app-page">
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">MY PORTFOLIO CREATOR</p>
+      <h1>キャリアシートをつくる</h1>
+      <p class="lead">AIで下書きを作り、ブラウザで整え、A4横のPDFとして仕上げます。</p>
+    </div>
+    <button id="open-preview" class="button button-primary" type="button">プレビューを開く</button>
+  </header>
 
-<body>
-  <div class="container">
-    <header class="app-header">
+  <main class="app-shell">
+    <section class="support-panel" aria-labelledby="support-title">
       <div>
-        <p class="app-kicker">Portfolio Builder</p>
-        <h1>マイポートフォリオエディタ</h1>
-        <p class="app-description">キャリア情報を整理し、JSON保存とプレビュー出力まで行う編集ワークスペースです。</p>
+        <p class="section-kicker">AI・JSON支援</p>
+        <h2 id="support-title">作成・保存・再開</h2>
+        <p>AIに作成を任せる場合も、途中から続きを編集する場合も、ここから始められます。</p>
       </div>
-    </header>
-
-    <div class="button-group" aria-label="エディタ操作">
-      <div class="file-input-container" style="display: none;">
-        <input type="file" id="load-json" accept=".json">
+      <div class="support-actions">
+        <button id="copy-ai-prompt" class="button" type="button">AI用プロンプトをコピー</button>
+        <a class="button" href="schema.html" target="_blank" rel="noopener">スキーマ説明ページ</a>
+        <button id="copy-sample-json" class="button" type="button">サンプルJSONをコピー</button>
+        <button id="download-json" class="button" type="button">編集中のJSONを保存</button>
+        <label class="button file-button" for="load-json">JSONを読み込む</label>
+        <input id="load-json" type="file" accept="application/json,.json" hidden>
       </div>
-      <button id="paste-json">JSONを貼り付け</button>
-      <button id="save-json">現在のデータを保存</button>
-      <button id="preview-json">JSONプレビュー</button>
-      <button id="preview-page">プレビュー</button>
-    </div>
+    </section>
 
-    <div id="json-preview" class="json-preview" style="display: none;"></div>
+    <nav class="editor-tabs" aria-label="編集セクション">
+      <button class="tab-button is-active" data-tab="profile" type="button">基本情報</button>
+      <button class="tab-button" data-tab="summary" type="button">職務要約</button>
+      <button class="tab-button" data-tab="career" type="button">キャリア年表</button>
+      <button class="tab-button" data-tab="projects" type="button">プロジェクト</button>
+      <button class="tab-button" data-tab="skills" type="button">スキル</button>
+      <button class="tab-button" data-tab="strengths" type="button">強み・資格</button>
+    </nav>
 
-    <div class="tabs">
-      <div class="tab active" data-tab="title">タイトル</div>
-      <div class="tab" data-tab="career">キャリア年表</div>
-      <div class="tab" data-tab="technical">テクニカルキャリア</div>
-      <div class="tab" data-tab="skills">テクニカルスキル</div>
-      <div class="tab" data-tab="strengths">強み・展望</div>
-    </div>
-
-    <!-- タイトルスライド入力セクション -->
-    <div id="title-section" class="tab-content active">
-      <div class="form-section">
-        <h2>タイトルスライド</h2>
-        <div class="form-group">
-          <label for="title-name">名前</label>
-          <input type="text" id="title-name" placeholder="山田 太郎">
-        </div>
-        <div class="form-group">
-          <label for="title-name-reading">ふりがな</label>
-          <input type="text" id="title-name-reading" placeholder="やまだ たろう">
-        </div>
-        <div class="form-group">
-          <label for="title-company">会社名</label>
-          <input type="text" id="title-company" placeholder="株式会社サンプル">
-        </div>
-      </div>
-    </div>
-
-    <!-- キャリア年表入力セクション -->
-    <div id="career-section" class="tab-content">
-      <div class="form-section">
-        <h2>キャリア年表</h2>
-        <div id="career-items">
-          <!-- ここに動的に職歴項目が追加される -->
-        </div>
-        <button class="add-btn" id="add-career">職歴項目を追加</button>
-      </div>
-    </div>
-
-    <!-- テクニカルキャリア入力セクション -->
-    <div id="technical-section" class="tab-content">
-      <div class="form-section">
-        <h2>テクニカルキャリア</h2>
-        <div id="project-list">
-          <!-- ここに動的にプロジェクト項目が追加される -->
-        </div>
-        <button class="add-btn" id="add-project">プロジェクトを追加</button>
-      </div>
-    </div>
-
-    <!-- テクニカルスキル入力セクション -->
-    <div id="skills-section" class="tab-content">
-      <div class="form-section">
-        <h2>テクニカルスキル</h2>
-
-        <!-- スキルレベルラベル -->
-        <div class="form-group">
-          <label>スキルレベルラベル</label>
-          <div id="skill-level-labels">
-            <div class="dynamic-item">
-              <input type="text" value="初級" class="skill-level-label">
-              <div class="level-dot beginner"></div>
-            </div>
-            <div class="dynamic-item">
-              <input type="text" value="中級" class="skill-level-label">
-              <div class="level-dot intermediate"></div>
-            </div>
-            <div class="dynamic-item">
-              <input type="text" value="上級" class="skill-level-label">
-              <div class="level-dot advanced"></div>
-            </div>
+    <form id="portfolio-form" novalidate>
+      <section class="editor-section is-active" data-section="profile">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">01</p>
+            <h2>基本情報</h2>
           </div>
+          <p>表紙に表示する内容です。特定プロジェクト名ではなく、自分自身を表す情報を入力します。</p>
         </div>
-
-        <div id="skill-categories">
-          <!-- ここに動的にスキルカテゴリが追加される -->
+        <div class="form-card form-grid two-columns">
+          <label>資料タイトル<input name="profile.documentTitle" type="text" placeholder="キャリアシート"></label>
+          <label>職種・専門領域<input name="profile.professionalTitle" type="text" placeholder="ITエンジニア / データ活用・業務システム開発"></label>
+          <label>氏名<input name="profile.name" type="text" placeholder="山田 太郎"></label>
+          <label>氏名読み<input name="profile.nameReading" type="text" placeholder="やまだ たろう"></label>
+          <label class="span-two">キャッチコピー<input name="profile.tagline" type="text" placeholder="業務理解から設計・実装・改善まで、価値につなげるエンジニアリング。"></label>
+          <label class="span-two">所属（任意）<input name="profile.affiliation" type="text" placeholder="株式会社サンプルテック"></label>
         </div>
-        <button class="add-btn" id="add-category">スキルカテゴリを追加</button>
-      </div>
-    </div>
+      </section>
 
-    <!-- 強み・展望入力セクション -->
-    <div id="strengths-section" class="tab-content">
-      <div class="form-section">
-        <h2>技術的強み・ソフトスキル</h2>
-        <div id="strengths-items">
-          <!-- ここに動的に強み項目が追加される -->
+      <section class="editor-section" data-section="summary">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">02</p>
+            <h2>職務要約</h2>
+          </div>
+          <p>「今から話す自分」の全体像を30秒で伝えるページです。後半は、この要約を具体例で証明します。</p>
         </div>
-        <button class="add-btn" id="add-strength">強み項目を追加</button>
-
-        <h2>今後の注力分野</h2>
-        <div id="future-focus-items" class="dynamic-list">
-          <!-- ここに動的に注力分野項目が追加される -->
+        <div class="form-card form-grid two-columns">
+          <label class="span-two">職務要約<textarea name="summary.statement" rows="6" placeholder="経験領域、得意な工程、仕事の進め方を短くまとめます。"></textarea></label>
+          <label>経験領域（1行1件）<textarea name="summary.experienceDomains" rows="5" placeholder="製造業向けデータ活用&#10;業務システム開発"></textarea></label>
+          <label>得意な工程（1行1件）<textarea name="summary.coreCapabilities" rows="5" placeholder="要件整理&#10;設計・実装&#10;運用改善"></textarea></label>
+          <label>コア技術（1行1件）<textarea name="summary.coreTechnologies" rows="5" placeholder="Python&#10;MATLAB&#10;SQL"></textarea></label>
+          <label>対応可能な役割（1行1件）<textarea name="summary.availableRoles" rows="5" placeholder="データ可視化システム開発&#10;業務改善支援"></textarea></label>
+          <label class="span-two">資格ハイライト（1行1件・任意）<textarea name="summary.qualificationHighlights" rows="3" placeholder="応用情報技術者試験"></textarea></label>
         </div>
-        <button class="add-btn" id="add-focus">注力分野を追加</button>
+      </section>
 
-        <h2>保有資格</h2>
-        <div id="certification-items" class="dynamic-list">
-          <!-- ここに動的に資格項目が追加される -->
+      <section class="editor-section" data-section="career">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">03</p>
+            <h2>キャリア年表</h2>
+          </div>
+          <p>顧客名を出せない場合は「自動車メーカー系」「製造業向け案件」など、公開可能な粒度で記載します。</p>
         </div>
-        <button class="add-btn" id="add-certification">資格を追加</button>
-      </div>
-    </div>
-  </div>
+        <div id="career-list" class="stack-list"></div>
+        <button class="button add-button" data-action="add-career" type="button">職歴を追加</button>
+      </section>
 
-  <!-- 通知表示用の要素 -->
-  <div class="notification" id="notification">
-    保存しました！
-  </div>
+      <section class="editor-section" data-section="projects">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">04</p>
+            <h2>プロジェクト</h2>
+          </div>
+          <p>内容は全レイアウト共通です。レイアウトは自動選択、詳細、コンパクト、ビジュアルから案件ごとに指定できます。</p>
+        </div>
+        <div id="project-list" class="stack-list"></div>
+        <button class="button add-button" data-action="add-project" type="button">プロジェクトを追加</button>
+      </section>
 
-  <!-- スクリプトの読み込み：共通モジュール -->
-  <script src="js/common/env-loader.js"></script>
-  <script src="js/common/config.js"></script>
-  <script src="js/common/utils.js"></script>
-  <script src="js/common/notification.js"></script>
-  <script src="js/common/templates.js"></script>
+      <section class="editor-section" data-section="skills">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">05</p>
+            <h2>テクニカルスキル</h2>
+          </div>
+          <p>5段階の自己採点ではなく、「主力」「実務経験」「基礎・学習」の3段階で、使える場面まで記録します。</p>
+        </div>
+        <div id="skill-category-list" class="stack-list"></div>
+        <button class="button add-button" data-action="add-skill-category" type="button">スキルカテゴリを追加</button>
+      </section>
 
-  <!-- スクリプトの読み込み：テンプレート -->
-  <script src="templates/editor/common.js"></script>
-  <script src="templates/editor/title.js"></script>
-  <script src="templates/editor/career.js"></script>
-  <script src="templates/editor/skills.js"></script>
-  <script src="templates/editor/strengths.js"></script>
-  <script src="templates/editor/technicalcareer.js"></script>
+      <section class="editor-section" data-section="strengths">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">06</p>
+            <h2>強み・資格</h2>
+          </div>
+          <p>抽象的な強みだけで終わらせず、根拠となる行動や経験も入力します。</p>
+        </div>
+        <div class="subsection-heading">
+          <h3>強み</h3>
+          <button class="button button-small" data-action="add-strength" type="button">強みを追加</button>
+        </div>
+        <div id="strength-list" class="card-grid"></div>
 
-  <!-- スクリプトの読み込み：エディタモジュール -->
-  <script src="js/editor/dialog-manager.js"></script>
-  <script src="js/editor/image-uploader.js"></script>
-  <script src="js/editor/form-manager.js"></script>
-  <script src="js/editor/json-handler.js"></script>
-  <script src="js/editor/ui-controller.js"></script>
-  <script src="js/editor/main.js"></script>
+        <div class="subsection-heading subsection-gap">
+          <h3>保有資格</h3>
+          <button class="button button-small" data-action="add-certification" type="button">資格を追加</button>
+        </div>
+        <div id="certification-list" class="stack-list compact-list"></div>
+
+        <div class="form-card subsection-gap">
+          <label>今後の注力分野（1行1件・任意）
+            <textarea name="futureInterests" rows="4" placeholder="生成AIを活用した業務システム開発&#10;画像認識"></textarea>
+          </label>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <div id="notification" class="notification" role="status" aria-live="polite"></div>
+
+  <script src="js/v2/template-loader.js"></script>
+  <script src="js/v2/schema.js"></script>
+  <script src="js/v2/editor.js"></script>
 </body>
-
 </html>

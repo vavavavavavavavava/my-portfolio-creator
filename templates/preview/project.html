@@ -1,0 +1,22 @@
+<div class="slide technical-career-slide">
+  <div class="title-header project-title-header">
+    <div class="project-title"><span class="title-eyebrow">PROJECT</span>{{{emphasis title}}}</div>
+    <div class="project-meta">
+      <div><span>役割</span>{{{emphasis role}}}</div>
+      <div><span>期間</span>{{period.from}} — {{displayTo period.to}}</div>
+    </div>
+  </div>
+  <div class="project-grid {{#unless image}}project-grid--no-image{{/unless}}">
+    <div class="project-main">
+      <div class="section-card overview-card"><div class="section-title">概要</div><div class="section-copy">{{{emphasis overview}}}</div></div>
+      <div class="project-detail-grid">
+        <div class="section-card"><div class="section-title">担当内容</div><ul class="achievement-list">{{#each responsibilities}}<li>{{{emphasis this}}}</li>{{/each}}</ul></div>
+        <div class="section-card result-card"><div class="section-title">成果・工夫</div><ul class="achievement-list">{{#each achievements}}<li>{{{emphasis this}}}</li>{{/each}}</ul></div>
+      </div>
+    </div>
+    <div class="project-side">
+      {{#if image}}<img class="project-image" src="{{image}}" alt="{{title}}の説明画像">{{/if}}
+      <div class="section-card tech-card"><div class="section-title">技術スタック</div><div class="tech-list">{{#each techStack}}<span class="tech-badge">{{{emphasis this}}}</span>{{/each}}</div></div>
+    </div>
+  </div>
+</div>

@@ -27,21 +27,15 @@
     </header>
 
     <div class="button-group" aria-label="エディタ操作">
-      <div class="file-input-container" style="display: none;">
-        <input type="file" id="load-json" accept=".json">
-      </div>
-      <button id="paste-json">JSONを貼り付け</button>
-      <button id="save-json">現在のデータを保存</button>
-      <button id="preview-json">JSONプレビュー</button>
-      <button id="preview-page">プレビュー</button>
+      <button id="edit-json">JSONを編集</button>
+      <button id="copy-ai-prompt">プロンプトをコピー</button>
+      <button id="preview-page">スライドプレビュー</button>
     </div>
-
-    <div id="json-preview" class="json-preview" style="display: none;"></div>
 
     <div class="tabs">
       <div class="tab active" data-tab="title">タイトル</div>
       <div class="tab" data-tab="career">キャリア年表</div>
-      <div class="tab" data-tab="technical">テクニカルキャリア</div>
+      <div class="tab" data-tab="technical">プロジェクト</div>
       <div class="tab" data-tab="skills">テクニカルスキル</div>
       <div class="tab" data-tab="strengths">強み・展望</div>
     </div>
@@ -59,8 +53,16 @@
           <input type="text" id="title-name-reading" placeholder="やまだ たろう">
         </div>
         <div class="form-group">
+          <label for="title-profession">職種</label>
+          <input type="text" id="title-profession" placeholder="ITエンジニア">
+        </div>
+        <div class="form-group">
           <label for="title-company">会社名</label>
           <input type="text" id="title-company" placeholder="株式会社サンプル">
+        </div>
+        <div class="form-group">
+          <label for="title-headline">紹介文</label>
+          <textarea id="title-headline" placeholder="Pythonを軸に、データ活用と業務改善を形にするITエンジニア"></textarea>
         </div>
       </div>
     </div>
@@ -79,7 +81,7 @@
     <!-- テクニカルキャリア入力セクション -->
     <div id="technical-section" class="tab-content">
       <div class="form-section">
-        <h2>テクニカルキャリア</h2>
+        <h2>プロジェクト</h2>
         <div id="project-list">
           <!-- ここに動的にプロジェクト項目が追加される -->
         </div>
@@ -91,25 +93,6 @@
     <div id="skills-section" class="tab-content">
       <div class="form-section">
         <h2>テクニカルスキル</h2>
-
-        <!-- スキルレベルラベル -->
-        <div class="form-group">
-          <label>スキルレベルラベル</label>
-          <div id="skill-level-labels">
-            <div class="dynamic-item">
-              <input type="text" value="初級" class="skill-level-label">
-              <div class="level-dot beginner"></div>
-            </div>
-            <div class="dynamic-item">
-              <input type="text" value="中級" class="skill-level-label">
-              <div class="level-dot intermediate"></div>
-            </div>
-            <div class="dynamic-item">
-              <input type="text" value="上級" class="skill-level-label">
-              <div class="level-dot advanced"></div>
-            </div>
-          </div>
-        </div>
 
         <div id="skill-categories">
           <!-- ここに動的にスキルカテゴリが追加される -->
@@ -149,7 +132,7 @@
 
   <!-- スクリプトの読み込み：共通モジュール -->
   <script src="js/common/env-loader.js"></script>
-  <script src="js/common/config.js"></script>
+  <script src="js/common/config.js?v=2.1.5"></script>
   <script src="js/common/utils.js"></script>
   <script src="js/common/notification.js"></script>
   <script src="js/common/templates.js"></script>
@@ -166,9 +149,11 @@
   <script src="js/editor/dialog-manager.js"></script>
   <script src="js/editor/image-uploader.js"></script>
   <script src="js/editor/form-manager.js"></script>
-  <script src="js/editor/json-handler.js"></script>
-  <script src="js/editor/ui-controller.js"></script>
-  <script src="js/editor/main.js"></script>
+  <script src="js/editor/default-data.js?v=2.1.4"></script>
+  <script src="js/editor/json-handler.js?v=2.1.5"></script>
+  <script src="js/editor/prompt-handler.js"></script>
+  <script src="js/editor/ui-controller.js?v=2.1.5"></script>
+  <script src="js/editor/main.js?v=2.1.5"></script>
 </body>
 
 </html>

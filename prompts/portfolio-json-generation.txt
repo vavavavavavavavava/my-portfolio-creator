@@ -1,0 +1,89 @@
+以下のJSONは、技術経歴書（マイポートフォリオ）のデータ形式です。
+
+このJSONをテンプレートとして、後述する私の経歴情報を元に各項目を埋めてください。
+
+完成したJSONのみを、JSON形式のコードブロックで出力してください。
+
+## 強調表現のルール
+
+- 実績の数値、成果、特に伝えたいキーワードなど、資料上で強調したい部分だけを `**` で囲んでください。
+- 例: `"処理時間を**60%削減**し、月間**20時間**の作業を自動化"`
+- `**` で囲まれた部分は、資料上で赤色の太字として表示されます。
+- 1文の大半を囲わず、原則として1項目につき1〜2か所に絞ってください。
+- JSON文字列として有効な形式を維持し、Markdownのコードブロック以外の説明は出力しないでください。
+
+## 生成するJSONの形式
+
+```json
+{
+  "schemaVersion": 2,
+  "title": {
+    "name": "",
+    "nameReading": "",
+    "profession": "",
+    "company": "",
+    "headline": ""
+  },
+  "career": [
+    {
+      "period": {
+        "from": "",
+        "to": null
+      },
+      "company": "",
+      "role": "",
+      "summary": "",
+      "highlights": []
+    }
+  ],
+  "projects": [
+    {
+      "title": "",
+      "period": {
+        "from": "",
+        "to": null
+      },
+      "role": "",
+      "overview": "",
+      "responsibilities": [],
+      "achievements": [],
+      "techStack": [],
+      "image": ""
+    }
+  ],
+  "skills": [
+    {
+      "category": "",
+      "items": [
+        {
+          "name": "",
+          "level": "basic"
+        }
+      ]
+    }
+  ],
+  "strengths": {
+    "items": [
+      {
+        "title": "",
+        "description": ""
+      }
+    ],
+    "focusAreas": [],
+    "certifications": [
+      {
+        "name": "",
+        "acquiredAt": ""
+      }
+    ]
+  }
+}
+```
+
+## 私の経歴情報
+
+---
+
+【ここに自分の経歴情報を記載してください】
+
+---

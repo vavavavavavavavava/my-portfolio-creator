@@ -14,8 +14,15 @@
       // UIコントローラーの初期化
       UiController.init();
       
-      // フォームの初期化
-      FormManager.initForm();
+      // プレビューから戻った場合は編集内容を復元し、初回表示ではサンプルを読み込む
+      const savedEditorState = Utils.parseJson(
+        sessionStorage.getItem(Config.STORAGE_KEYS.EDITOR_STATE)
+      );
+      sessionStorage.removeItem(Config.STORAGE_KEYS.EDITOR_STATE);
+      await JsonHandler.loadDataIntoForm(
+        savedEditorState || DefaultPortfolioData.create(),
+        { notify: false }
+      );
       
       console.log('エディタページの初期化が完了しました');
     } catch (error) {
@@ -26,4 +33,11 @@
   
   // DOMContentLoaded イベントで初期化
   document.addEventListener('DOMContentLoaded', init);
+
+  // 戻る操作でページがそのまま復元された場合、不要になった退避データを破棄する
+  window.addEventListener('pageshow', event => {
+    if (event.persisted) {
+      sessionStorage.removeItem(Config.STORAGE_KEYS.EDITOR_STATE);
+    }
+  });
 })();

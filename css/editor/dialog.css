@@ -54,25 +54,51 @@
   color: #ffffff;
 }
 
-#load-from-file-btn {
-  background-color: #475569;
+#load-from-file-btn,
+#download-json-btn {
+  border-color: var(--border-strong);
+  background-color: #ffffff;
+  color: var(--text-color) !important;
 }
 
-#load-from-file-btn:hover {
-  background-color: #334155;
+#load-from-file-btn:hover,
+#download-json-btn:hover {
+  background-color: var(--surface-muted);
+}
+
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color);
 }
 
 .dialog-file-actions {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 12px;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .dialog-buttons {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+#json-input-cancel {
+  border-color: var(--border-strong);
+  background-color: #ffffff;
+  color: var(--text-color) !important;
+}
+
+#json-input-cancel:hover {
+  background-color: var(--surface-muted);
 }
 
 #dialog-file-input {
@@ -84,9 +110,19 @@
     padding: 16px;
   }
 
-  .dialog-file-actions,
-  .dialog-buttons {
+  .dialog-footer {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dialog-file-actions {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .dialog-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

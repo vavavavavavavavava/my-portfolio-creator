@@ -1,0 +1,12 @@
+<div class="slide">
+  <div class="title-header"><div><span class="title-eyebrow">SKILLS</span>テクニカルスキル</div></div>
+  <div class="content skills-content">
+    {{#each items}}
+    <div class="skill-category">
+      <div class="category-title">{{{emphasis category}}}</div>
+      <div class="skills-container">{{#each items}}<div class="skill-item"><div class="skill-name">{{{emphasis name}}}</div><div class="skill-meter level-{{level}}" aria-label="{{levelLabel level}}"><span></span><span></span><span></span></div><span class="skill-level-label">{{levelLabel level}}</span></div>{{/each}}</div>
+    </div>
+    {{/each}}
+    <div class="legend"><span><i class="legend-dot core"></i>主力</span><span><i class="legend-dot practical"></i>実務経験</span><span><i class="legend-dot basic"></i>基礎学習</span></div>
+  </div>
+</div>

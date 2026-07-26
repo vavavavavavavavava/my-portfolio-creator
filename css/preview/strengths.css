@@ -1,102 +1,103 @@
-/* css/preview/strengths.css - 強み・今後の展望テンプレート固有のスタイル */
-.section-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #3498db;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 5px;
-  margin-bottom: 15px;
+.strengths-content {
+  gap: 18px;
 }
 
 .strengths-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 25px;
+  gap: 14px 18px;
 }
 
 .strength-item {
-  background-color: #ecf0f1;
-  border-radius: 5px;
-  padding: 15px;
+  min-height: 145px;
+  padding: 20px 21px;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  height: 100%;
+  gap: 15px;
+  border: 1px solid #d5dce5;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 5px 14px rgba(7, 28, 76, .055);
 }
 
 .strength-icon {
-  background-color: #e74c3c;
-  color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  width: 37px;
+  height: 37px;
+  flex: 0 0 37px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--deck-teal);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .strength-content {
   flex: 1;
+  min-width: 0;
 }
 
 .strength-title {
-  font-weight: bold;
-  font-size: 16px;
-  color: #2c3e50;
-  margin-bottom: 8px;
+  margin: 3px 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #9baac0;
+  color: var(--deck-navy);
+  font-family: "Yu Mincho", "YuMincho", serif;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .strength-description {
-  font-size: 14px;
-  color: #7f8c8d;
-  line-height: 1.4;
+  color: #3f4c61;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.strengths-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
 }
 
 .future-focus,
 .certifications {
-  background-color: #ecf0f1;
-  border-radius: 5px;
-  padding: 15px;
+  min-height: 115px;
+  padding: 15px 18px;
+  border: 1px solid #c6d6df;
+  border-radius: 9px;
+  background: #f4f9fa;
 }
 
 .future-focus-title,
 .certifications-title {
-  font-weight: bold;
-  font-size: 16px;
-  color: #2c3e50;
   margin-bottom: 10px;
-}
-
-.future-focus-content,
-.certifications-content {
-  font-size: 14px;
-  color: #7f8c8d;
+  color: var(--deck-navy);
+  font-family: "Yu Mincho", "YuMincho", serif;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .focus-highlights,
 .cert-list {
-  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
 }
 
-.focus-highlight {
-  background-color: #3498db;
-  color: white;
-  font-size: 12px;
-  padding: 5px 10px;
-  border-radius: 15px;
-}
-
+.focus-highlight,
 .cert-item {
-  background-color: white;
-  border-radius: 5px;
-  padding: 8px 12px;
-  font-size: 13px;
-  color: #2c3e50;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 5px 10px;
+  border: 1px solid #b9ced7;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--deck-ink);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.cert-item span {
+  color: var(--deck-muted);
+  font-weight: 500;
 }
